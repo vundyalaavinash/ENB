@@ -1,0 +1,281 @@
+
+@import url(http://fonts.googleapis.com/css?family=Expletus+Sans);
+
+@font-face {
+	font-family: 'fontawesome';
+	src:url('../fonts/fontawesome.eot');
+	src:url('../fonts/fontawesome.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/fontawesome.svg#fontawesome') format('svg'),
+		url('../fonts/fontawesome.woff') format('woff'),
+		url('../fonts/fontawesome.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+*{
+	margin:0px;
+	padding:0px;
+	font-family: 'Expletus Sans', cursive;
+}
+
+body{
+	/*background-color: #e4e6e5;*/
+	background: url(../Styles/img/bg.png) #fafbfb 50% 0;
+	border-bottom: 2px solid #e9ebeb;
+}
+
+header{
+	width: 100%;
+}
+
+#headmid{
+	width:80%;
+	margin:auto;
+}
+
+#headleft
+{
+	width:60%;
+	margin:auto;	
+	float:left;
+}
+#headright
+{
+	width:35%;
+	margin:auto;	
+	float:right;
+}
+
+#logo{
+	padding:5px;
+	margin-top:30%;
+	
+}
+#logo h1{
+	font-size:50px;
+}
+
+#login{
+	margin-top:5%;
+}
+
+a{
+	text-decoration:none;
+	color: #0089ec;
+}
+
+#main
+{
+	min-height:30%;
+	max-height:30%;
+	
+}
+
+h1,h2,h3,h4,h5,h6{
+	color: #47a3da;;
+}
+
+hr {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#mainleft{
+	width:50%;
+	float:left;
+	/*background:#0089ec;*/
+	height:80%;
+	max-height:80%;
+
+}
+
+#mainform{
+	margin-top:10%;
+	width:70%;
+	margin-left:20%;
+	background:#40b7d1;
+	padding:5px;
+	color:#fff;
+}
+#mainform h3{
+	padding-bottom: 10px;
+	color:#fff;
+}
+
+#mainleft p{
+	padding: 5px 0 5px 0;
+	width:100%;
+	margin:auto;
+}
+#mainleft p input[type=text]{
+	padding: 7px 5px 7px 5px;
+	width:80%;
+}
+
+#mainright{
+	width:50%;
+	float:right;
+}
+
+
+footer{
+	position:absolute;
+	width:100%;
+	bottom:0px;
+	height:50px;
+}
+#footerleft{
+	width:40%;
+	margin-left:10%;
+	margin-top:1%;
+	float:left;
+	font-size:12px;
+}
+
+#footerright{
+	width:40%;
+	margin-right:10%;
+	margin-top:1%;
+	float:right;
+	font-size:12px;
+	text-align:right;
+}
+
+#footerright a{
+	padding: 5px;
+}
+
+.button {
+	display: inline-block;
+	border: 2px solid #47a3da;
+	background: #47a3da;
+	color: #ffffff;
+	text-decoration: none;
+	padding: .67em 1.25em;
+}
+.button:hover{
+	display: inline-block;
+	border: 2px solid #0089ec;
+	background: #0089ec;
+	color: #ffffff;
+	text-decoration: none;
+	padding: .67em 1.25em;
+}
+
+
+/* ---------- LOGIN ---------- */
+
+#login {
+	margin: 150px auto;
+	width: 350px;
+	display:none;
+	font-size:80%;
+}
+
+#login h2 {
+	background-color: #47a3da;
+	-webkit-border-radius: 20px 20px 0 0;
+	-moz-border-radius: 20px 20px 0 0;
+	border-radius: 20px 20px 0 0;
+	color: #fff;
+	font-size: 24px;
+	padding: 15px 15px;
+}
+
+#login fieldset {
+	background-color: #fff;
+	-webkit-border-radius: 0 0 20px 20px;
+	-moz-border-radius: 0 0 20px 20px;
+	border-radius: 0 0 20px 20px;
+	padding: 20px 26px;
+}
+
+#login fieldset p {
+	color: #777;
+	margin-bottom: 14px;
+}
+
+#login fieldset p:last-child {
+	margin-bottom: 0;
+}
+
+
+
+#login fieldset input[type="email"], #login fieldset input[type="password"], #login fieldset input[type="text"] {
+	background-color: #eee;
+	border:0px;
+	padding: 8px 10px;
+	width: 90%;
+}
+
+.floatr{
+	float:right;
+}
+
+.floatl{
+	float:left;
+}
+
+divf{
+	width:30%;
+}
+
+
+
+.alert::after {
+content: '';
+display: block;
+height: 0;
+width: 0;
+border-color: transparent #CE5454 transparent transparent;
+border-style: solid;
+border-width: 11px 7px;
+position: absolute;
+left: -13px;
+top: 1px;
+}
+
+.alert {
+float: left;
+margin: 0 0 0 20px;
+padding: 3px 10px;
+position: relative;
+color: #FFF;
+border-radius: 3px 4px 4px 3px;
+background-color: #CE5454;
+max-width: 170px;
+white-space: pre;
+z-index: 1;
+}
+
+.alert {
+float: left;
+margin: 0 0 0 20px;
+padding: 3px 10px;
+position: relative;
+color: #FFF;
+border-radius: 3px 4px 4px 3px;
+background-color: #CE5454;
+max-width: 170px;
+white-space: pre;
+z-index: 1;
+
+vertical-align: baseline;
+}
+
+/*.alert {
+float: none;
+clear: left;
+margin: 0;
+padding: 0 5px;
+border-radius: 0 0 3px 3px;
+max-width: 100%;
+height: 22px;
+line-height: 1.8em;
+}*/
+
+.alert::after{ display:none; }
+.alert{ float:none; clear:left; margin:0; padding:0 5px; border-radius:0 0 3px 3px; max-width:100%; height:22px; line-height:1.8em; }

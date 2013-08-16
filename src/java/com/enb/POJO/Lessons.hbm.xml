@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 9, 2013 11:21:43 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.enb.POJO.Lessons" table="lessons" catalog="enb">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="enbdesc" class="com.enb.POJO.Enbdesc" fetch="select">
+            <column name="PID" />
+        </many-to-one>
+        <property name="context" type="string">
+            <column name="Context" length="105" />
+        </property>
+        <property name="lessons" type="string">
+            <column name="Lessons" length="105" />
+        </property>
+    </class>
+</hibernate-mapping>

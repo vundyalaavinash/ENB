@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 9, 2013 11:21:43 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.enb.POJO.Deliverablestatus" table="deliverablestatus" catalog="enb">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="enbdesc" class="com.enb.POJO.Enbdesc" fetch="select">
+            <column name="PID" />
+        </many-to-one>
+        <property name="deliverables" type="string">
+            <column name="Deliverables" length="75" />
+        </property>
+        <property name="planToAccomplish" type="string">
+            <column name="PlanToAccomplish" length="105" />
+        </property>
+        <property name="actualAccomplished" type="string">
+            <column name="ActualAccomplished" length="105" />
+        </property>
+        <property name="size" type="string">
+            <column name="Size" length="45" />
+        </property>
+        <property name="effort" type="string">
+            <column name="Effort" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>
