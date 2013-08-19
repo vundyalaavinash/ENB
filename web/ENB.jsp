@@ -9,14 +9,12 @@
 <html>
     <head>
         <title>ENB Tool</title>
-        <link rel="stylesheet"  href="Styles/Main.css">		
-        <link rel="stylesheet"  href="Styles/jquery-ui-1.10.3.custom.min.css">		
+        <link rel="stylesheet"  href="Styles/Main.css">			
 
         <script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
         <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
         <script src="Scripts/jquery-ui.js" type="text/javascript"></script>
-
 
         <script src="CusScripts/ENB.js" type="text/javascript"></script>
 
@@ -80,7 +78,7 @@
                         </table>
                         <br/>
                         <input type="submit" class="button" value="Save" id="dss">
-                        <input type="submit" class="button" value="Add Row" id="dsr">
+                        <input type="button" class="button" value="Add Row" id="dsr">
                     </div>
                     <div id="tab3">
                         <table width="800" height="209" border="0" id="lntable">
@@ -97,7 +95,7 @@
                         </table>
                         <br/>
                         <input type="submit" class="button" value="Save" id="lns">
-                        <input type="submit" class="button" value="Add Row" id="lnar" name="lnar">
+                        <input type="button" class="button" value="Add Row" id="lnar" name="lnar">
                     </div>
                     <div id="tab4">
                         <br/>
@@ -117,7 +115,7 @@
                         </table>
                         <br/>
                         <input type="submit" class="button" value="Save" id="plans">
-                        <input type="submit" class="button" value="Add Row" id="planr">
+                        <input type="button" class="button" value="Add Row" id="planr">
                     </div>
                 </form>
             </div>

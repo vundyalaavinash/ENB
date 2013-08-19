@@ -339,10 +339,21 @@ display:inline;
 #tabs li a
 {
 	padding: 5px 15px;
-	color:#999;
+	color:#999;	
 }
 
-#tabs li a.present
+.present
 {
-	
+	color:#47a3da;
+	font-weight:bold;
+	border-bottom:#47a3da;
+	border-bottom-style:solid;
+	border-bottom-width:medium;
+}
+
+textarea{
+	border:0px;
+	font-family: inherit;
+	font-size: 16px;
+	width:100%;
 }
