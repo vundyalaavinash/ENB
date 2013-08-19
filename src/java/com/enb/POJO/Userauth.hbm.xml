@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 9, 2013 11:21:43 AM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Aug 19, 2013 3:22:20 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.enb.POJO.Userauth" table="userauth" catalog="enb">
         <id name="id" type="java.lang.Integer">
@@ -17,6 +17,9 @@
         <property name="name" type="string">
             <column name="Name" length="45" />
         </property>
+        <property name="verificationCode" type="string">
+            <column name="VerificationCode" length="105" />
+        </property>
         <set name="enbdescs" inverse="true">
             <key>
                 <column name="UID" />
@@ -28,6 +31,12 @@
                 <column name="UID" />
             </key>
             <one-to-many class="com.enb.POJO.Userlog" />
+        </set>
+        <set name="projects" inverse="true">
+            <key>
+                <column name="uid" />
+            </key>
+            <one-to-many class="com.enb.POJO.Project" />
         </set>
     </class>
 </hibernate-mapping>

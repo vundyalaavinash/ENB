@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 9, 2013 11:21:42 AM by Hibernate Tools 3.2.1.GA
+// Generated Aug 19, 2013 3:22:20 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -14,11 +14,11 @@ public class Enbdesc  implements java.io.Serializable {
 
      private Integer id;
      private Userauth userauth;
+     private Project project;
      private Date from;
      private Date to;
      private String monthlyWeekly;
      private String enbname;
-     private Integer pid;
      private Set lessonses = new HashSet(0);
      private Set deliverablestatuses = new HashSet(0);
      private Set noteses = new HashSet(0);
@@ -27,13 +27,13 @@ public class Enbdesc  implements java.io.Serializable {
     public Enbdesc() {
     }
 
-    public Enbdesc(Userauth userauth, Date from, Date to, String monthlyWeekly, String enbname, Integer pid, Set lessonses, Set deliverablestatuses, Set noteses, Set plans) {
+    public Enbdesc(Userauth userauth, Project project, Date from, Date to, String monthlyWeekly, String enbname, Set lessonses, Set deliverablestatuses, Set noteses, Set plans) {
        this.userauth = userauth;
+       this.project = project;
        this.from = from;
        this.to = to;
        this.monthlyWeekly = monthlyWeekly;
        this.enbname = enbname;
-       this.pid = pid;
        this.lessonses = lessonses;
        this.deliverablestatuses = deliverablestatuses;
        this.noteses = noteses;
@@ -53,6 +53,13 @@ public class Enbdesc  implements java.io.Serializable {
     
     public void setUserauth(Userauth userauth) {
         this.userauth = userauth;
+    }
+    public Project getProject() {
+        return this.project;
+    }
+    
+    public void setProject(Project project) {
+        this.project = project;
     }
     public Date getFrom() {
         return this.from;
@@ -81,13 +88,6 @@ public class Enbdesc  implements java.io.Serializable {
     
     public void setEnbname(String enbname) {
         this.enbname = enbname;
-    }
-    public Integer getPid() {
-        return this.pid;
-    }
-    
-    public void setPid(Integer pid) {
-        this.pid = pid;
     }
     public Set getLessonses() {
         return this.lessonses;

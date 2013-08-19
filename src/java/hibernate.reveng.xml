@@ -9,4 +9,5 @@
   <table-filter match-name="userauth"/>
   <table-filter match-name="plan"/>
   <table-filter match-name="enbdesc"/>
+  <table-filter match-name="project"/>
 </hibernate-reverse-engineering>

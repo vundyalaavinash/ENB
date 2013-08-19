@@ -30,11 +30,23 @@
             <span>Engineering Notebook</span>
             <h1>Create ENB</h1>
             <nav>
-                <a href="Home.html">Logout</a>
+                <a href="logout.jsp">Logout</a>
             </nav>
         </header>
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-            <h3>Raj</h3>
+            <h3>
+                            <%
+                                if(session.getAttribute("name")==null){
+                                    response.sendRedirect("index.jsp");
+                                }
+                                else{
+                                    out.println(session.getAttribute("name"));
+                                }
+
+                             %>
+                            
+                            
+                        </h3>
             <a href="HomePage.jsp">Home</a>
             <a href="create.jsp">Create ENB</a>
             <a href="manage.jsp">Manage ENB</a>
@@ -44,7 +56,7 @@
         </nav>
 
         <div id="main">
-            <form id="createform" method="post">
+            <form id="createform" method="post" action="CreateForm">
                 <table width="50%">
                     <tr>
                         <td><br>
@@ -55,7 +67,7 @@
                     </tr>
                     <tr>
                         <td><br>
-                            Project:
+                            Project Name:
                             <br>
                             <input type="text" value="" name="proj" class="required" placeholder="Enter Project" />
                         </td>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 9, 2013 11:21:43 AM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Aug 19, 2013 3:22:20 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.enb.POJO.Enbdesc" table="enbdesc" catalog="enb">
         <id name="id" type="java.lang.Integer">
@@ -10,6 +10,9 @@
         </id>
         <many-to-one name="userauth" class="com.enb.POJO.Userauth" fetch="select">
             <column name="UID" />
+        </many-to-one>
+        <many-to-one name="project" class="com.enb.POJO.Project" fetch="select">
+            <column name="Pid" />
         </many-to-one>
         <property name="from" type="date">
             <column name="From" length="10" />
@@ -23,30 +26,27 @@
         <property name="enbname" type="string">
             <column name="ENBName" length="75" />
         </property>
-        <property name="pid" type="java.lang.Integer">
-            <column name="pid" />
-        </property>
         <set name="lessonses" inverse="true">
             <key>
-                <column name="PID" />
+                <column name="ENBID" />
             </key>
             <one-to-many class="com.enb.POJO.Lessons" />
         </set>
         <set name="deliverablestatuses" inverse="true">
             <key>
-                <column name="PID" />
+                <column name="ENBID" />
             </key>
             <one-to-many class="com.enb.POJO.Deliverablestatus" />
         </set>
         <set name="noteses" inverse="true">
             <key>
-                <column name="PID" />
+                <column name="ENBID" />
             </key>
             <one-to-many class="com.enb.POJO.Notes" />
         </set>
         <set name="plans" inverse="true">
             <key>
-                <column name="PID" />
+                <column name="ENBID" />
             </key>
             <one-to-many class="com.enb.POJO.Plan" />
         </set>
