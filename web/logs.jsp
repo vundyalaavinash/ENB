@@ -32,7 +32,7 @@
 		</header>
 		<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
 			<h3>Raj</h3>
-			<a href="HomePage.jsp">Home</a>
+			<a href="Homepage.jsp">Home</a>
 			<a href="create.jsp">Create ENB</a>
 			<a href="manage.jsp">Manage ENB</a>
 			<a href="view.jsp">View ENB</a>

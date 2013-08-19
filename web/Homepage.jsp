@@ -4,6 +4,7 @@
     Author     : B.Revanth
 --%>
 
+<%@page import="com.enb.MiscClasses.ConstructString"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -36,10 +37,7 @@
                                 else{
                                     out.println(session.getAttribute("name"));
                                 }
-
-                             %>
-                            
-                            
+                             %>                            
                         </h3>
 			<a href="Homepage.jsp">Home</a>
 			<a href="create.jsp">Create ENB</a>
@@ -51,7 +49,8 @@
 		
 		<div id="main">
 			<div class="gridster">
-				<ul>
+                            <% out.print(""+ConstructString.getProjects(session.getAttribute("uid").toString())); %>
+				<!-- <ul>
 					<li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
 						<span>
 							<center><h2>Fries & Wings SCM</h2>
@@ -64,7 +63,7 @@
 							<p>21-07-2013 to 29-10-2013</p></center>
 						</span>
 					</li>
-				</ul>
+				</ul> -->
 			</div>
 		</div>
 	</body>

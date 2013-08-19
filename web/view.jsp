@@ -41,7 +41,7 @@
                             
                             
                         </h3>
-			<a href="HomePage.jsp">Home</a>
+			<a href="Homepage.jsp">Home</a>
 			<a href="create.jsp">Create ENB</a>
 			<a href="manage.jsp">Manage ENB</a>
 			<a href="view.jsp">View ENB</a>

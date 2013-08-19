@@ -4,15 +4,21 @@
  */
 package com.enb.servlets;
 
+import com.enb.Helper.EnbdescHelper;
+import com.enb.Helper.ProjectHelper;
 import com.enb.POJO.Enbdesc;
 import com.enb.POJO.Project;
+import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,8 +41,63 @@ public class CreateForm extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        Project p=new Project();
-        Enbdesc e=new Enbdesc();
+        try {
+            /* TODO output your page here. You may use following sample code. */
+            Project p=new Project();
+            Enbdesc e=new Enbdesc();
+            String dateFrom=request.getParameter("from");
+            String dateTo=request.getParameter("to");
+            p.setProjectName(request.getParameter("proj"));
+            
+            
+            Userauth ua=new Userauth();
+            HttpSession session=request.getSession();
+            ua.setId(Integer.parseInt(session.getAttribute("uid").toString()));
+            
+            p.setUserauth(ua);
+            String date[]=request.getParameter("from").toString().split("/");
+            Calendar c=Calendar.getInstance();
+            c.set(Calendar.YEAR, Integer.parseInt(date[2]));
+            c.set(Calendar.MONTH, Integer.parseInt(date[1])-1);
+            c.set(Calendar.DATE, Integer.parseInt(date[0]));
+            
+            String date1[]=request.getParameter("to").toString().split("/");
+            Calendar c1=Calendar.getInstance();
+            c1.set(Calendar.YEAR, Integer.parseInt(date1[2]));
+            c1.set(Calendar.MONTH, Integer.parseInt(date1[1])-1);
+            c1.set(Calendar.DATE, Integer.parseInt(date1[0]));                        
+            
+            p.setFrom(c.getTime());
+            p.setTo(c1.getTime());
+            
+            
+            Calendar now = Calendar.getInstance();  
+            int weekday = now.get(Calendar.DAY_OF_WEEK);               
+            int days = (Calendar.SATURDAY - weekday) % 7;  
+            System.out.print(""+days);
+            now.add(Calendar.DAY_OF_YEAR, days);  
+            
+            Calendar cal = Calendar.getInstance();
+            
+            ProjectHelper ph=new ProjectHelper();
+            ph.insertProject(p);
+            
+            p=ph.getProject(ua.getId(),p.getProjectName());
+            
+            e.setEnbname(request.getParameter("enbname")); 
+            e.setProject(p);
+            e.setFrom(cal.getTime());
+            e.setTo(now.getTime());         
+            e.setUserauth(ua);            
+            EnbdescHelper eh= new EnbdescHelper();
+            eh.insertEnbdesc(e);            
+            session.setAttribute("enbname", e.getEnbname());           
+            response.sendRedirect("ENB.jsp");
+        } finally {            
+            out.close();
+            
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

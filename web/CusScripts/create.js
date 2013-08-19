@@ -1,5 +1,8 @@
 $(document).ready(function(){
-	$('.datepicker').pickadate();
+	$('.datepicker').pickadate({
+            format: 'dd/mm/yyyy',
+            formatSubmit: 'dd/mm/yyyy'
+        });
 	
 	$("#createform").validate();
 	$.extend($.validator.messages, {
@@ -10,8 +13,7 @@ $(document).ready(function(){
 		equalTo: "<span class='alert'>Please enter the same value again.</span>",
 		accept: "Please enter a value with a valid extension.</span>",
 		maxlength: $.validator.format("<span class='alert'>Please enter no more than {0} characters.</span>"),
-		minlength: $.validator.format("<span class='alert'>Please enter at least {0} characters.</span>"),
-
+		minlength: $.validator.format("<span class='alert'>Please enter at least {0} characters.</span>")
 	});
 	
 	$.validator.addMethod('notPlayDefault',function(value,event){

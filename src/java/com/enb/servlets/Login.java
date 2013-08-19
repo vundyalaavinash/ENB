@@ -43,6 +43,8 @@ public class Login extends HttpServlet {
                 HttpSession session=request.getSession();
                 session.setAttribute("email", request.getParameter("email"));
                 session.setAttribute("name", ua.getName());
+                session.setAttribute("uid", ua.getId());
+                System.out.print("\n\nlogin"+ua.getId()+"\n\n");
                 response.sendRedirect("Homepage.jsp");
             }
             else{
