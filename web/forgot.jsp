@@ -13,7 +13,6 @@
 		<script src="Scripts/jquery.validate.min.js" type="text/javascript"></script>
 		<script src="Scripts/additional-methods.js" type="text/javascript"></script>
 		
-		
 		<script src="CusScripts/Home.js" type="text/javascript"></script>
 		
 	</head>
@@ -27,7 +26,7 @@
 				</div>		
 				<div id="headright">
 					<div id="login">						
-						<h2>Forgot Password</h2>
+						<h2>Forgot Password.</h2>
 						<form id="loginForm" method="post">
 							<fieldset>
 								<p><label for="email">E-mail address</label></p>
