@@ -10,6 +10,7 @@
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
+    <mapping resource="com/enb/POJO/Project.hbm.xml"/>
     <mapping resource="com/enb/POJO/Enbdesc.hbm.xml"/>
     <mapping resource="com/enb/POJO/Userlog.hbm.xml"/>
     <mapping resource="com/enb/POJO/Plan.hbm.xml"/>
@@ -17,12 +18,5 @@
     <mapping resource="com/enb/POJO/Lessons.hbm.xml"/>
     <mapping resource="com/enb/POJO/Notes.hbm.xml"/>
     <mapping resource="com/enb/POJO/Userauth.hbm.xml"/>
-    <mapping/>
-    <mapping/>
-    <mapping/>
-    <mapping/>
-    <mapping/>
-    <mapping/>
-    <mapping resource="com/enb/POJO/Project.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
