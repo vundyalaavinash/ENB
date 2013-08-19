@@ -86,8 +86,8 @@ public class CreateForm extends HttpServlet {
             
             e.setEnbname(request.getParameter("enbname")); 
             e.setProject(p);
-            e.setFrom(cal.getTime());
-            e.setTo(now.getTime());         
+            e.setFromdate(cal.getTime());
+            e.setTodate(now.getTime());         
             e.setUserauth(ua);            
             EnbdescHelper eh= new EnbdescHelper();
             eh.insertEnbdesc(e);            
