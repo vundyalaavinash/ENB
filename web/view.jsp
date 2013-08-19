@@ -11,7 +11,7 @@
 		<link rel="stylesheet"  href="Styles/jquery-ui-1.10.3.custom.min.css">		
 		
 		<script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
-		<script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
+		<script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>		
 		<script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
 		<script src="Scripts/jquery-ui.js" type="text/javascript"></script>
 		
