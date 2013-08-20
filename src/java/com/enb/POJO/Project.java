@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 20, 2013 1:35:32 AM by Hibernate Tools 3.2.1.GA
+// Generated Aug 20, 2013 2:06:17 AM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -15,8 +15,8 @@ public class Project  implements java.io.Serializable {
      private int id;
      private Userauth userauth;
      private String projectName;
-     private Date from;
-     private Date to;
+     private Date fromDate;
+     private Date toDate;
      private Set enbdescs = new HashSet(0);
      private Set enbdescs_1 = new HashSet(0);
 
@@ -27,12 +27,12 @@ public class Project  implements java.io.Serializable {
     public Project(int id) {
         this.id = id;
     }
-    public Project(int id, Userauth userauth, String projectName, Date from, Date to, Set enbdescs, Set enbdescs_1) {
+    public Project(int id, Userauth userauth, String projectName, Date fromDate, Date toDate, Set enbdescs, Set enbdescs_1) {
        this.id = id;
        this.userauth = userauth;
        this.projectName = projectName;
-       this.from = from;
-       this.to = to;
+       this.fromDate = fromDate;
+       this.toDate = toDate;
        this.enbdescs = enbdescs;
        this.enbdescs_1 = enbdescs_1;
     }
@@ -58,19 +58,19 @@ public class Project  implements java.io.Serializable {
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
-    public Date getFrom() {
-        return this.from;
+    public Date getFromDate() {
+        return this.fromDate;
     }
     
-    public void setFrom(Date from) {
-        this.from = from;
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
     }
-    public Date getTo() {
-        return this.to;
+    public Date getToDate() {
+        return this.toDate;
     }
     
-    public void setTo(Date to) {
-        this.to = to;
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
     public Set getEnbdescs() {
         return this.enbdescs;

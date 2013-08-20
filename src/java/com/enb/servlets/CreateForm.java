@@ -67,8 +67,8 @@ public class CreateForm extends HttpServlet {
             c1.set(Calendar.MONTH, Integer.parseInt(date1[1])-1);
             c1.set(Calendar.DATE, Integer.parseInt(date1[0]));                        
             
-            p.setFrom(c.getTime());
-            p.setTo(c1.getTime());
+            p.setFromDate(c.getTime());
+            p.setToDate(c1.getTime());
             
             
             Calendar now = Calendar.getInstance();  

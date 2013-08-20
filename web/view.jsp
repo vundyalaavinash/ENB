@@ -4,6 +4,7 @@
     Author     : B.Revanth
 --%>
 
+<%@page import="com.enb.MiscClasses.ConstructString"%>
 <html>
 	<head>
 		<title>View ENB</title>
@@ -57,8 +58,7 @@
 							ENB Name :<br>
 							<select name="selectenb" id="enbtitle">
 								<option value="Default">Select ENB</option>
-								<option value="fcscm">Fries & Chicken SCM</option>
-								<option value="cfbs">Customer Feedback System</option>
+								<% out.print(ConstructString.getProjectsList(session.getAttribute("uid").toString())); %>
 							</select>
 						</td >
 						<td width="20%">

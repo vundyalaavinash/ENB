@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 20, 2013 1:35:32 AM by Hibernate Tools 3.2.1.GA
+// Generated Aug 20, 2013 2:06:17 AM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -153,10 +153,6 @@ public class Enbdesc  implements java.io.Serializable {
     public void setPlans_1(Set plans_1) {
         this.plans_1 = plans_1;
     }
-
-
-
-
 }
 
 

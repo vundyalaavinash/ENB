@@ -4,12 +4,12 @@
     Author     : B.Revanth
 --%>
 
+<%@page import="com.enb.MiscClasses.ConstructString"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
 	<head>
 		<title>Manage ENB</title>
-		<link rel="stylesheet"  href="Styles/Main.css">		
-		<link rel="stylesheet"  href="Styles/jquery-ui-1.10.3.custom.min.css">		
+		<link rel="stylesheet"  href="Styles/Main.css">				
 		
 		<script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
 		<script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
@@ -57,9 +57,8 @@
 						<td width="80%">
 							ENB Name :<br>
 							<select name="selectenb" id="enbtitle">
-								<option value="Default">Select ENB</option>
-								<option value="fcscm">Fries & Chicken SCM</option>
-								<option value="cfbs">Customer Feedback System</option>
+								<option value="Default">Select Project</option>
+                                                                <% out.print(ConstructString.getProjectsList(session.getAttribute("uid").toString())); %>
 							</select>
 						</td >
 						<td width="20%">
@@ -70,153 +69,86 @@
 			</div>
 		
 			<div id="tabs" class="hide">
-				<ul>  
-				  <li><a href="#tab1">Notes</a></li> 
-				  <li><a href="#tab2">Deliverable Status</a></li> 
-				  <li><a href="#tab3">Lessons Learned Reflection</a></li>
-				  <li><a href="#tab4">Plan for the Next Week</a></li>
-				</ul> 
-				<div id="tab1">
-					<br>
-					<p>Record key insights from readings and discussions.</p>
-					<br>
-					<textarea name="notes1" cols="87" rows="13"></textarea>
-					<br><br>
-					<input type="submit" class="button" value="Save">
-				</div> 
-				<div id="tab2">
-					<table width="100%" border="0" cellspacing="10">
-					  <tr>
-						<td width="5%">SNO</td>
-						<td width="16%">Deliverable</td>
-						<td width="27%">What did you plan to accomplish?</td>
-						<td width="27%">What did you actually accomplish?</td>
-						<td width="10%">Size</td>
-						<td width="10%">Effort</td>
-					  </tr>
-					  <tr>
-						<td>1.</td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-					  </tr>
-					  <tr>
-						<td>2.</td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-					  </tr>
-					  <tr>
-						<td>3.</td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-					  </tr>
-					  <tr>
-						<td>4.</td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-					  </tr>
-					  <tr>
-						<td>5.</td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-					  </tr>
-					</table>
-					<br/>
-					<input type="submit" class="button" value="Save">
-					<input type="submit" class="button" value="Add Row">
-				</div>
-				<div id="tab3">
-					    <table width="100%" border="0" cellspacing="10">
-						  <tr>
-							<td width="10%">S.NO.</td>
-							<td width="25%">Context</td>
-							<td width="65%">Lesson</td>
-						  </tr>
-						  <tr>
-							<td>1.</td>
-							<td><input type="text" name="deli1" ></td>
-							<td><input type="text" name="deli2" ></td>
-						  </tr>
-						  <tr>
-							<td>2.</td>
-							<td><input type="text" name="deli2" ></td>
-							<td><input type="text" name="deli1" ></td>
-						  </tr>
-						  <tr>
-							<td>3.</td>
-							<td><input type="text" name="deli1" ></td>
-							<td><input type="text" name="deli2" ></td>
-						  </tr>
-						  <tr>
-							<td>4.</td>
-							<td><input type="text" name="deli1" ></td>
-							<td><input type="text" name="deli2" ></td>
-						  </tr>
-						  <tr>
-							<td>5.</td>
-							<td><input type="text" name="deli1" ></td>
-							<td><input type="text" name="deli2" ></td>
-						  </tr>
-						</table>
-						<br/>
-					<input type="submit" class="button" value="Save">
-					<input type="submit" class="button" value="Add Row">
-				</div>
-				<div id="tab4">
-					<br/>
-					<p>These items should appear in the deliverable status for the next week.</p>
-					<br/>
-					<table width="100%" border="0" cellspacing="10">
-					  <tr>
-							<td width="10%">S.NO.</td>
-							<td width="25%">Deliverable</td>
-							<td width="65%">What do you intend to accomplish and why</td>
-						  </tr>
-					  <tr>
-						<td>1.</td>
-						<td><input type="text" name="deli1" ></td>
-						<td><input type="text" name="deli2" ></td>
-					  </tr>
-					  <tr>
-						<td>2.</td>
-						<td><input type="text" name="deli1" ></td>
-						<td><input type="text" name="deli2" ></td>
-					  </tr>
-					  <tr>
-						<td>3.</td>
-						<td><input type="text" name="deli1" ></td>
-						<td><input type="text" name="deli2" ></td>
-					  </tr>
-					  <tr>
-						<td>4.</td>
-						<td><input type="text" name="deli1" ></td>
-						<td><input type="text" name="deli2" ></td>
-					  </tr>
-					  <tr>
-						<td>5.</td>
-						<td><input type="text" name="deli1" ></td>
-						<td><input type="text" name="deli2" ></td>
-					  </tr>
-					</table>
-					<br/>
-					<input type="submit" class="button" value="Save">
-					<input type="submit" class="button" value="Add Row">
-				</div>
-			</div>
-		</div>
-	</body>
+                <form method="post" id="enbform">
+                    <ul>  
+                        <li><a href="#tab1" id="atab1" class="present">Notes</a></li> 
+                        <li><a href="#tab2" id="atab2">Deliverable Status</a></li> 
+                        <li><a href="#tab3" id="atab3">Lessons Learned Reflection</a></li>
+                        <li><a href="#tab4" id="atab4">Plan for the Next Week</a></li>
+                    </ul> 
+                    <div class="settings">
+                        <input type="submit" value="save" style="float:right;" class="button">
+                    </div>
+                    <div id="tab1">
+                        <br>
+                        <p class="grey">Record key insights from readings and discussions.</p>
+                        <br>
+                        <textarea name="notes1" rows="13" placeholder="Enter your notes here"></textarea>
+                        <br><br>
+                        <input type="submit" class="button" value="Save">
+                    </div> 
+                    <div id="tab2">
+                        <table width="100%" border="0" cellspacing="10" id="dstable">
+                            <tr>
+                                <td width="5%">SNO</td>
+                                <td width="16%"><center>Deliverable</center></td>
+                            <td width="27%"><center>What did you plan to accomplish?</center></td>
+                            <td width="27%"><center>What did you actually accomplish?</center></td>
+                            <td width="10%"><center>Size</center></td>
+                            <td width="10%"><center>Effort</center></td>
+                            </tr>
+                            <tr>
+                                <td>1.</td>
+                                <td><input type='text' name='dsd1' class='required'></td>
+                                <td><input type='text' name='dsp1' class='required'></td>
+                                <td><input type='text' name='dsa1' class='required'></td>
+                                <td><input type='text' name='dss1' class='required'></td>
+                                <td><input type='text' name='dse1' class='required'></td>
+                            </tr>					  
+                        </table>
+                        <br/>
+                        <input type="submit" class="button" value="Save" id="dss">
+                        <input type="button" class="button" value="Add Row" id="dsr">
+                    </div>
+                    <div id="tab3">
+                        <table width="800" height="209" border="0" id="lntable">
+                            <tr>
+                                <td width="10%">S.NO.</td>
+                                <td width="25%"><center>Context</center></td>
+                            <td width="65%"><center>Lesson</center></td>
+                            </tr>
+                            <tr>
+                                <td>1.</td>
+                                <td><input type='text' name='lnc1' class='required'></td>
+                                <td><input type='text' name='lnl1' class='required'></td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <input type="submit" class="button" value="Save" id="lns">
+                        <input type="button" class="button" value="Add Row" id="lnar" name="lnar">
+                    </div>
+                    <div id="tab4">
+                        <br/>
+                        <p>These items should appear in the deliverable status for the next week.</p>
+                        <br/>
+                        <table width="800" height="209" border="0" id="plantable">
+                            <tr>
+                                <td width="10%">S.NO.</td>
+                                <td width="25%"><center>Deliverable</center></td>
+                            <td width="65%"><center>What do you intend to accomplish and why</center></td>
+                            </tr>
+                            <tr>
+                                <td>1.</td>
+                                <td><input type='text' name='pland1' class='required' ></td>
+                                <td><input type='text' name='planw1' class='required' ></td>
+                            </tr>					  
+                        </table>
+                        <br/>
+                        <input type="submit" class="button" value="Save" id="plans">
+                        <input type="button" class="button" value="Add Row" id="planr">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
 </html>
