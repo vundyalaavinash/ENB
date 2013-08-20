@@ -17,7 +17,19 @@ public class EnbdescHelper {
     Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
     
     public boolean insertEnbdesc(Enbdesc enbdes){
-        return false;
+        session =  HibernateUtil.getSessionFactory().getCurrentSession();
+        try{
+            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction trans=session.beginTransaction();
+            session.save(enbdes);
+            System.out.println("this is query : \t"+trans.toString());
+            trans.commit();
+            return true;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
     }
     
     public boolean updateEnbdesc(Enbdesc enbdes){

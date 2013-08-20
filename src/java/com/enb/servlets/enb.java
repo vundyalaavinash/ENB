@@ -6,6 +6,7 @@ package com.enb.servlets;
 
 import com.enb.POJO.Deliverablestatus;
 import com.enb.POJO.Lessons;
+import com.enb.POJO.Notes;
 import com.enb.POJO.Plan;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,7 +47,8 @@ public class enb extends HttpServlet {
             ArrayList<String> al=new ArrayList<String>();
             Enumeration enu=request.getParameterNames();
             HashMap<String,String> map=new HashMap<String,String>();
-            String Notes="";
+            String Notes=request.getParameter("notes1").toString();
+            int eid=Integer.parseInt(request.getParameter("eid"));
             while(enu.hasMoreElements()){
                 String check=enu.nextElement().toString();
                 if(check.charAt(0)=='d' && check.charAt(1)=='s'){
@@ -69,7 +71,7 @@ public class enb extends HttpServlet {
             Lessons l[]=new Lessons[maxln];
             Plan p[]=new Plan[maxpl];
             Deliverablestatus d[]=new Deliverablestatus[maxds];
-            
+            Notes n=new Notes();
             for(int i=0;i<maxpl;i++){
                 p[i]=new Plan();
                 p[i].setDeliverable(map.get("pld"+i));
@@ -87,10 +89,7 @@ public class enb extends HttpServlet {
                 d[i].setPlanToAccomplish(map.get("dsp"+i));
                 d[i].setActualAccomplished(map.get("dsa"+i));
                 d[i].setSize(map.get("dss"+i));
-            }
-            
-            
-            
+            }                                    
         } finally {            
             out.close();
         }

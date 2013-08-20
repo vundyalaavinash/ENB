@@ -15,7 +15,8 @@
         <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
         <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
         <script src="Scripts/jquery-ui.js" type="text/javascript"></script>
-
+        <!--<script src="Scripts/jquery.validate.min.js" type="text/javascript"></script>-->
+    
         <script src="CusScripts/ENB.js" type="text/javascript"></script>
 
     </head>
@@ -29,18 +30,15 @@
         </header>
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
             <h3>
-                            <%
-                                if(session.getAttribute("name")==null){
-                                    response.sendRedirect("index.jsp");
-                                }
-                                else{
-                                    out.println(session.getAttribute("name"));
-                                }
-
-                             %>
-                            
-                            
-                        </h3>
+                <%
+                    if(session.getAttribute("name")==null){
+                        response.sendRedirect("index.jsp");
+                    }
+                    else{
+                        out.println(session.getAttribute("name"));
+                    }
+                 %>
+            </h3>
             <a href="Homepage.jsp">Home</a>
             <a href="create.jsp">Create ENB</a>
             <a href="manage.jsp">Manage ENB</a>
@@ -51,7 +49,7 @@
 
         <div id="main">					
             <div id="tabs">
-                <form method="post" id="enbform">
+                <form method="post" action="enb" id="enbform">
                     <ul>  
                         <li><a href="#tab1" id="atab1" class="present">Notes</a></li> 
                         <li><a href="#tab2" id="atab2">Deliverable Status</a></li> 
@@ -59,25 +57,24 @@
                         <li><a href="#tab4" id="atab4">Plan for the Next Week</a></li>
                     </ul> 
                     <div class="settings">
-                        <input type="submit" value="save" style="float:right;" class="button">
+                        <input type="submit" value="save" style="float:right;" class="button" id="savebtn" >
                     </div>
                     <div id="tab1">
                         <br>
-                        <p>Record key insights from readings and discussions.</p>
                         <br>
                         <textarea name="notes1" rows="13" placeholder="Enter your notes here"></textarea>
-                        <br><br>
-                        <input type="submit" class="button" value="Save">
                     </div> 
                     <div id="tab2">
+                        <br>
+                        <br>
                         <table width="100%" border="0" cellspacing="10" id="dstable">
                             <tr>
                                 <td width="5%">SNO</td>
                                 <td width="16%"><center>Deliverable</center></td>
-                            <td width="27%"><center>What did you plan to accomplish?</center></td>
-                            <td width="27%"><center>What did you actually accomplish?</center></td>
-                            <td width="10%"><center>Size</center></td>
-                            <td width="10%"><center>Effort</center></td>
+                                <td width="27%"><center>What did you plan to accomplish?</center></td>
+                                <td width="27%"><center>What did you actually accomplish?</center></td>
+                                <td width="10%"><center>Size</center></td>
+                                <td width="10%"><center>Effort</center></td>
                             </tr>
                             <tr>
                                 <td>1.</td>
@@ -89,11 +86,12 @@
                             </tr>					  
                         </table>
                         <br/>
-                        <input type="submit" class="button" value="Save" id="dss">
                         <input type="button" class="button" value="Add Row" id="dsr">
                     </div>
                     <div id="tab3">
-                        <table width="800" height="209" border="0" id="lntable">
+                        <br>
+                        <br>
+                        <table width="100%" border="0" id="lntable" cellspacing="10">
                             <tr>
                                 <td width="10%">S.NO.</td>
                                 <td width="25%"><center>Context</center></td>
@@ -106,18 +104,16 @@
                             </tr>
                         </table>
                         <br/>
-                        <input type="submit" class="button" value="Save" id="lns">
                         <input type="button" class="button" value="Add Row" id="lnar" name="lnar">
                     </div>
                     <div id="tab4">
                         <br/>
-                        <p>These items should appear in the deliverable status for the next week.</p>
                         <br/>
-                        <table width="800" height="209" border="0" id="plantable">
+                        <table width="100%" border="0" id="plantable" cellspacing="10">
                             <tr>
                                 <td width="10%">S.NO.</td>
                                 <td width="25%"><center>Deliverable</center></td>
-                            <td width="65%"><center>What do you intend to accomplish and why</center></td>
+                                <td width="65%"><center>What do you intend to accomplish and why</center></td>
                             </tr>
                             <tr>
                                 <td>1.</td>
@@ -126,7 +122,6 @@
                             </tr>					  
                         </table>
                         <br/>
-                        <input type="submit" class="button" value="Save" id="plans">
                         <input type="button" class="button" value="Add Row" id="planr">
                     </div>
                 </form>
