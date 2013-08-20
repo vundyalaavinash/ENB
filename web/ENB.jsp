@@ -28,7 +28,19 @@
             </nav>
         </header>
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-            <h3>Raj</h3>
+            <h3>
+                            <%
+                                if(session.getAttribute("name")==null){
+                                    response.sendRedirect("index.jsp");
+                                }
+                                else{
+                                    out.println(session.getAttribute("name"));
+                                }
+
+                             %>
+                            
+                            
+                        </h3>
             <a href="Homepage.jsp">Home</a>
             <a href="create.jsp">Create ENB</a>
             <a href="manage.jsp">Manage ENB</a>

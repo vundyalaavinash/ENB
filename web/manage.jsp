@@ -4,6 +4,14 @@
     Author     : B.Revanth
 --%>
 
+<%@page import="com.enb.POJO.Plan"%>
+<%@page import="com.enb.POJO.Lessons"%>
+<%@page import="com.enb.POJO.Deliverablestatus"%>
+<%@page import="com.enb.POJO.Notes"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.Set"%>
+<%@page import="com.enb.POJO.Enbdesc"%>
+<%@page import="com.enb.Helper.EnbdescHelper"%>
 <%@page import="com.enb.MiscClasses.ConstructString"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
@@ -83,7 +91,23 @@
                         <br>
                         <p class="grey">Record key insights from readings and discussions.</p>
                         <br>
-                        <textarea name="notes1" rows="13" placeholder="Enter your notes here"></textarea>
+                        <%
+                                    String enbname=null;
+                                    EnbdescHelper eh1=new EnbdescHelper();
+                                    Enbdesc enb=eh1.getEnbid(enbname);
+                                    int enbid=enb.getId();
+                                    Set set=enb.getNoteses();
+                                    Iterator itr = set.iterator();
+                                   
+                                    while(itr.hasNext())
+                                    {
+                                        Notes notes=(Notes)itr.next();
+                                        out.println("<textarea>"+notes.getNotes().toString()+"</textarea>");
+                                        //System.out.println(itr.next());
+                                    }
+                                  
+                                    
+                                    %>
                         <br><br>
                         <input type="submit" class="button" value="Save">
                     </div> 
@@ -97,14 +121,25 @@
                             <td width="10%"><center>Size</center></td>
                             <td width="10%"><center>Effort</center></td>
                             </tr>
-                            <tr>
-                                <td>1.</td>
-                                <td><input type='text' name='dsd1' class='required'></td>
-                                <td><input type='text' name='dsp1' class='required'></td>
-                                <td><input type='text' name='dsa1' class='required'></td>
-                                <td><input type='text' name='dss1' class='required'></td>
-                                <td><input type='text' name='dse1' class='required'></td>
-                            </tr>					  
+                            <%
+                                          Set set1=enb.getDeliverablestatuses();
+                                          itr = set1.iterator();
+                                   int i=1;
+                                    while(itr.hasNext())
+                                    {
+                                        
+                                        Deliverablestatus del=(Deliverablestatus)itr.next();
+                                        out.println("<tr>");
+                                              out.println("<td><input type='text' value='"+i+"'></td>");
+                                              out.println("<td><input type='text' value='"+del.getDeliverables()+"'></td>");
+                                              out.println("<td><input type='text' value='"+del.getPlanToAccomplish()+"'></td>");
+                                              out.println("<td><input type='text' value='"+del.getActualAccomplished()+"'></td>");
+                                              out.println("<td><input type='text' value='"+del.getSize()+"'></td>");
+                                              out.println("<td><input type='text' value='"+del.getEffort()+"'></td>");
+                                              out.println("</tr>");
+                                              i++;
+                                    }
+                                          %>					  
                         </table>
                         <br/>
                         <input type="submit" class="button" value="Save" id="dss">
@@ -117,11 +152,22 @@
                                 <td width="25%"><center>Context</center></td>
                             <td width="65%"><center>Lesson</center></td>
                             </tr>
-                            <tr>
-                                <td>1.</td>
-                                <td><input type='text' name='lnc1' class='required'></td>
-                                <td><input type='text' name='lnl1' class='required'></td>
-                            </tr>
+                            <%
+                                                  Set set2=enb.getLessonses();
+                                                  itr = set2.iterator();
+                                   i=1;
+                                    while(itr.hasNext())
+                                    {
+                                        
+                                        Lessons les=(Lessons)itr.next();
+                                        out.println("<tr>");
+                                                      out.println("<td><input type='text' value='"+i+"'></td>");
+                                                      out.println("<td><input type='text' value='"+les.getContext() +"'></td>");
+                                                      out.println("<td><input type='text' value='"+les.getLessons() +"'></td>");
+                                                      out.println("</tr>");
+                                                      i++;
+                                    }
+                                                  %>
                         </table>
                         <br/>
                         <input type="submit" class="button" value="Save" id="lns">
@@ -137,11 +183,22 @@
                                 <td width="25%"><center>Deliverable</center></td>
                             <td width="65%"><center>What do you intend to accomplish and why</center></td>
                             </tr>
-                            <tr>
-                                <td>1.</td>
-                                <td><input type='text' name='pland1' class='required' ></td>
-                                <td><input type='text' name='planw1' class='required' ></td>
-                            </tr>					  
+                            <%
+                                          Set set3=enb.getPlans();
+                                          itr = set3.iterator();
+                                   i=1;
+                                    while(itr.hasNext())
+                                    {
+                                        
+                                        Plan plan=(Plan)itr.next();
+                                        out.println("<tr>");
+                                                      out.println("<td><input type='text' value='"+i+"'></td>");
+                                                      out.println("<td><input type='text' value='"+plan.getDeliverable() +"'></td>");
+                                                      out.println("<td><input type='text' value='"+plan.getIntendToAccomplish() +"'></td>");
+                                                      out.println("</tr>");
+                                                      i++;
+                                    }
+                                          %>					  
                         </table>
                         <br/>
                         <input type="submit" class="button" value="Save" id="plans">

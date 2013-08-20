@@ -4,6 +4,14 @@
     Author     : B.Revanth
 --%>
 
+<%@page import="com.enb.POJO.Plan"%>
+<%@page import="com.enb.POJO.Lessons"%>
+<%@page import="com.enb.POJO.Deliverablestatus"%>
+<%@page import="com.enb.POJO.Notes"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.Set"%>
+<%@page import="com.enb.POJO.Enbdesc"%>
+<%@page import="com.enb.Helper.EnbdescHelper"%>
 <%@page import="com.enb.MiscClasses.ConstructString"%>
 <html>
 	<head>
@@ -70,7 +78,22 @@
 		
 			<div id="tabs" class="hide lessfont invicible">
 				<h2>Notes</h2>
-				<p></p>
+				<%
+                                    String enbname=null;
+                                    EnbdescHelper eh1=new EnbdescHelper();
+                                    Enbdesc enb=eh1.getEnbid(enbname);
+                                    int enbid=enb.getId();
+                                    Set set=enb.getNoteses();
+                                    Iterator itr = set.iterator();
+                                   
+                                    while(itr.hasNext())
+                                    {
+                                        Notes notes=(Notes)itr.next();
+                                        out.println("<textarea>"+notes.getNotes().toString()+"</textarea>");
+                                        //System.out.println(itr.next());
+                                    }
+                                    
+                                    %>
 				<br>
 				<hr>
 				<br>
@@ -84,46 +107,25 @@
 						<td width="10%">Size</td>
 						<td width="10%">Effort</td>
 					  </tr>
-					  <tr>
-						<td>1.</td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-					  </tr>
-					  <tr>
-						<td>2.</td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-					  </tr>
-					  <tr>
-						<td>3.</td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-					  </tr>
-					  <tr>
-						<td>4.</td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-					  </tr>
-					  <tr>
-						<td>5.</td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-						<td><input type="text" name="deli"></td>
-					  </tr>
+					  <%
+                                          Set set1=enb.getDeliverablestatuses();
+                                          itr = set1.iterator();
+                                   int i=1;
+                                    while(itr.hasNext())
+                                    {
+                                        
+                                        Deliverablestatus del=(Deliverablestatus)itr.next();
+                                        out.println("<tr>");
+                                              out.println("<td><input type='text' value='"+i+"' readonly></td>");
+                                              out.println("<td><input type='text' value='"+del.getDeliverables()+"' readonly></td>");
+                                              out.println("<td><input type='text' value='"+del.getPlanToAccomplish()+"' readonly></td>");
+                                              out.println("<td><input type='text' value='"+del.getActualAccomplished()+"' readonly></td>");
+                                              out.println("<td><input type='text' value='"+del.getSize()+"' readonly></td>");
+                                              out.println("<td><input type='text' value='"+del.getEffort()+"' readonly></td>");
+                                              out.println("</tr>");
+                                              i++;
+                                    }
+                                          %>
 					</table>
 				<br>
 				<hr>
@@ -135,31 +137,22 @@
 							<td width="25%">Context</td>
 							<td width="65%">Lesson</td>
 						  </tr>
-						  <tr>
-							<td>1.</td>
-							<td><input type="text" name="deli1" ></td>
-							<td><input type="text" name="deli2" ></td>
-						  </tr>
-						  <tr>
-							<td>2.</td>
-							<td><input type="text" name="deli2" ></td>
-							<td><input type="text" name="deli1" ></td>
-						  </tr>
-						  <tr>
-							<td>3.</td>
-							<td><input type="text" name="deli1" ></td>
-							<td><input type="text" name="deli2" ></td>
-						  </tr>
-						  <tr>
-							<td>4.</td>
-							<td><input type="text" name="deli1" ></td>
-							<td><input type="text" name="deli2" ></td>
-						  </tr>
-						  <tr>
-							<td>5.</td>
-							<td><input type="text" name="deli1" ></td>
-							<td><input type="text" name="deli2" ></td>
-						  </tr>
+						  <%
+                                                  Set set2=enb.getLessonses();
+                                                  itr = set2.iterator();
+                                   i=1;
+                                    while(itr.hasNext())
+                                    {
+                                        
+                                        Lessons les=(Lessons)itr.next();
+                                        out.println("<tr>");
+                                                      out.println("<td><input type='text' value='"+i+"' readonly></td>");
+                                                      out.println("<td><input type='text' value='"+les.getContext() +"' readonly></td>");
+                                                      out.println("<td><input type='text' value='"+les.getLessons() +"' readonly></td>");
+                                                      out.println("</tr>");
+                                                      i++;
+                                    }
+                                                  %>
 						</table>
 				<br>
 				<hr>
@@ -171,31 +164,22 @@
 							<td width="25%">Deliverable</td>
 							<td width="65%">What do you intend to accomplish and why</td>
 						  </tr>
-					  <tr>
-						<td>1.</td>
-						<td><input type="text" name="deli1" ></td>
-						<td><input type="text" name="deli2" ></td>
-					  </tr>
-					  <tr>
-						<td>2.</td>
-						<td><input type="text" name="deli1" ></td>
-						<td><input type="text" name="deli2" ></td>
-					  </tr>
-					  <tr>
-						<td>3.</td>
-						<td><input type="text" name="deli1" ></td>
-						<td><input type="text" name="deli2" ></td>
-					  </tr>
-					  <tr>
-						<td>4.</td>
-						<td><input type="text" name="deli1" ></td>
-						<td><input type="text" name="deli2" ></td>
-					  </tr>
-					  <tr>
-						<td>5.</td>
-						<td><input type="text" name="deli1" ></td>
-						<td><input type="text" name="deli2" ></td>
-					  </tr>
+					  <%
+                                          Set set3=enb.getPlans();
+                                          itr = set3.iterator();
+                                   i=1;
+                                    while(itr.hasNext())
+                                    {
+                                        
+                                        Plan plan=(Plan)itr.next();
+                                        out.println("<tr>");
+                                                      out.println("<td><input type='text' value='"+i+1+"' readonly></td>");
+                                                      out.println("<td><input type='text' value='"+plan.getDeliverable() +"' readonly></td>");
+                                                      out.println("<td><input type='text' value='"+plan.getIntendToAccomplish() +"' readonly></td>");
+                                                      out.println("</tr>");
+                                                      i++;
+                                    }
+                                          %>
 					</table>
 				
 			</div>
