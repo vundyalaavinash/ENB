@@ -117,8 +117,8 @@
                             </tr>
                             <tr>
                                 <td>1.</td>
-                                <td><input type='text' name='pland1' class='required' ></td>
-                                <td><input type='text' name='planw1' class='required' ></td>
+                                <td><input type='text' name='pld1' class='required' ></td>
+                                <td><input type='text' name='plw1' class='required' ></td>
                             </tr>					  
                         </table>
                         <br/>

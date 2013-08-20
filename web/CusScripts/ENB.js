@@ -37,7 +37,7 @@ $(document).ready(function(){
 	
 	$("#planr").click(function(){
 		plancount+=1;
-		$("#plantable").append("<tr><td>"+plancount+".</td><td><input type='text' name='pland"+plancount+"' ></td><td><input type='text' name='planw"+plancount+"' ></td></tr>	");
+		$("#plantable").append("<tr><td>"+plancount+".</td><td><input type='text' name='pld"+plancount+"' ></td><td><input type='text' name='plw"+plancount+"' ></td></tr>");
 	});
 	
 	$("#dsr").click(function(){
