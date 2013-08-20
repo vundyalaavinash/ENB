@@ -12,6 +12,8 @@ import org.hibernate.Transaction;
 
 import javax.mail.*;
 import javax.mail.internet.*;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 /**
  *
  * @author Avinash
@@ -57,7 +59,19 @@ public class RegistrationHelper {
         }
     }    
     public boolean changePassword (Userauth uauth){
-        return false;
+        try{
+            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+			session = sessionFactory.openSession();
+            Transaction trans=session.beginTransaction();
+            session.update(uauth);
+            System.out.println("this is query : \t"+trans.toString());
+            trans.commit();
+            return true;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
     }
     public boolean forgotPassword (Userauth uauth){
         return false;
@@ -79,5 +93,16 @@ public class RegistrationHelper {
             return null;
         }        
         return null;
-    }    
+    } 
+    public Userauth getUserId(String email)
+    {
+        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();
+       Transaction tx = session.beginTransaction();
+       Query q = session.createQuery ("from Userauth where emailId='"+email+"'");
+       userinfo = (ArrayList<Userauth>) q.list();
+       if(userinfo.size()!=0){
+                return userinfo.get(0);
+            }
+        return null; 
+    }
 }

@@ -46,14 +46,14 @@
             <a href="logs.jsp">Logs</a>
             <a href="account.jsp">Account</a>
         </nav>
-
+<form id="changepassword" method="post" action="ChangePassword">
         <div id="main">
             <table width="50%">
                 <tr>
                     <td>
                         E-Mail ID:
                         <br>
-                        <input type="text" value="raj@gmail.com" name="email"/>
+                        <input type="text" value="<%out.println((String)session.getAttribute("email"));%>" name="email"/>
                     </td>
                 </tr>
                 <tr>
@@ -84,5 +84,6 @@
                 </tr>
             </table>
         </div>
+</form>
     </body>
 </html>
