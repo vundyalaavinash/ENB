@@ -4,7 +4,11 @@
  */
 package com.enb.servlets;
 
+import com.enb.Helper.DeliverablesHelper;
+import com.enb.Helper.LessonsHelper;
+import com.enb.Helper.PlanHelper;
 import com.enb.POJO.Deliverablestatus;
+import com.enb.POJO.Enbdesc;
 import com.enb.POJO.Lessons;
 import com.enb.POJO.Notes;
 import com.enb.POJO.Plan;
@@ -18,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -42,13 +47,24 @@ public class enb extends HttpServlet {
         int maxpl=0;
         int maxds=0;
         int maxln=0;
-        try {
-            /* TODO output your page here. You may use following sample code. */
+        try {           
+            
             ArrayList<String> al=new ArrayList<String>();
             Enumeration enu=request.getParameterNames();
             HashMap<String,String> map=new HashMap<String,String>();
-            String Notes=request.getParameter("notes1").toString();
-            int eid=Integer.parseInt(request.getParameter("eid"));
+            
+            HttpSession session=request.getSession();
+            
+            String notes=request.getParameter("notes1").toString();
+            int eid=0;
+            if(request.getParameter("eid")==null){
+                eid=Integer.parseInt(session.getAttribute("emid").toString());
+            }
+            else{
+                eid=Integer.parseInt(request.getParameter("eid"));
+            }
+            
+            
             while(enu.hasMoreElements()){
                 String check=enu.nextElement().toString();
                 if(check.charAt(0)=='d' && check.charAt(1)=='s'){
@@ -68,28 +84,54 @@ public class enb extends HttpServlet {
                 }
                 map.put(check, request.getParameter(check));
             }        
+            
             Lessons l[]=new Lessons[maxln];
             Plan p[]=new Plan[maxpl];
             Deliverablestatus d[]=new Deliverablestatus[maxds];
             Notes n=new Notes();
+            Enbdesc e=new Enbdesc();
+            
+            e.setId(eid);
+            n.setNotes(notes.getBytes());
+            n.setEnbdesc(e);
+            
+            PlanHelper ph=new PlanHelper();
+            LessonsHelper lh=new LessonsHelper();
+            DeliverablesHelper dh=new DeliverablesHelper();
+            
+            System.out.println("enb ID : "+eid);
+            ph.removePlan(eid);
+            lh.deleteLessons(eid);
+            dh.removeDeliverablestatus(eid);
+            
+            
             for(int i=0;i<maxpl;i++){
                 p[i]=new Plan();
-                p[i].setDeliverable(map.get("pld"+i));
-                p[i].setIntendToAccomplish(map.get("plw"+i));                
-            }            
+                p[i].setDeliverable(map.get("pld"+(i+1)));
+                p[i].setIntendToAccomplish(map.get("plw"+(i+1)));           
+                p[i].setEnbdesc(e);
+                ph.insertPlan(p[i]);
+            }           
+            
             for(int i=0;i<maxln;i++){
                 l[i]=new Lessons();    
-                l[i].setContext(map.get("lnc"+i));
-                l[i].setLessons(map.get("lnl"+i));
-            }            
+                l[i].setContext(map.get("lnc"+(i+1)));
+                l[i].setLessons(map.get("lnl"+(i+1)));
+                l[i].setEnbdesc(e);
+                lh.insertLessons(l[i]);
+            }      
+            
             for(int i=0;i<maxds;i++){
                 d[i]=new Deliverablestatus();
-                d[i].setDeliverables(map.get("dsd"+i));
-                d[i].setEffort(map.get("dse"+i));
-                d[i].setPlanToAccomplish(map.get("dsp"+i));
-                d[i].setActualAccomplished(map.get("dsa"+i));
-                d[i].setSize(map.get("dss"+i));
-            }                                    
+                d[i].setDeliverables(map.get("dsd"+(i+1)));
+                d[i].setEffort(map.get("dse"+(i+1)));
+                d[i].setPlanToAccomplish(map.get("dsp"+(i+1)));
+                d[i].setActualAccomplished(map.get("dsa"+(i+1)));
+                d[i].setSize(map.get("dss"+(i+1)));
+                d[i].setEnbdesc(e);
+                dh.insertDeliverablestatus(d[i]);
+            }            
+            out.print("Done");
         } finally {            
             out.close();
         }

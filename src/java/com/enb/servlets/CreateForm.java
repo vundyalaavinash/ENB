@@ -93,7 +93,8 @@ public class CreateForm extends HttpServlet {
             EnbdescHelper eh= new EnbdescHelper();
             eh.insertEnbdesc(e);            
             session.setAttribute("enbname", e.getEnbname());    
-            session.setAttribute(dateTo, cal);
+            session.setAttribute("emid", eh.getEnbid(e.getEnbname()).getId());
+            System.out.println(""+session.getAttribute("emid"));
             response.sendRedirect("ENB.jsp");
             
         } finally {            

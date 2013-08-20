@@ -6,6 +6,7 @@ package com.enb.Helper;
 import com.enb.POJO.*;
 import java.util.ArrayList;
 import java.util.Date;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 /**
@@ -37,8 +38,17 @@ public class PlanHelper {
     public boolean updatePlan(Plan plan){
         return false;
     } 
-    public boolean removePlan(Plan plan){
-        return false;
+    public boolean removePlan(int eid){
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+        try {
+            Transaction tx = session.beginTransaction();
+            Query q = session.createQuery("delete from Plan where ENBID="+eid+"");
+            int result = q.executeUpdate();            
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     } 
     
 }

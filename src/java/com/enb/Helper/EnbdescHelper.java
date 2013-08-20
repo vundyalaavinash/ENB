@@ -39,7 +39,7 @@ public class EnbdescHelper {
     public boolean removeEnbdesc(Enbdesc enbdesc){
         return false;
     }
-    public Enbdesc getEnbdesc(String Pid){
+    public Enbdesc getEnbdesc(int pid){
         return null;
     }
     public boolean checkproject(String pname){
@@ -47,6 +47,7 @@ public class EnbdescHelper {
     }
     public Enbdesc getEnbid(String enbname)
     {
+        session =  HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Enbdesc> enbinfo = new ArrayList<Enbdesc>();
         try {
             Transaction tx = session.beginTransaction();
@@ -60,5 +61,5 @@ public class EnbdescHelper {
             return null;
         }
         return null;
-    }
+    }        
 }
