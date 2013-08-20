@@ -83,7 +83,7 @@ public class RegistrationHelper {
         ArrayList<Userauth> userinfo = new ArrayList<Userauth>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Userauth where emailId=\""+email+"\" and password=\""+Password+"\"");
+            Query q = session.createQuery ("from Userauth where emailId='"+email+"' and password='"+Password+"'");
             userinfo = (ArrayList<Userauth>) q.list();
             if(userinfo.size()==1){
                 return userinfo.get(0);
