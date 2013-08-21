@@ -49,14 +49,14 @@ public class Download {
         Enbdesc enb=eh1.getEnbid(enbname);
         int enbid=enb.getId();
         Set set=enb.getNoteses();
-                                    Iterator itr = set.iterator();
-                                   
-                                    while(itr.hasNext())
-                                    {
-                                        Notes notes=(Notes)itr.next();
-                                        paragraph.add(notes.getNotes().toString());
-                                        //System.out.println(itr.next());
-                                    }
+        Iterator itr = set.iterator();
+
+        while(itr.hasNext())
+        {
+            Notes notes=(Notes)itr.next();
+            paragraph.add(notes.getNotes().toString());
+            //System.out.println(itr.next());
+        }
        /* NotesHelper nh=new NotesHelper();
         ArrayList<Notes> notes=new ArrayList<Notes>();
         notes=nh.getNotes(enb);
