@@ -35,6 +35,7 @@ public class ProjectHelper {
     }
     
     public Project getProject (int uid, String ProjectName){
+        session =  HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Project> userinfo = new ArrayList<Project>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
@@ -48,6 +49,26 @@ public class ProjectHelper {
             return null;
         }        
         return null;
+    }
+    
+    
+    public Project getProjectID (int uid){
+        session =  HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<Project> userinfo = new ArrayList<Project>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Project where UID='"+uid+"' ORDER BY Id DESC");
+            userinfo = (ArrayList<Project>) q.list();
+            if(userinfo.size()!=0){
+                return (userinfo.get(0));
+            }
+            else{
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }        
     }
     
     public boolean insertProject(Project project){

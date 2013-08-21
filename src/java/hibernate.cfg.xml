@@ -9,7 +9,7 @@
     <property name="hibernate.connection.password">root</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
+    <property name="hibernate.query.factory_class">org.hibernate.hql.ast.ASTQueryTranslatorFactory</property>
     <mapping resource="com/enb/POJO/Project.hbm.xml"/>
     <mapping resource="com/enb/POJO/Enbdesc.hbm.xml"/>
     <mapping resource="com/enb/POJO/Userlog.hbm.xml"/>

@@ -17,7 +17,19 @@ public class EnbdescHelper {
     Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
     
     public boolean insertEnbdesc(Enbdesc enbdes){
-        return false;
+        session =  HibernateUtil.getSessionFactory().getCurrentSession();
+        try{
+            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction trans=session.beginTransaction();
+            session.save(enbdes);
+            System.out.println("this is query : \t"+trans.toString());
+            trans.commit();
+            return true;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
     }
     
     public boolean updateEnbdesc(Enbdesc enbdes){
@@ -27,7 +39,7 @@ public class EnbdescHelper {
     public boolean removeEnbdesc(Enbdesc enbdesc){
         return false;
     }
-    public Enbdesc getEnbdesc(String Pid){
+    public Enbdesc getEnbdesc(int pid){
         return null;
     }
     public boolean checkproject(String pname){
@@ -35,6 +47,7 @@ public class EnbdescHelper {
     }
     public Enbdesc getEnbid(String enbname)
     {
+        session =  HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Enbdesc> enbinfo = new ArrayList<Enbdesc>();
         try {
             Transaction tx = session.beginTransaction();
@@ -48,5 +61,5 @@ public class EnbdescHelper {
             return null;
         }
         return null;
-    }
+    }        
 }

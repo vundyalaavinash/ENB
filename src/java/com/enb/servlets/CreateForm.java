@@ -88,11 +88,15 @@ public class CreateForm extends HttpServlet {
             e.setProject(p);
             e.setFromdate(cal.getTime());
             e.setTodate(now.getTime());         
-            e.setUserauth(ua);            
+            e.setUserauth(ua);          
+            
             EnbdescHelper eh= new EnbdescHelper();
             eh.insertEnbdesc(e);            
-            session.setAttribute("enbname", e.getEnbname());           
+            session.setAttribute("enbname", e.getEnbname());    
+            session.setAttribute("emid", eh.getEnbid(e.getEnbname()).getId());
+            System.out.println(""+session.getAttribute("emid"));
             response.sendRedirect("ENB.jsp");
+            
         } finally {            
             out.close();
             

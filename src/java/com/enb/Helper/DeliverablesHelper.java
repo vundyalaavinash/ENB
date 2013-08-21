@@ -6,7 +6,9 @@ package com.enb.Helper;
 import com.enb.POJO.*;
 import java.util.ArrayList;
 import java.util.Date;
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 /**
  *
  * @author Avinash
@@ -19,11 +21,31 @@ public class DeliverablesHelper {
     }
     
     public boolean insertDeliverablestatus(Deliverablestatus ds){
-        return false;
+        try{
+            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Transaction trans=session.beginTransaction();
+            session.save(ds);
+            System.out.println("this is query : \t"+trans.toString());
+            trans.commit();
+            return true;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+        }
     }
     
-    public boolean removeDeliverablestatus(Deliverablestatus ds){
-        return false;
+    public boolean removeDeliverablestatus(int eid){
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+        try {
+            Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("delete from Deliverablestatus where ENBID="+eid+"");
+            int result = q.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     
     public boolean updateDeliverablestatus(Deliverablestatus ds){
