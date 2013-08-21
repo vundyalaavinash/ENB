@@ -17,10 +17,6 @@
         <servlet-class>com.enb.servlets.Logout</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>enb</servlet-name>
-        <servlet-class>com.enb.servlets.enb</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>View</servlet-name>
         <servlet-class>com.enb.servlets.View</servlet-class>
     </servlet>
@@ -39,10 +35,6 @@
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>enb</servlet-name>
-        <url-pattern>/enb</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>View</servlet-name>
