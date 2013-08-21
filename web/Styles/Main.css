@@ -361,3 +361,16 @@ textarea{
 .grey{
     color:999;
 }
+
+#mydiv {
+    height: 100%; 
+    width: 100%; 
+    position: absolute;
+    background-color: white; /* for demonstration */
+}
+.ajax-loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: block;     
+}

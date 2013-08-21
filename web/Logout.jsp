@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page language="java" session="true" %>
 <%
-session.invalidate();
+    session.invalidate();
    response.sendRedirect("index.jsp");
 %>
 <!DOCTYPE html>
