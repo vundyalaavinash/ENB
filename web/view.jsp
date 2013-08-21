@@ -82,7 +82,7 @@
                                     String enbname=null;
                                     EnbdescHelper eh1=new EnbdescHelper();
                                     Enbdesc enb=eh1.getEnbid(enbname);
-                                    int enbid=enb.getId();
+                                    //int enbid=enb.getId();
                                     Set set=enb.getNoteses();
                                     Iterator itr = set.iterator();
                                    

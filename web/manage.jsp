@@ -91,11 +91,11 @@
                         <br>
                         <p class="grey">Record key insights from readings and discussions.</p>
                         <br>
-                       <!-- <%
-                           /* String enbname = null;
+                        <%
+                            String enbname = null;
                             EnbdescHelper eh1 = new EnbdescHelper();
                             Enbdesc enb = eh1.getEnbid(enbname);
-                            int enbid = enb.getId();
+                            //int enbid = enb.getId();
                             Set set = enb.getNoteses();
                             Iterator itr = set.iterator();
 
@@ -103,8 +103,8 @@
                                 Notes notes = (Notes) itr.next();
                                 out.println("<textarea>" + notes.getNotes().toString() + "</textarea>");
                                 //System.out.println(itr.next());
-                            }*/
-                        %>-->
+                            }
+                        %>
                         <br><br>
                         <input type="submit" class="button" value="Save">
                     </div> 
