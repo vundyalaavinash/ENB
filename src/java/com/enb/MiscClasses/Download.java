@@ -47,7 +47,6 @@ public class Download {
         Paragraph paragraph = new Paragraph();
         EnbdescHelper eh1=new EnbdescHelper();
         Enbdesc enb=eh1.getEnbid(enbname);
-        int enbid=enb.getId();
         Set set=enb.getNoteses();
         Iterator itr = set.iterator();
 
