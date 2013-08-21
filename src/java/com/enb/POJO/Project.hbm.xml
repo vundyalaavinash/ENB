@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 20, 2013 2:06:18 AM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Aug 22, 2013 12:32:00 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.enb.POJO.Project" table="project" catalog="enb">
-        <id name="id" type="int">
+        <id name="id" type="java.lang.Integer">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="userauth" class="com.enb.POJO.Userauth" fetch="select">
             <column name="uid" />
         </many-to-one>
         <property name="projectName" type="string">
-            <column name="ProjectName" length="45" unique="true" />
+            <column name="ProjectName" length="45" />
         </property>
         <property name="fromDate" type="date">
             <column name="FromDate" length="10" />
@@ -20,13 +20,10 @@
         <property name="toDate" type="date">
             <column name="ToDate" length="10" />
         </property>
+        <property name="isMonthly" type="string">
+            <column name="IsMonthly" length="45" />
+        </property>
         <set name="enbdescs" inverse="true">
-            <key>
-                <column name="Pid" />
-            </key>
-            <one-to-many class="com.enb.POJO.Enbdesc" />
-        </set>
-        <set name="enbdescs_1" inverse="true">
             <key>
                 <column name="Pid" />
             </key>

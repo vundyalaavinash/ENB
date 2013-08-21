@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 20, 2013 2:06:17 AM by Hibernate Tools 3.2.1.GA
+// Generated Aug 22, 2013 12:32:00 AM by Hibernate Tools 3.2.1.GA
 
 
 
@@ -9,7 +9,7 @@ package com.enb.POJO;
 public class Plan  implements java.io.Serializable {
 
 
-     private Integer id;
+     private PlanId id;
      private Enbdesc enbdesc;
      private String deliverable;
      private String intendToAccomplish;
@@ -17,17 +17,23 @@ public class Plan  implements java.io.Serializable {
     public Plan() {
     }
 
-    public Plan(Enbdesc enbdesc, String deliverable, String intendToAccomplish) {
+	
+    public Plan(PlanId id, Enbdesc enbdesc) {
+        this.id = id;
+        this.enbdesc = enbdesc;
+    }
+    public Plan(PlanId id, Enbdesc enbdesc, String deliverable, String intendToAccomplish) {
+       this.id = id;
        this.enbdesc = enbdesc;
        this.deliverable = deliverable;
        this.intendToAccomplish = intendToAccomplish;
     }
    
-    public Integer getId() {
+    public PlanId getId() {
         return this.id;
     }
     
-    public void setId(Integer id) {
+    public void setId(PlanId id) {
         this.id = id;
     }
     public Enbdesc getEnbdesc() {

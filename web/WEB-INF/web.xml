@@ -20,6 +20,10 @@
         <servlet-name>enb</servlet-name>
         <servlet-class>com.enb.servlets.enb</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>View</servlet-name>
+        <servlet-class>com.enb.servlets.View</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Registration</servlet-name>
         <url-pattern>/Registration</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>enb</servlet-name>
         <url-pattern>/enb</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>View</servlet-name>
+        <url-pattern>/View</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

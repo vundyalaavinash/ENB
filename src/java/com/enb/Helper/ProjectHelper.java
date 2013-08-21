@@ -24,7 +24,7 @@ public class ProjectHelper {
         ArrayList<Project> userinfo = new ArrayList<Project>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Project where UID='"+uid+"'");
+            Query q = session.createQuery ("from Project where UID='"+uid+"' and Todate>=curdate()");
             userinfo = (ArrayList<Project>) q.list();
             return userinfo;
         } catch (Exception e) {

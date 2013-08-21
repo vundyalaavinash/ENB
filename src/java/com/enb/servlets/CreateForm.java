@@ -74,17 +74,21 @@ public class CreateForm extends HttpServlet {
             Calendar now = Calendar.getInstance();  
             int weekday = now.get(Calendar.DAY_OF_WEEK);               
             int days = (Calendar.SATURDAY - weekday) % 7;  
-            System.out.print(""+days);
             now.add(Calendar.DAY_OF_YEAR, days);  
             
             Calendar cal = Calendar.getInstance();
-            
+            if(request.getParameter("weekmonth").toString().equals("monthly")){
+                p.setIsMonthly("Yes");
+            }
+            else{
+                p.setIsMonthly("No");
+            }
             ProjectHelper ph=new ProjectHelper();
             ph.insertProject(p);
             
             p=ph.getProject(ua.getId(),p.getProjectName());
-            
-            e.setEnbname(request.getParameter("enbname")); 
+            Calendar at=Calendar.getInstance();
+            e.setEnbname(request.getParameter("proj")+" : "+at.get(Calendar.DATE)+"-"+(at.get(Calendar.MONTH)+1)+"-"+at.get(Calendar.YEAR)+" to "+now.get(Calendar.DATE)+"-"+(now.get(Calendar.MONTH)+1)+"-"+now.get(Calendar.YEAR)); 
             e.setProject(p);
             e.setFromdate(cal.getTime());
             e.setTodate(now.getTime());         

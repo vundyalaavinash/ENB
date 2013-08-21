@@ -21,7 +21,9 @@
         <script src="Scripts/picker.date.js" type="text/javascript"></script>
         <script src="Scripts/jquery.icheck.min.js" type="text/javascript"></script>
         <script src="Scripts/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="Scripts/alertify.min.js" type="text/javascript"></script>
 
+        
         <script src="CusScripts/create.js" type="text/javascript"></script>
 
     </head>
@@ -55,13 +57,6 @@
         <div id="main">
             <form id="createform" method="post" action="CreateForm">
                 <table width="50%">
-                    <tr>
-                        <td><br>
-                            ENB Name :
-                            <br>
-                            <input type="text" value="" name="enbname" class="required" placeholder="Enter ENB Name" />
-                        </td>
-                    </tr>
                     <tr>
                         <td><br>
                             Project Name:

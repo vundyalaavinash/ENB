@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 20, 2013 2:06:17 AM by Hibernate Tools 3.2.1.GA
+// Generated Aug 22, 2013 12:32:00 AM by Hibernate Tools 3.2.1.GA
 
 
 
@@ -9,24 +9,30 @@ package com.enb.POJO;
 public class Notes  implements java.io.Serializable {
 
 
-     private Integer id;
+     private int enbid;
      private Enbdesc enbdesc;
      private byte[] notes;
 
     public Notes() {
     }
 
-    public Notes(Enbdesc enbdesc, byte[] notes) {
+	
+    public Notes(int enbid, Enbdesc enbdesc) {
+        this.enbid = enbid;
+        this.enbdesc = enbdesc;
+    }
+    public Notes(int enbid, Enbdesc enbdesc, byte[] notes) {
+       this.enbid = enbid;
        this.enbdesc = enbdesc;
        this.notes = notes;
     }
    
-    public Integer getId() {
-        return this.id;
+    public int getEnbid() {
+        return this.enbid;
     }
     
-    public void setId(Integer id) {
-        this.id = id;
+    public void setEnbid(int enbid) {
+        this.enbid = enbid;
     }
     public Enbdesc getEnbdesc() {
         return this.enbdesc;

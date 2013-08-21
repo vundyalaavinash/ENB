@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 20, 2013 2:06:17 AM by Hibernate Tools 3.2.1.GA
+// Generated Aug 22, 2013 12:32:00 AM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -17,35 +17,25 @@ public class Enbdesc  implements java.io.Serializable {
      private Project project;
      private Date fromdate;
      private Date todate;
-     private String monthlyWeekly;
      private String enbname;
+     private Set noteses = new HashSet(0);
+     private Set plans = new HashSet(0);
      private Set deliverablestatuses = new HashSet(0);
      private Set lessonses = new HashSet(0);
-     private Set lessonses_1 = new HashSet(0);
-     private Set noteses = new HashSet(0);
-     private Set deliverablestatuses_1 = new HashSet(0);
-     private Set plans = new HashSet(0);
-     private Set noteses_1 = new HashSet(0);
-     private Set plans_1 = new HashSet(0);
 
     public Enbdesc() {
     }
 
-    public Enbdesc(Userauth userauth, Project project, Date fromdate, Date todate, String monthlyWeekly, String enbname, Set deliverablestatuses, Set lessonses, Set lessonses_1, Set noteses, Set deliverablestatuses_1, Set plans, Set noteses_1, Set plans_1) {
+    public Enbdesc(Userauth userauth, Project project, Date fromdate, Date todate, String enbname, Set noteses, Set plans, Set deliverablestatuses, Set lessonses) {
        this.userauth = userauth;
        this.project = project;
        this.fromdate = fromdate;
        this.todate = todate;
-       this.monthlyWeekly = monthlyWeekly;
        this.enbname = enbname;
+       this.noteses = noteses;
+       this.plans = plans;
        this.deliverablestatuses = deliverablestatuses;
        this.lessonses = lessonses;
-       this.lessonses_1 = lessonses_1;
-       this.noteses = noteses;
-       this.deliverablestatuses_1 = deliverablestatuses_1;
-       this.plans = plans;
-       this.noteses_1 = noteses_1;
-       this.plans_1 = plans_1;
     }
    
     public Integer getId() {
@@ -83,19 +73,26 @@ public class Enbdesc  implements java.io.Serializable {
     public void setTodate(Date todate) {
         this.todate = todate;
     }
-    public String getMonthlyWeekly() {
-        return this.monthlyWeekly;
-    }
-    
-    public void setMonthlyWeekly(String monthlyWeekly) {
-        this.monthlyWeekly = monthlyWeekly;
-    }
     public String getEnbname() {
         return this.enbname;
     }
     
     public void setEnbname(String enbname) {
         this.enbname = enbname;
+    }
+    public Set getNoteses() {
+        return this.noteses;
+    }
+    
+    public void setNoteses(Set noteses) {
+        this.noteses = noteses;
+    }
+    public Set getPlans() {
+        return this.plans;
+    }
+    
+    public void setPlans(Set plans) {
+        this.plans = plans;
     }
     public Set getDeliverablestatuses() {
         return this.deliverablestatuses;
@@ -111,48 +108,10 @@ public class Enbdesc  implements java.io.Serializable {
     public void setLessonses(Set lessonses) {
         this.lessonses = lessonses;
     }
-    public Set getLessonses_1() {
-        return this.lessonses_1;
-    }
-    
-    public void setLessonses_1(Set lessonses_1) {
-        this.lessonses_1 = lessonses_1;
-    }
-    public Set getNoteses() {
-        return this.noteses;
-    }
-    
-    public void setNoteses(Set noteses) {
-        this.noteses = noteses;
-    }
-    public Set getDeliverablestatuses_1() {
-        return this.deliverablestatuses_1;
-    }
-    
-    public void setDeliverablestatuses_1(Set deliverablestatuses_1) {
-        this.deliverablestatuses_1 = deliverablestatuses_1;
-    }
-    public Set getPlans() {
-        return this.plans;
-    }
-    
-    public void setPlans(Set plans) {
-        this.plans = plans;
-    }
-    public Set getNoteses_1() {
-        return this.noteses_1;
-    }
-    
-    public void setNoteses_1(Set noteses_1) {
-        this.noteses_1 = noteses_1;
-    }
-    public Set getPlans_1() {
-        return this.plans_1;
-    }
-    
-    public void setPlans_1(Set plans_1) {
-        this.plans_1 = plans_1;
-    }
+
+
+
+
 }
 
 

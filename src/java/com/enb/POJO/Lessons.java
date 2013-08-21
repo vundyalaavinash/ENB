@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 20, 2013 2:06:17 AM by Hibernate Tools 3.2.1.GA
+// Generated Aug 22, 2013 12:32:00 AM by Hibernate Tools 3.2.1.GA
 
 
 
@@ -9,7 +9,7 @@ package com.enb.POJO;
 public class Lessons  implements java.io.Serializable {
 
 
-     private Integer id;
+     private LessonsId id;
      private Enbdesc enbdesc;
      private String context;
      private String lessons;
@@ -17,17 +17,23 @@ public class Lessons  implements java.io.Serializable {
     public Lessons() {
     }
 
-    public Lessons(Enbdesc enbdesc, String context, String lessons) {
+	
+    public Lessons(LessonsId id, Enbdesc enbdesc) {
+        this.id = id;
+        this.enbdesc = enbdesc;
+    }
+    public Lessons(LessonsId id, Enbdesc enbdesc, String context, String lessons) {
+       this.id = id;
        this.enbdesc = enbdesc;
        this.context = context;
        this.lessons = lessons;
     }
    
-    public Integer getId() {
+    public LessonsId getId() {
         return this.id;
     }
     
-    public void setId(Integer id) {
+    public void setId(LessonsId id) {
         this.id = id;
     }
     public Enbdesc getEnbdesc() {

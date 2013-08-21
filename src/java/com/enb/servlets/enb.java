@@ -6,15 +6,13 @@ package com.enb.servlets;
 
 import com.enb.Helper.DeliverablesHelper;
 import com.enb.Helper.LessonsHelper;
+import com.enb.Helper.NotesHelper;
 import com.enb.Helper.PlanHelper;
-import com.enb.POJO.Deliverablestatus;
-import com.enb.POJO.Enbdesc;
-import com.enb.POJO.Lessons;
-import com.enb.POJO.Notes;
-import com.enb.POJO.Plan;
+import com.enb.POJO.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.HashMap;
 import javax.servlet.ServletException;
@@ -91,22 +89,32 @@ public class enb extends HttpServlet {
             Notes n=new Notes();
             Enbdesc e=new Enbdesc();
             
-            e.setId(eid);
+            e.setId(eid);                                 
             n.setNotes(notes.getBytes());
             n.setEnbdesc(e);
+            n.setEnbid(eid);
             
             PlanHelper ph=new PlanHelper();
             LessonsHelper lh=new LessonsHelper();
             DeliverablesHelper dh=new DeliverablesHelper();
+            NotesHelper nh=new NotesHelper();
+            
             
             System.out.println("enb ID : "+eid);
+            nh.removeNotes(eid);
             ph.removePlan(eid);
             lh.deleteLessons(eid);
             dh.removeDeliverablestatus(eid);
             
-            
+            nh.insertNotes(n);
             for(int i=0;i<maxpl;i++){
                 p[i]=new Plan();
+                
+                PlanId pid=new PlanId();
+                pid.setEnbid(eid);
+                pid.setSno(i);  
+                
+                p[i].setId(pid);
                 p[i].setDeliverable(map.get("pld"+(i+1)));
                 p[i].setIntendToAccomplish(map.get("plw"+(i+1)));           
                 p[i].setEnbdesc(e);
@@ -114,7 +122,14 @@ public class enb extends HttpServlet {
             }           
             
             for(int i=0;i<maxln;i++){
+                
                 l[i]=new Lessons();    
+                
+                LessonsId lid=new LessonsId();
+                lid.setEnbid(eid);
+                lid.setSno(i);  
+                l[i].setId(lid);
+                
                 l[i].setContext(map.get("lnc"+(i+1)));
                 l[i].setLessons(map.get("lnl"+(i+1)));
                 l[i].setEnbdesc(e);
@@ -123,6 +138,12 @@ public class enb extends HttpServlet {
             
             for(int i=0;i<maxds;i++){
                 d[i]=new Deliverablestatus();
+                
+                DeliverablestatusId did=new DeliverablestatusId();
+                did.setEnbid(eid);
+                did.setSno(i);               
+                
+                d[i].setId(did);
                 d[i].setDeliverables(map.get("dsd"+(i+1)));
                 d[i].setEffort(map.get("dse"+(i+1)));
                 d[i].setPlanToAccomplish(map.get("dsp"+(i+1)));
@@ -130,8 +151,8 @@ public class enb extends HttpServlet {
                 d[i].setSize(map.get("dss"+(i+1)));
                 d[i].setEnbdesc(e);
                 dh.insertDeliverablestatus(d[i]);
-            }            
-            out.print("Done");
+            }
+            out.print("done");
         } finally {            
             out.close();
         }

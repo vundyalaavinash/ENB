@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 20, 2013 2:06:17 AM by Hibernate Tools 3.2.1.GA
+// Generated Aug 22, 2013 12:32:00 AM by Hibernate Tools 3.2.1.GA
 
 
 
@@ -9,7 +9,7 @@ package com.enb.POJO;
 public class Deliverablestatus  implements java.io.Serializable {
 
 
-     private Integer id;
+     private DeliverablestatusId id;
      private Enbdesc enbdesc;
      private String deliverables;
      private String planToAccomplish;
@@ -20,7 +20,13 @@ public class Deliverablestatus  implements java.io.Serializable {
     public Deliverablestatus() {
     }
 
-    public Deliverablestatus(Enbdesc enbdesc, String deliverables, String planToAccomplish, String actualAccomplished, String size, String effort) {
+	
+    public Deliverablestatus(DeliverablestatusId id, Enbdesc enbdesc) {
+        this.id = id;
+        this.enbdesc = enbdesc;
+    }
+    public Deliverablestatus(DeliverablestatusId id, Enbdesc enbdesc, String deliverables, String planToAccomplish, String actualAccomplished, String size, String effort) {
+       this.id = id;
        this.enbdesc = enbdesc;
        this.deliverables = deliverables;
        this.planToAccomplish = planToAccomplish;
@@ -29,11 +35,11 @@ public class Deliverablestatus  implements java.io.Serializable {
        this.effort = effort;
     }
    
-    public Integer getId() {
+    public DeliverablestatusId getId() {
         return this.id;
     }
     
-    public void setId(Integer id) {
+    public void setId(DeliverablestatusId id) {
         this.id = id;
     }
     public Enbdesc getEnbdesc() {

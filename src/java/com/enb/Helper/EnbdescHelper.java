@@ -42,6 +42,24 @@ public class EnbdescHelper {
     public Enbdesc getEnbdesc(int pid){
         return null;
     }
+    
+    public Enbdesc getEnbdescID(int eid){
+        session =  HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<Enbdesc> enbinfo = new ArrayList<Enbdesc>();
+        try {
+            Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Enbdesc where ID='"+eid+"'");
+            enbinfo = (ArrayList<Enbdesc>) q.list();
+            if(enbinfo.size()==1){
+                return enbinfo.get(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+    
     public boolean checkproject(String pname){
         return false;
     }

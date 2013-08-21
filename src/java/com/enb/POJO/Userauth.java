@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 20, 2013 2:06:17 AM by Hibernate Tools 3.2.1.GA
+// Generated Aug 22, 2013 12:32:00 AM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -17,24 +17,18 @@ public class Userauth  implements java.io.Serializable {
      private String name;
      private String verificationCode;
      private Set enbdescs = new HashSet(0);
-     private Set enbdescs_1 = new HashSet(0);
      private Set projects = new HashSet(0);
-     private Set userlogs = new HashSet(0);
-     private Set projects_1 = new HashSet(0);
 
     public Userauth() {
     }
 
-    public Userauth(String emailId, String password, String name, String verificationCode, Set enbdescs, Set enbdescs_1, Set projects, Set userlogs, Set projects_1) {
+    public Userauth(String emailId, String password, String name, String verificationCode, Set enbdescs, Set projects) {
        this.emailId = emailId;
        this.password = password;
        this.name = name;
        this.verificationCode = verificationCode;
        this.enbdescs = enbdescs;
-       this.enbdescs_1 = enbdescs_1;
        this.projects = projects;
-       this.userlogs = userlogs;
-       this.projects_1 = projects_1;
     }
    
     public Integer getId() {
@@ -79,33 +73,12 @@ public class Userauth  implements java.io.Serializable {
     public void setEnbdescs(Set enbdescs) {
         this.enbdescs = enbdescs;
     }
-    public Set getEnbdescs_1() {
-        return this.enbdescs_1;
-    }
-    
-    public void setEnbdescs_1(Set enbdescs_1) {
-        this.enbdescs_1 = enbdescs_1;
-    }
     public Set getProjects() {
         return this.projects;
     }
     
     public void setProjects(Set projects) {
         this.projects = projects;
-    }
-    public Set getUserlogs() {
-        return this.userlogs;
-    }
-    
-    public void setUserlogs(Set userlogs) {
-        this.userlogs = userlogs;
-    }
-    public Set getProjects_1() {
-        return this.projects_1;
-    }
-    
-    public void setProjects_1(Set projects_1) {
-        this.projects_1 = projects_1;
     }
 
 

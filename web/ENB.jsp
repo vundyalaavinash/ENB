@@ -10,12 +10,15 @@
     <head>
         <title>ENB Tool</title>
         <link rel="stylesheet"  href="Styles/Main.css">			
-
+        <link href="Styles/alertify.bootstrap.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/alertify.core.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/alertify.default.css" rel="stylesheet" type="text/css" />
+        
         <script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
         <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
         <script src="Scripts/jquery-ui.js" type="text/javascript"></script>
-        <!--<script src="Scripts/jquery.validate.min.js" type="text/javascript"></script>-->
+        <script src="Scripts/alertify.min.js" type="text/javascript"></script>
     
         <script src="CusScripts/writeenb.js" type="text/javascript"></script>
 
@@ -46,7 +49,9 @@
             <a href="view.jsp">Logs</a>
             <a href="account.jsp">Account</a>
         </nav>
-
+        <div id="mydiv" class="hide">
+                <img src="Styles/images/loader.gif">;
+        </div>
         <div id="main">					
             <div id="tabs">
                 <form method="post" action="enb" id="enbform">
@@ -57,7 +62,8 @@
                         <li><a href="#tab4" id="atab4">Plan for the Next Week</a></li>
                     </ul> 
                     <div class="settings">
-                        <input type="submit" value="save" style="float:right;" class="button" id="savebtn" >
+                        <span class="status"></span>
+                        <input type="button" value="save" style="float:right;" class="button" id="savebtn" >
                     </div>
                     <div id="tab1">
                         <br>

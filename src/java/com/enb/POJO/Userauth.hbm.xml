@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 20, 2013 2:06:18 AM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Aug 22, 2013 12:32:00 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.enb.POJO.Userauth" table="userauth" catalog="enb">
         <id name="id" type="java.lang.Integer">
@@ -26,25 +26,7 @@
             </key>
             <one-to-many class="com.enb.POJO.Enbdesc" />
         </set>
-        <set name="enbdescs_1" inverse="true">
-            <key>
-                <column name="UID" />
-            </key>
-            <one-to-many class="com.enb.POJO.Enbdesc" />
-        </set>
         <set name="projects" inverse="true">
-            <key>
-                <column name="uid" />
-            </key>
-            <one-to-many class="com.enb.POJO.Project" />
-        </set>
-        <set name="userlogs" inverse="true">
-            <key>
-                <column name="UID" />
-            </key>
-            <one-to-many class="com.enb.POJO.Userlog" />
-        </set>
-        <set name="projects_1" inverse="true">
             <key>
                 <column name="uid" />
             </key>

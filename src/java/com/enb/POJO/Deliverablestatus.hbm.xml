@@ -1,15 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 20, 2013 2:06:18 AM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Aug 22, 2013 12:32:00 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.enb.POJO.Deliverablestatus" table="deliverablestatus" catalog="enb">
-        <id name="id" type="java.lang.Integer">
-            <column name="ID" />
-            <generator class="identity" />
-        </id>
-        <many-to-one name="enbdesc" class="com.enb.POJO.Enbdesc" fetch="select">
-            <column name="ENBID" />
+        <composite-id name="id" class="com.enb.POJO.DeliverablestatusId">
+            <key-property name="enbid" type="int">
+                <column name="ENBID" />
+            </key-property>
+            <key-property name="sno" type="int">
+                <column name="sno" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="enbdesc" class="com.enb.POJO.Enbdesc" update="false" insert="false" fetch="select">
+            <column name="ENBID" not-null="true" />
         </many-to-one>
         <property name="deliverables" type="string">
             <column name="Deliverables" length="75" />

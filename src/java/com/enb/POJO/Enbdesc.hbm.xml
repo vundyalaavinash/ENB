@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 20, 2013 2:06:18 AM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Aug 22, 2013 12:32:00 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
     <class name="com.enb.POJO.Enbdesc" table="enbdesc" catalog="enb">
         <id name="id" type="java.lang.Integer">
@@ -20,59 +20,32 @@
         <property name="todate" type="date">
             <column name="Todate" length="10" />
         </property>
-        <property name="monthlyWeekly" type="string">
-            <column name="MonthlyWeekly" length="10" />
-        </property>
         <property name="enbname" type="string">
             <column name="ENBName" length="75" />
         </property>
+        <set name="noteses" inverse="true">
+            <key>
+                <column name="ENBID" not-null="true" unique="true" />
+            </key>
+            <one-to-many class="com.enb.POJO.Notes" />
+        </set>
+        <set name="plans" inverse="true">
+            <key>
+                <column name="ENBID" not-null="true" />
+            </key>
+            <one-to-many class="com.enb.POJO.Plan" />
+        </set>
         <set name="deliverablestatuses" inverse="true">
             <key>
-                <column name="ENBID" />
+                <column name="ENBID" not-null="true" />
             </key>
             <one-to-many class="com.enb.POJO.Deliverablestatus" />
         </set>
         <set name="lessonses" inverse="true">
             <key>
-                <column name="ENBID" />
+                <column name="ENBID" not-null="true" />
             </key>
             <one-to-many class="com.enb.POJO.Lessons" />
-        </set>
-        <set name="lessonses_1" inverse="true">
-            <key>
-                <column name="ENBID" />
-            </key>
-            <one-to-many class="com.enb.POJO.Lessons" />
-        </set>
-        <set name="noteses" inverse="true">
-            <key>
-                <column name="ENBID" />
-            </key>
-            <one-to-many class="com.enb.POJO.Notes" />
-        </set>
-        <set name="deliverablestatuses_1" inverse="true">
-            <key>
-                <column name="ENBID" />
-            </key>
-            <one-to-many class="com.enb.POJO.Deliverablestatus" />
-        </set>
-        <set name="plans" inverse="true">
-            <key>
-                <column name="ENBID" />
-            </key>
-            <one-to-many class="com.enb.POJO.Plan" />
-        </set>
-        <set name="noteses_1" inverse="true">
-            <key>
-                <column name="ENBID" />
-            </key>
-            <one-to-many class="com.enb.POJO.Notes" />
-        </set>
-        <set name="plans_1" inverse="true">
-            <key>
-                <column name="ENBID" />
-            </key>
-            <one-to-many class="com.enb.POJO.Plan" />
         </set>
     </class>
 </hibernate-mapping>
