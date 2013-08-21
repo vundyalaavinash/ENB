@@ -1,9 +1,15 @@
 <%-- 
     Document   : ENB
     Created on : Aug 8, 2013, 4:11:59 PM
-    Author     : B.Revanth
+    Author     :
 --%>
 
+<%@page import="com.enb.POJO.Notes"%>
+<%@page import="com.enb.Helper.NotesHelper"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.Set"%>
+<%@page import="com.enb.POJO.Enbdesc"%>
+<%@page import="com.enb.Helper.EnbdescHelper"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,7 +27,115 @@
         <script src="Scripts/alertify.min.js" type="text/javascript"></script>
     
         <script src="CusScripts/writeenb.js" type="text/javascript"></script>
+        <%
+       // HttpSession ses=request.getSession();
+        String enbname =(String) session.getAttribute("enbname");
+                    EnbdescHelper eh1 = new EnbdescHelper();
+                    Enbdesc enb = eh1.getEnbid(enbname);
+                    //int enbid=enb.getId();
+                    Set set = enb.getNoteses();
+                    Iterator itr = set.iterator();
+                    Notes note = (Notes) itr.next();
+                    String notes=note.getNotes().toString();
+    %>
+        <style>
+        .highlight-green 
+        {
+            color: #00FF00;
+        }
+        .test {
+            width: 600px;
+            height: 600px;
+            overflow: auto
+            
+            }
+</style>
+       <script type="text/javascript">
+    
+    
+    function getText()
+    {
+    document.getElementById("notes").innerHTML="<p><%=notes%> Got Text </p>";
+    }
+    
+    function copyNotes()
+    {
+        var notes1=document.getElementById("notes").innerHTML;
+        document.edit_notes.mynotes.value=notes1;
+        alert("saved text is "+notes1);
+    }
+    
+    function saveHighlight()
+    {
+    var selection;
 
+            //Get the selected stuff
+            if(window.getSelection) 
+              selection = window.getSelection();
+            else if(typeof document.selection!="undefined")
+              selection = document.selection;
+
+            //Get a the selected content, in a range object
+            var range = selection.getRangeAt(0);
+
+            //If the range spans some text, and inside a tag, set its css class.
+            if(range && !selection.isCollapsed)
+            {
+              if(selection.anchorNode.parentNode == selection.focusNode.parentNode)
+              {
+                var span = document.createElement('span');
+                span.className = 'highlight-green';
+                range.surroundContents(span);
+                alert(range);
+              }
+            }
+    }
+    
+    function getReference(elem,e)
+    {
+        var savedcontent = elem.innerHTML;
+        alert("my text is "+e.clipboardData.getData('text/plain'));
+        var texttocopy=e.clipboardData.getData('text/plain');
+        var reference=prompt("Enter the Reference for Copied Text ","");
+        var mynotes=document.getElementById("notes").innerHTML;
+        var rep_text="";
+        if(reference.length!=0)
+        {
+            rep_text="<font style=\"background-color:yellow;\">"+texttocopy+"</font>"
+            rep_text=rep_text+"  &nbsp; &nbsp; <font style=\"background-color:green;\">Reference : "+reference+"</font> for Copied text";
+            alert(rep_text);
+            rep_text=mynotes+rep_text;
+        }
+        else
+            {
+                rep_text=elem.innerHTML;
+        }
+    if (e && e.clipboardData && e.clipboardData.getData) {// Webkit - get data from clipboard, put into editdiv, cleanup, then cancel event
+        if (/text\/html/.test(e.clipboardData.types)) {
+            alert("got html");
+            e.preventDefault();
+            elem.innerHTML = rep_text;
+        }
+        else if (/text\/plain/.test(e.clipboardData.types)) {
+            alert("got it");
+            e.preventDefault();
+            elem.innerHTML = rep_text;
+        }
+        else {
+            alert("nothing");
+            e.preventDefault();
+            elem.innerHTML=rep_text;
+        }
+        
+    }
+    
+}
+
+
+        
+    
+        
+</script> 
     </head>
     <body>
         <header>
@@ -71,7 +185,9 @@
                     <div id="tab1">
                         <br>
                         <br>
-                        <textarea name="notes1" rows="13" placeholder="Enter your notes here"></textarea>
+                        <div class="test" contenteditable="true" id="notes" style="border:medium dotted black" onPaste="getReference(this,event);">
+                            <textarea name="notes1" rows="13" placeholder="Enter your notes here"></textarea>
+                        </div>
                     </div> 
                     <div id="tab2">
                         <br>
