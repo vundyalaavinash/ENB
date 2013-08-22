@@ -1,15 +1,14 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 
 
 $(document).ready(function(){
-	var lncount=1;
-	var plancount=1;
-	var dscount=1;
+	var lncount=parseInt($("#ilncount").val());
+	var plancount=parseInt($("#iplancount").val());;
+	var dscount=parseInt($("#idscount").val());
 	
+        function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
+        $(document).bind("keydown", disableF5);
+        $(document).on("keydown", disableF5);
+        
 	$( "#tabs" ).tabs();	
 	$("#atab1").click(function(){
 			$("#atab1").addClass("present");
@@ -49,5 +48,29 @@ $(document).ready(function(){
 	$("#dsr").click(function(){
 		dscount+=1;
 		$("#dstable").append("<tr><td>"+dscount+".</td><td><input type='text' name='dsd"+dscount+"'></td><td><input type='text' name='dsp"+dscount+"'></td><td><input type='text' name='dsa"+dscount+"'></td><td><input type='text' name='dss"+dscount+"'></td><td><input type='text' name='dse"+dscount+"'></td></tr>");
-	});		         
+	});	
+        
+        $("#savebtn").click(function(){
+            $('#mydiv').show();
+            var currentdate = new Date(); 
+            var datetime = "Last Sync: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+           
+            $.ajax({
+                type: "POST",
+                url: "enb",
+                data: $("#enbform").serialize(),
+                success: function(msg) {                  
+                  $('#mydiv').hide();
+                  alertify.success("ENB saved Succesfully!");
+                  $(".status").html(datetime);
+                },
+                async: false
+            }); 
+            return false;
+        });
 });

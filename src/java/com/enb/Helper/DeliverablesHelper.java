@@ -24,8 +24,7 @@ public class DeliverablesHelper {
         try{
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction trans=session.beginTransaction();
-            session.save(ds);
-            System.out.println("this is query : \t"+trans.toString());
+            session.saveOrUpdate(ds);
             trans.commit();
             return true;
         }
@@ -41,6 +40,7 @@ public class DeliverablesHelper {
             Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("delete from Deliverablestatus where ENBID="+eid+"");
             int result = q.executeUpdate();
+            System.out.println(eid+":"+result);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

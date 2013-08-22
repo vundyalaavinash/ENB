@@ -58,7 +58,7 @@ public class EnbdescHelper {
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Enbdesc where PID='"+pid+"' and Todate<=curdate()");
+            Query q = session.createQuery ("from Enbdesc where PID='"+pid+"' and Todate>=curdate()");
             userinfo = (ArrayList<Enbdesc>) q.list();
             if(userinfo.size()>0){
                 return userinfo.get(0);

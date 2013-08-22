@@ -64,7 +64,7 @@ public class enb extends HttpServlet {
             
             
             while(enu.hasMoreElements()){
-                String check=enu.nextElement().toString();
+                String check=enu.nextElement().toString();                
                 if(check.charAt(0)=='d' && check.charAt(1)=='s'){
                     if(Integer.parseInt(""+check.charAt(3))>maxds){
                         maxds=Integer.parseInt(""+check.charAt(3));
@@ -90,7 +90,7 @@ public class enb extends HttpServlet {
             Enbdesc e=new Enbdesc();
             
             Calendar savedtime=Calendar.getInstance();
-            notes=notes+"<br/><br/>"+savedtime.get(Calendar.DATE)+"-"+savedtime.get(Calendar.MONTH)+"-"+savedtime.get(Calendar.YEAR)+" @ "+savedtime.get(Calendar.HOUR)+":"+savedtime.get(Calendar.MINUTE)+":"+savedtime.get(Calendar.SECOND);
+            notes=notes+"<br/>"+savedtime.get(Calendar.DATE)+"-"+savedtime.get(Calendar.MONTH)+"-"+savedtime.get(Calendar.YEAR)+" @ "+savedtime.get(Calendar.HOUR)+":"+savedtime.get(Calendar.MINUTE)+":"+savedtime.get(Calendar.SECOND)+"<br/><br/>";
             
             e.setId(eid);                                 
             n.setNotes(notes.getBytes());
@@ -103,7 +103,6 @@ public class enb extends HttpServlet {
             NotesHelper nh=new NotesHelper();
             
             
-            System.out.println("enb ID : "+eid);
             nh.removeNotes(eid);
             ph.removePlan(eid);
             lh.deleteLessons(eid);

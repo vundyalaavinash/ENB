@@ -24,8 +24,7 @@ public class PlanHelper {
         try{
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction trans=session.beginTransaction();
-            session.save(plan);
-            System.out.println("this is query : \t"+trans.toString());
+            session.saveOrUpdate(plan);
             trans.commit();
             return true;
         }

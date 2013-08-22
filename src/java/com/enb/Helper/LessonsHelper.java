@@ -19,8 +19,7 @@ public class LessonsHelper {
          try{
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction trans=session.beginTransaction();
-            session.save(lessons);
-            System.out.println("this is query : \t"+trans.toString());
+            session.saveOrUpdate(lessons);
             trans.commit();
             return true;
         }
@@ -35,11 +34,15 @@ public class LessonsHelper {
             Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("delete from Lessons where ENBID="+eid+"");
             int result = q.executeUpdate();
+            System.out.println(eid+":"+result);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+        finally{
+             session.close();
+         }
     }
     public boolean updateLessons(Lessons lessons){
         return false;

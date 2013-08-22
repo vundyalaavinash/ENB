@@ -9,7 +9,6 @@ import com.enb.POJO.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import javax.servlet.ServletException;
@@ -59,11 +58,12 @@ public class View extends HttpServlet {
             Set pl = ed.getPlans();
             
 
-            out.print("<table width='100%'><tr><td colspan='2'><h2>" + proj + "</h2></td></tr><tr>");
+            out.print("<table width='100%'><tr><td colspan='2'><h2>" + proj.toUpperCase() + "</h2></td></tr><tr>");
             out.print("<td width='50%'>Engineer: <span style='color:#47a3da;'>");
             if (session.getAttribute("name") == null) {
                 response.sendRedirect("index.jsp");
-            } else {
+            } 
+            else {
                 out.println(session.getAttribute("name"));
             }
             out.print("</span></td>");

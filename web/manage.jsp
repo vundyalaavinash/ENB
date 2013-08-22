@@ -15,15 +15,19 @@
 <html>
     <head>
         <title>Manage ENB</title>
-        <link rel="stylesheet"  href="Styles/Main.css">				
+        <link rel="stylesheet"  href="Styles/Main.css">		
+        <link href="Styles/alertify.bootstrap.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/alertify.core.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/alertify.default.css" rel="stylesheet" type="text/css" />
 
         <script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>		
         <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
         <script src="Scripts/jquery-ui.js" type="text/javascript"></script>
+        <script src="Scripts/alertify.min.js" type="text/javascript"></script>
 
         <script src="CusScripts/manage.js" type="text/javascript"></script>
-        <script src="CusScripts/ENB.js" type="text/javascript"></script>
+        <script src="CusScripts/manageenb.js" type="text/javascript"></script>
 
     </head>
     <body>
@@ -44,8 +48,6 @@
                     }
 
                 %>
-
-
             </h3>
             <a href="Homepage.jsp">Home</a>
 			<a href="create.jsp">Create ENB</a>
@@ -54,16 +56,17 @@
 			<a href="logs.jsp">Logs</a>
 			<a href="account.jsp">Account</a>
         </nav>
-        <%
-            
+        <%            
             int pid = Integer.parseInt(request.getParameter("pid"));
-            
+                       
             ProjectHelper ph=new ProjectHelper();
             EnbdescHelper eh = new EnbdescHelper();
             RegistrationHelper rh=new RegistrationHelper();
             
             Enbdesc ed = eh.getEnbdescPID(pid);
             Project p=ph.getProjectPID(pid);
+            System.out.print(""+ed);  
+            
             if(ed==null){
                 ed=new Enbdesc();
                 Userauth ua=rh.getUserId(session.getAttribute("email").toString());
@@ -88,8 +91,7 @@
                     if(projto.compareTo(now)<0){
                         now=projto;
                     }
-                }
-                System.out.print("");                       
+                }                 
                 Calendar at=Calendar.getInstance();
                 ed.setEnbname(p.getProjectName()+" : "+at.get(Calendar.DATE)+"-"+(at.get(Calendar.MONTH)+1)+"-"+at.get(Calendar.YEAR)+" to "+now.get(Calendar.DATE)+"-"+(now.get(Calendar.MONTH)+1)+"-"+now.get(Calendar.YEAR)); 
                 ed.setProject(p);
@@ -101,8 +103,9 @@
                 session.setAttribute("enbname", ed.getEnbname());    
                 session.setAttribute("emid", eh.getEnbid(ed.getEnbname()).getId());
                 System.out.println(""+session.getAttribute("emid"));
-            }
+            }            
             
+            session.setAttribute("emid", eh.getEnbid(ed.getEnbname()).getId());
             
             Calendar from = Calendar.getInstance();
             from.setTime(ed.getFromdate());
@@ -122,15 +125,16 @@
                     <table width="100%" border="0">
                         <tr>
                             <td width="80%">
-                                ENB Name :<br>
-                                <h2><%=proj%></h2>
+                                <h2><%=proj.toUpperCase() %></h2>
+                                <p><%=ed.getEnbname() %></p>
+                                <br/>
+                                <br/>
                             </td >
                         </tr>
                     </table>
                 </div>
 
-                <div id="tabs" class="hide">
-
+                <div id="tabs">   
                     <ul>  
                         <li><a href="#tab1" id="atab1" class="present">Notes</a></li> 
                         <li><a href="#tab2" id="atab2">Deliverable Status</a></li> 
@@ -138,11 +142,9 @@
                         <li><a href="#tab4" id="atab4">Plan for the Next Week</a></li>
                     </ul> 
                     <div class="settings">
-                        <input type="submit" value="save" style="float:right;" class="button">
+                        <input type="submit" value="save" style="float:right;" class="button" id="savebtn">
                     </div>
                     <div id="tab1">
-                        <br>
-                        <p class="grey">Record key insights from readings and discussions.</p>
                         <br>
                         <%
                             String enbname = ed.getEnbname();
@@ -152,16 +154,20 @@
                             Set set = enb.getNoteses();
                             Iterator itr = set.iterator();
 
-                            while (itr.hasNext()) {
+                            if (itr.hasNext()) {
                                 Notes note = (Notes) itr.next();
                                 String s=new String(note.getNotes());
-                                out.println("<textarea>" + s + "</textarea>");
+                                out.println("<br/><br/><textarea name='notes1' rows='13' placeholder='Enter your notes here'>" + s + "</textarea>");
+                            }
+                            else{
+                                out.println("<br/><br/><textarea name='notes1' rows='13' placeholder='Enter your notes here'></textarea>");
                             }
                         %>
                         <br><br>
-                        <input type="submit" class="button" value="Save">
                     </div> 
                     <div id="tab2">
+                        <br>
+                        <br>
                         <table width="100%" border="0" cellspacing="10" id="dstable">
                             <tr>
                                 <td width="5%">SNO</td>
@@ -172,87 +178,76 @@
                                 <td width="10%"><center>Effort</center></td>
                             </tr>
                             <%
-                                Set set1 = enb.getDeliverablestatuses();
-                                itr = set1.iterator();
-                                int i = 1;
-                                while (itr.hasNext()) {
-
-                                    Deliverablestatus del = (Deliverablestatus) itr.next();
-                                    out.println("<tr>");
-                                    out.println("<td><input type='text' value='" + i + "'></td>");
-                                    out.println("<td><input type='text' name='dsd"+i+"' value='" + del.getDeliverables() + "'></td>");
-                                    out.println("<td><input type='text' name='dsp"+i+"' value='" + del.getPlanToAccomplish() + "'></td>");
-                                    out.println("<td><input type='text' name='dsa"+i+"' value='" + del.getActualAccomplished() + "'></td>");
-                                    out.println("<td><input type='text' name='dss"+i+"' value='" + del.getSize() + "'></td>");
-                                    out.println("<td><input type='text' name='dse"+i+"' value='" + del.getEffort() + "'></td>");
-                                    out.println("</tr>");
+                                //Deliverable Status
+                                Iterator<Deliverablestatus> dsi=ds.iterator();                               
+                                int i=0;
+                                while(dsi.hasNext()){
                                     i++;
-                                    
+                                    Deliverablestatus dso=dsi.next();                                    
+                                    out.print("<tr><td>"+i+".</td>");
+                                    out.print("<td><input type='text' name='dsd"+i+"' class='required' value='"+dso.getDeliverables()+"'></td>");
+                                    out.print("<td><input type='text' name='dsp"+i+"' class='required' value='"+dso.getPlanToAccomplish()+"'></td>");
+                                    out.print("<td><input type='text' name='dsa"+i+"' class='required' value='"+dso.getActualAccomplished()+"'></td>");
+                                    out.print("<td><input type='text' name='dss"+i+"' class='required' value='"+dso.getSize()+"'></td>");
+                                    out.print("<td><input type='text' name='dse"+i+"' class='required' value='"+dso.getEffort()+"'></td></tr>");
                                 }
-                            %>					  
-                        </table>
+                                out.print("</table><input type='hidden' id='idscount' name='idscount' value='"+i+"'>");                            					  
+                             %>                             
+                        
                         <br/>
-                        <input type="submit" class="button" value="Save" id="dss">
                         <input type="button" class="button" value="Add Row" id="dsr">
-                    </div>
-                    <div id="tab3">
-                        <table width="800" height="209" border="0" id="lntable">
+                    </div>    
+                   <div id="tab3">
+                        <br>
+                        <br>
+                        <table width="100%" border="0" id="lntable" cellspacing="10">
                             <tr>
                                 <td width="10%">S.NO.</td>
                                 <td width="25%"><center>Context</center></td>
                             <td width="65%"><center>Lesson</center></td>
                             </tr>
                             <%
-                                Set set2 = enb.getLessonses();
-                                itr = set2.iterator();
-                                i = 1;
-                                while (itr.hasNext()) {
-
-                                    Lessons les = (Lessons) itr.next();
-                                    out.println("<tr>");
-                                    out.println("<td><input type='text' value='" + i + "'></td>");
-                                    out.println("<td><input type='text' name='lnc"+i+"' value='" + les.getContext() + "'></td>");
-                                    out.println("<td><input type='text' name='lnl"+i+"' value='" + les.getLessons() + "'></td>");
-                                    out.println("</tr>");
+                                //Lessons Learned  
+                                Iterator<Lessons> lni=ln.iterator();
+                                i=0;
+                                while(lni.hasNext()){
                                     i++;
+                                    Lessons lno=lni.next();
+                                    out.print("<tr><td>"+i+".</td>");
+                                    out.print("<td><input type='text' name='lnc"+i+"' class='required' value='"+lno.getContext()+"'></td>");
+                                    out.print("<td><input type='text' name='lnl"+i+"' class='required' value='"+lno.getLessons()+"'></td></tr>");                                    
                                 }
+                                out.print("</table><input type='hidden' id='ilncount' name='ilncount' value='"+i+"'>");                            					  
                             %>
-                        </table>
                         <br/>
-                        <input type="submit" class="button" value="Save" id="lns">
                         <input type="button" class="button" value="Add Row" id="lnar" name="lnar">
                     </div>
                     <div id="tab4">
                         <br/>
-                        <p>These items should appear in the deliverable status for the next week.</p>
                         <br/>
-                        <table width="800" height="209" border="0" id="plantable">
+                        <table width="100%" border="0" id="plantable" cellspacing="10">
                             <tr>
                                 <td width="10%">S.NO.</td>
                                 <td width="25%"><center>Deliverable</center></td>
-                            <td width="65%"><center>What do you intend to accomplish and why</center></td>
+                                <td width="65%"><center>What do you intend to accomplish and why</center></td>
                             </tr>
                             <%
-                                Set set3 = enb.getPlans();
-                                itr = set3.iterator();
-                                i = 1;
-                                while (itr.hasNext()) {
-
-                                    Plan plan = (Plan) itr.next();
-                                    out.println("<tr>");
-                                    out.println("<td><input type='text' value='" + i + "'></td>");
-                                    out.println("<td><input type='text' name='pld"+i+"' value='" + plan.getDeliverable() + "'></td>");
-                                    out.println("<td><input type='text' name='plw"+i+"' value='" + plan.getIntendToAccomplish() + "'></td>");
-                                    out.println("</tr>");
+                                //plans
+                                Iterator<Plan> pli=pl.iterator();                                
+                                i=0;
+                                while(pli.hasNext()){
                                     i++;
+                                    Plan plo=pli.next();                                    
+                                    out.print("<tr><td>"+i+".</td>");
+                                    out.print("<td><input type='text' name='pld"+i+"' class='required' value='"+plo.getDeliverable()+"'></td>");
+                                    out.print("<td><input type='text' name='plw"+i+"' class='required' value='"+plo.getIntendToAccomplish()+"'></td></tr>");
                                 }
-                            %>					  
-                        </table>
+                                out.print("</table><input type='hidden' id='iplancount' name='iplancount' value='"+i+"'>");
+                            %>
                         <br/>
-                        <input type="submit" class="button" value="Save" id="plans">
                         <input type="button" class="button" value="Add Row" id="planr">
                     </div>
-
+                </div>
                 </div>
             </form>
         </div>

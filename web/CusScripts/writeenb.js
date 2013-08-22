@@ -8,7 +8,7 @@ $(document).ready(function(){
 	var lncount=1;
 	var plancount=1;
 	var dscount=1;
-	// slight update to account for browsers not supporting e.which
+        
         function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
         $(document).bind("keydown", disableF5);
         $(document).on("keydown", disableF5);
@@ -57,6 +57,8 @@ $(document).ready(function(){
         
         $("#savebtn").click(function(){
             $('#mydiv').show();
+            $("notes1h").val($("#notes1").html());
+            alert($("notes1h").val());
             var currentdate = new Date(); 
             var datetime = "Last Sync: " + currentdate.getDate() + "/"
                 + (currentdate.getMonth()+1)  + "/" 

@@ -19,7 +19,7 @@ public class NotesHelper {
          try{
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction trans=session.beginTransaction();
-            session.save(notes);
+            session.saveOrUpdate(notes);
             System.out.println("this is query : \t"+trans.toString());
             trans.commit();
             return true;
