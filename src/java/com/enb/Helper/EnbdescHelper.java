@@ -38,9 +38,20 @@ public class EnbdescHelper {
     
     public boolean removeEnbdesc(Enbdesc enbdesc){
         return false;
-    }
-    public Enbdesc getEnbdesc(int pid){
-        return null;
+    }   
+    
+    public ArrayList<Enbdesc> getEnbdesc(int pid){
+        ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Enbdesc where PID='"+pid+"'");
+            userinfo = (ArrayList<Enbdesc>) q.list();
+            return userinfo;
+        } catch (Exception e) {
+            System.out.println("error "+e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
     
     public Enbdesc getEnbdescID(int eid){

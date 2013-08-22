@@ -23,7 +23,7 @@
 	<body>
 		<header>
 			<span>Engineering Notebook</span>
-			<h1>Vieew ENB</h1>
+			<h1>View ENB</h1>
 			<nav>
 				<a href="Logout.jsp">Logout</a>
 			</nav>

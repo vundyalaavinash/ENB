@@ -5,19 +5,17 @@
 
 $(document).ready(function(){
     $('#enbtitle').change(function(){
-        
-            
-        $('#mydiv').show();
-        alert(this.text());
-        $.post(
-            "View",
-            {eid:this.val()},
-            function(data){
-                $("#viewpan").html(data);
-                
-            },
-            "text"
-        );
-        $('#mydiv').hide();
+        if($('#enbtitle option:selected').val()!="Default"){
+            $('#mydiv').show();
+            $.post(
+                "View",
+                {eid:$('#enbtitle option:selected').val()},
+                function(data){
+                    $("#tabs").html(data);                
+                    $('#mydiv').hide();
+                },
+                "text"
+            );
+        }
     });
 });

@@ -56,6 +56,7 @@ $(document).ready(function(){
 	});	
         
         $("#savebtn").click(function(){
+            $('#mydiv').show();
             var currentdate = new Date(); 
             var datetime = "Last Sync: " + currentdate.getDate() + "/"
                 + (currentdate.getMonth()+1)  + "/" 
@@ -63,17 +64,18 @@ $(document).ready(function(){
                 + currentdate.getHours() + ":"  
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
-            $('#mydiv').show();
+           
             $.ajax({
                 type: "POST",
                 url: "enb",
                 data: $("#enbform").serialize(),
-                success: function(msg) {
+                success: function(msg) {                  
+                  $('#mydiv').hide();
                   alertify.success("ENB saved Succesfully!");
                   $(".status").html(datetime);
-                }
+                },
+                async: false
             }); 
-            $('#mydiv').hide();
             return false;
         });
 });

@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +44,7 @@ public class View extends HttpServlet {
             int eid = Integer.parseInt(request.getParameter("eid"));
 
             EnbdescHelper eh = new EnbdescHelper();
-            Enbdesc ed = eh.getEnbdesc(eid);
+            Enbdesc ed = eh.getEnbdescID(eid);
 
             Calendar from = Calendar.getInstance();
             from.setTime(ed.getFromdate());
@@ -52,12 +53,11 @@ public class View extends HttpServlet {
             to.setTime(ed.getTodate());
 
             String proj = ed.getProject().getProjectName();
-            HashSet<Notes> notes = (HashSet<Notes>) ed.getNoteses();
-            HashSet<Deliverablestatus> ds = (HashSet<Deliverablestatus>) ed.getDeliverablestatuses();
-            HashSet<Lessons> ln = (HashSet<Lessons>) ed.getLessonses();
-            HashSet<Plan> pl = (HashSet<Plan>) ed.getPlans();
+            Set notes = ed.getNoteses();
+            Set ds =  ed.getDeliverablestatuses();
+            Set ln = ed.getLessonses();
+            Set pl = ed.getPlans();
             
-            out.print("<div id='tabs' class='hide lessfont invicible'>");
 
             out.print("<table width='100%'><tr><td colspan='2'><h2>" + proj + "</h2></td></tr><tr>");
             out.print("<td width='50%'>Engineer: <span style='color:#47a3da;'>");
@@ -68,16 +68,18 @@ public class View extends HttpServlet {
             }
             out.print("</span></td>");
             out.print("<td width='50%' align='right'>Duration: <span style='color:#47a3da;'>");
-            out.print(""+from.get(Calendar.DATE)+""+from.get(Calendar.MONTH)+""+from.get(Calendar.YEAR));
-            out.print("</span>to<span style='color:#47a3da;'>");
-            out.print(""+to.get(Calendar.DATE)+""+to.get(Calendar.MONTH)+""+to.get(Calendar.YEAR));
+            out.print("&nbsp;&nbsp;&nbsp;"+from.get(Calendar.DATE)+"-"+from.get(Calendar.MONTH)+"-"+from.get(Calendar.YEAR));
+            out.print("</span>&nbsp;&nbsp;to<span style='color:#47a3da;'>");
+            out.print("&nbsp;&nbsp;&nbsp;"+to.get(Calendar.DATE)+"-"+to.get(Calendar.MONTH)+"-"+to.get(Calendar.YEAR));
             out.print("</span></td></tr></table><br><hr><br>");
             
             //Notes
             Iterator<Notes> n=notes.iterator();
-            out.print("<h2>Notes</h2><div>");
+            out.print("<h2>Notes</h2><div style='font-size:15px;'>");
             if(n.hasNext()){
-                out.print((n.next()).getNotes().toString());}
+                String note = new String(n.next().getNotes());
+                out.print(note);
+            }
             else{
                 out.println("No Notes in the ENB ....");
             }
@@ -102,18 +104,18 @@ public class View extends HttpServlet {
                 Lessons lno=lni.next();
                 out.print("<tr><td>"+i+"</td><td>"+lno.getContext()+"</td><td>"+lno.getLessons()+"</td></tr>");
             }
-            out.print(" <tr> < td > < / td > <td> <  / td > <td> <  / td > < / tr > < / table > <br> < hr > <br>");
+            out.print("<tr><td></td><td></td><td></td></tr></table><br><hr><br>");
             
             //plans
             Iterator<Plan> pli=pl.iterator();
-            out.print("<h2>Plan for the Next Week</h2><table width='100%' border='0' cellspacing='10'><tr><td width='10%'>S.NO<td><td width='25%'>Deliverable</td><td width='65%'>What do you intend to accomplish and why</td></tr>");
+            out.print("<h2>Plan for the Next Week</h2><table width='100%' border='0' cellspacing='10'><tr><td width='10%'>S.NO</td><td width='25%'>Deliverable</td><td width='65%'>What do you intend to accomplish and why</td></tr>");
             i=0;
             while(pli.hasNext()){
                 i++;
                 Plan plo=pli.next();
-                out.print("<tr><td>"+i+"</td><td>"+plo.getDeliverable()+"</td><td>"+plo.getIntendToAccomplish()+"</td></tr>");
+                out.print("<tr><td width='10%'>"+i+"</td><td width='25%'>"+plo.getDeliverable()+"</td><td width='65%'>"+plo.getIntendToAccomplish()+"</td></tr>");
             }
-            out.print("<tr><td></td><td></td><td></td></tr></table></div>");
+            out.print("<tr><td></td><td></td><td></td></tr></table>");
 
         } finally {
             out.close();

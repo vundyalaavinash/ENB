@@ -9,13 +9,18 @@
     <head>
         <title>Account</title>
         <link rel="stylesheet"  href="Styles/Main.css">		
-        <link rel="stylesheet"  href="Styles/jquery.gridster.css">		
+        <link rel="stylesheet"  href="Styles/jquery.gridster.css">
+        <link rel="stylesheet"  href="Styles/default.css">		
+        <link rel="stylesheet"  href="Styles/default.date.css">		
+        <link rel="stylesheet"  href="Styles/square/blue.css">	
 
         <script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
         <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
-
-        <script src="CusScripts/dashboard.js" type="text/javascript"></script>
+        <script src="Scripts/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="Scripts/alertify.min.js" type="text/javascript"></script>
+        
+        <script src="CusScripts/account.js" type="text/javascript"></script>
 
     </head>
     <body>
@@ -40,11 +45,11 @@
 
             </h3>
             <a href="Homepage.jsp">Home</a>
-            <a href="create.jsp">Create ENB</a>
-            <a href="manage.jsp">Manage ENB</a>
-            <a href="view.jsp">View ENB</a>
-            <a href="logs.jsp">Logs</a>
-            <a href="account.jsp">Account</a>
+			<a href="create.jsp">Create ENB</a>
+			<a href="manageselect.jsp">Manage ENB</a>
+			<a href="viewselect.jsp">View ENB</a>
+			<a href="logs.jsp">Logs</a>
+			<a href="account.jsp">Account</a>
         </nav>
 <form id="changepassword" method="post" action="ChangePassword">
         <div id="main">

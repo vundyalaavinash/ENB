@@ -44,14 +44,17 @@
             </h3>
             <a href="Homepage.jsp">Home</a>
             <a href="create.jsp">Create ENB</a>
-            <a href="manage.jsp">Manage ENB</a>
-            <a href="view.jsp">View ENB</a>
-            <a href="view.jsp">Logs</a>
+            <a href="manageselect.jsp">Manage ENB</a>
+            <a href="viewselect.jsp">View ENB</a>
+            <a href="logs.jsp">Logs</a>
             <a href="account.jsp">Account</a>
         </nav>
         <div id="mydiv" class="hide">
-                <img src="Styles/images/loader.gif">;
-        </div>
+            <div  class="ajax-loader">
+                <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading</h3>
+                <img src="Styles/images/loader.gif" />
+            </div>
+       </div>
         <div id="main">					
             <div id="tabs">
                 <form method="post" action="enb" id="enbform">

@@ -4,8 +4,9 @@
  */
 package com.enb.MiscClasses;
 
+import com.enb.Helper.EnbdescHelper;
 import com.enb.Helper.ProjectHelper;
-import com.enb.POJO.Project;
+import com.enb.POJO.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -137,6 +138,23 @@ public class ConstructString {
                 projects=projects+"<option value='"+alp.get(i).getId() +"'>"+alp.get(i).getProjectName() +"</option>";
             }
             return projects;
+        }
+        else{
+            return "";
+        }
+    }
+    
+    public static String getENBList(int pid){        
+        EnbdescHelper edh=new EnbdescHelper();          
+        ArrayList<Enbdesc> alp=edh.getEnbdesc(pid);
+        System.out.println("Got back");
+        String enbs="";
+        if(!alp.isEmpty()){
+            int j=1;
+            for(int i=0;i<alp.size();i++){
+                enbs=enbs+"<option value='"+alp.get(i).getId() +"'>"+alp.get(i).getEnbname() +"</option>";
+            }
+            return enbs;
         }
         else{
             return "";

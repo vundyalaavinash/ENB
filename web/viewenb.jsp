@@ -51,8 +51,8 @@
             </h3>
             <a href="Homepage.jsp">Home</a>
             <a href="create.jsp">Create ENB</a>
-            <a href="manage.jsp">Manage ENB</a>
-            <a href="view.jsp">View ENB</a>
+            <a href="manageselect.jsp">Manage ENB</a>
+            <a href="viewselect.jsp">View ENB</a>
             <a href="logs.jsp">Logs</a>
             <a href="account.jsp">Account</a>
         </nav>
@@ -65,16 +65,22 @@
                             ENB Name :<br>
                             <select name="selectenb" id="enbtitle">
                                 <option value="Default">Select ENB</option>
-                                <% out.print(ConstructString.getProjectsList(session.getAttribute("uid").toString()));%>
+                                <% out.print(ConstructString.getENBList(Integer.parseInt(request.getParameter("pid").toString())));%>
                             </select>
                         </td >
                         <td width="20%">
-                            <!-- <input type="button" class="button floatr hide" id="delbtn" value="Delete ENB"/>-->
+                            <input type="button" class="button floatr hide" id="delbtn" value="Download ENB"/>
                         </td>
                     </tr>
                 </table>
             </div>
-            <div id="viewpan">
+            <div id="mydiv" class="hide">
+                <div  class="ajax-loader">
+                    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading</h3>
+                    <img src="Styles/images/loader.gif" />
+                </div>
+            </div>
+            <div id='tabs' class='invicible'>
             </div>
 
 

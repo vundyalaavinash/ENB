@@ -50,11 +50,11 @@
 
             </h3>
             <a href="Homepage.jsp">Home</a>
-            <a href="create.jsp">Create ENB</a>
-            <a href="manage.jsp">Manage ENB</a>
-            <a href="view.jsp">View ENB</a>
-            <a href="logs.jsp">Logs</a>
-            <a href="account.jsp">Account</a>
+			<a href="create.jsp">Create ENB</a>
+			<a href="manageselect.jsp">Manage ENB</a>
+			<a href="viewselect.jsp">View ENB</a>
+			<a href="logs.jsp">Logs</a>
+			<a href="account.jsp">Account</a>
         </nav>
 
         <div id="main">
