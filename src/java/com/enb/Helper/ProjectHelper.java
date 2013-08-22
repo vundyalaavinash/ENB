@@ -71,6 +71,25 @@ public class ProjectHelper {
         }        
     }
     
+    public Project getProjectPID (int pid){
+        session =  HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<Project> userinfo = new ArrayList<Project>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Project where ID='"+pid+"'");
+            userinfo = (ArrayList<Project>) q.list();
+            if(userinfo.size()!=0){
+                return (userinfo.get(0));
+            }
+            else{
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }        
+    }
+    
     public boolean insertProject(Project project){
         try{
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();

@@ -54,6 +54,25 @@ public class EnbdescHelper {
         }
     }
     
+     public Enbdesc getEnbdescPID(int pid){
+        ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Enbdesc where PID='"+pid+"' and Todate<=curdate()");
+            userinfo = (ArrayList<Enbdesc>) q.list();
+            if(userinfo.size()>0){
+                return userinfo.get(0);
+            }
+            else{
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("error "+e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public Enbdesc getEnbdescID(int eid){
         session =  HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Enbdesc> enbinfo = new ArrayList<Enbdesc>();

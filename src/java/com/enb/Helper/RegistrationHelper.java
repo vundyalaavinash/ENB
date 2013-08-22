@@ -96,7 +96,7 @@ public class RegistrationHelper {
     } 
     public Userauth getUserId(String email)
     {
-        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();
+       ArrayList<Userauth> userinfo = new ArrayList<Userauth>();
        Transaction tx = session.beginTransaction();
        Query q = session.createQuery ("from Userauth where emailId='"+email+"'");
        userinfo = (ArrayList<Userauth>) q.list();

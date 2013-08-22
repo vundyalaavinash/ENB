@@ -71,10 +71,7 @@ public class CreateForm extends HttpServlet {
             p.setToDate(c1.getTime());
             
             
-            Calendar now = Calendar.getInstance();  
-            int weekday = now.get(Calendar.DAY_OF_WEEK);               
-            int days = (Calendar.SATURDAY - weekday) % 7;  
-            now.add(Calendar.DAY_OF_YEAR, days);  
+             
             
             Calendar cal = Calendar.getInstance();
             if(request.getParameter("weekmonth").toString().equals("monthly")){
@@ -83,14 +80,37 @@ public class CreateForm extends HttpServlet {
             else{
                 p.setIsMonthly("No");
             }
+            
+            Calendar now = Calendar.getInstance();  
+            
+            if(p.getIsMonthly()=="No"){
+                int weekday = now.get(Calendar.DAY_OF_WEEK);               
+                int days = (Calendar.SATURDAY - weekday) % 7;  
+                now.add(Calendar.DAY_OF_YEAR, days); 
+
+                Calendar projto=Calendar.getInstance();
+                projto.setTime(p.getToDate());
+                if(projto.compareTo(now)<0){
+                    now=projto;
+                }
+            }            
+            else{
+                now.set(Calendar.DATE,now.getActualMaximum(Calendar.DATE)); 
+                
+                Calendar projto=Calendar.getInstance();
+                projto.setTime(p.getToDate());
+                if(projto.compareTo(now)<0){
+                    now=projto;
+                }
+            }
+            
             ProjectHelper ph=new ProjectHelper();
             ph.insertProject(p);
-            
             p=ph.getProject(ua.getId(),p.getProjectName());
             Calendar at=Calendar.getInstance();
             e.setEnbname(request.getParameter("proj")+" : "+at.get(Calendar.DATE)+"-"+(at.get(Calendar.MONTH)+1)+"-"+at.get(Calendar.YEAR)+" to "+now.get(Calendar.DATE)+"-"+(now.get(Calendar.MONTH)+1)+"-"+now.get(Calendar.YEAR)); 
             e.setProject(p);
-            e.setFromdate(cal.getTime());
+            e.setFromdate(at.getTime());
             e.setTodate(now.getTime());         
             e.setUserauth(ua);          
             

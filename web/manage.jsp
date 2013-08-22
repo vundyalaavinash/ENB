@@ -4,15 +4,12 @@
     Author     : B.Revanth
 --%>
 
+<%@page import="com.enb.Helper.ProjectHelper"%>
 <%@page import="java.util.Calendar"%>
-<%@page import="com.enb.POJO.Plan"%>
-<%@page import="com.enb.POJO.Lessons"%>
-<%@page import="com.enb.POJO.Deliverablestatus"%>
-<%@page import="com.enb.POJO.Notes"%>
+<%@page import="com.enb.POJO.*"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.Set"%>
-<%@page import="com.enb.POJO.Enbdesc"%>
-<%@page import="com.enb.Helper.EnbdescHelper"%>
+<%@page import="com.enb.Helper.*"%>
 <%@page import="com.enb.MiscClasses.ConstructString"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
@@ -21,7 +18,7 @@
         <link rel="stylesheet"  href="Styles/Main.css">				
 
         <script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
-        <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
+        <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>		
         <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
         <script src="Scripts/jquery-ui.js" type="text/javascript"></script>
 
@@ -58,11 +55,55 @@
 			<a href="account.jsp">Account</a>
         </nav>
         <%
-            int eid = Integer.parseInt(request.getParameter("eid"));
-
+            
+            int pid = Integer.parseInt(request.getParameter("pid"));
+            
+            ProjectHelper ph=new ProjectHelper();
             EnbdescHelper eh = new EnbdescHelper();
-            Enbdesc ed = eh.getEnbdescID(eid);
+            RegistrationHelper rh=new RegistrationHelper();
+            
+            Enbdesc ed = eh.getEnbdescPID(pid);
+            Project p=ph.getProjectPID(pid);
+            if(ed==null){
+                ed=new Enbdesc();
+                Userauth ua=rh.getUserId(session.getAttribute("email").toString());
+                Calendar now = Calendar.getInstance();  
+            
+                if(p.getIsMonthly()=="No"){
+                    int weekday = now.get(Calendar.DAY_OF_WEEK);               
+                    int days = (Calendar.SATURDAY - weekday) % 7;  
+                    now.add(Calendar.DAY_OF_YEAR, days); 
 
+                    Calendar projto=Calendar.getInstance();
+                    projto.setTime(p.getToDate());
+                    if(projto.compareTo(now)<0){
+                        now=projto;
+                    }
+                }            
+                else{
+                    now.set(Calendar.DATE,now.getActualMaximum(Calendar.DATE)); 
+
+                    Calendar projto=Calendar.getInstance();
+                    projto.setTime(p.getToDate());
+                    if(projto.compareTo(now)<0){
+                        now=projto;
+                    }
+                }
+                System.out.print("");                       
+                Calendar at=Calendar.getInstance();
+                ed.setEnbname(p.getProjectName()+" : "+at.get(Calendar.DATE)+"-"+(at.get(Calendar.MONTH)+1)+"-"+at.get(Calendar.YEAR)+" to "+now.get(Calendar.DATE)+"-"+(now.get(Calendar.MONTH)+1)+"-"+now.get(Calendar.YEAR)); 
+                ed.setProject(p);
+                ed.setFromdate(at.getTime());
+                ed.setTodate(now.getTime());         
+                ed.setUserauth(ua);          
+                System.out.print(""+ed);                       
+                eh.insertEnbdesc(ed);            
+                session.setAttribute("enbname", ed.getEnbname());    
+                session.setAttribute("emid", eh.getEnbid(ed.getEnbname()).getId());
+                System.out.println(""+session.getAttribute("emid"));
+            }
+            
+            
             Calendar from = Calendar.getInstance();
             from.setTime(ed.getFromdate());
 
@@ -74,8 +115,6 @@
             Set ds =  ed.getDeliverablestatuses();
             Set ln = ed.getLessonses();
             Set pl = ed.getPlans();
-            
-        
         %>
         <div id="main">
             <form method="post" id="enbform">
@@ -86,9 +125,6 @@
                                 ENB Name :<br>
                                 <h2><%=proj%></h2>
                             </td >
-                            <td width="20%">
-                                <input type="submit" class="button floatr hide" id="delbtn" value="Delete ENB"/>
-                            </td>
                         </tr>
                     </table>
                 </div>
@@ -109,7 +145,7 @@
                         <p class="grey">Record key insights from readings and discussions.</p>
                         <br>
                         <%
-                            String enbname = null;
+                            String enbname = ed.getEnbname();
                             EnbdescHelper eh1 = new EnbdescHelper();
                             Enbdesc enb = eh1.getEnbid(enbname);
                             //int enbid = enb.getId();
@@ -144,13 +180,14 @@
                                     Deliverablestatus del = (Deliverablestatus) itr.next();
                                     out.println("<tr>");
                                     out.println("<td><input type='text' value='" + i + "'></td>");
-                                    out.println("<td><input type='text' value='" + del.getDeliverables() + "'></td>");
-                                    out.println("<td><input type='text' value='" + del.getPlanToAccomplish() + "'></td>");
-                                    out.println("<td><input type='text' value='" + del.getActualAccomplished() + "'></td>");
-                                    out.println("<td><input type='text' value='" + del.getSize() + "'></td>");
-                                    out.println("<td><input type='text' value='" + del.getEffort() + "'></td>");
+                                    out.println("<td><input type='text' name='dsd"+i+"' value='" + del.getDeliverables() + "'></td>");
+                                    out.println("<td><input type='text' name='dsp"+i+"' value='" + del.getPlanToAccomplish() + "'></td>");
+                                    out.println("<td><input type='text' name='dsa"+i+"' value='" + del.getActualAccomplished() + "'></td>");
+                                    out.println("<td><input type='text' name='dss"+i+"' value='" + del.getSize() + "'></td>");
+                                    out.println("<td><input type='text' name='dse"+i+"' value='" + del.getEffort() + "'></td>");
                                     out.println("</tr>");
                                     i++;
+                                    
                                 }
                             %>					  
                         </table>
@@ -174,8 +211,8 @@
                                     Lessons les = (Lessons) itr.next();
                                     out.println("<tr>");
                                     out.println("<td><input type='text' value='" + i + "'></td>");
-                                    out.println("<td><input type='text' value='" + les.getContext() + "'></td>");
-                                    out.println("<td><input type='text' value='" + les.getLessons() + "'></td>");
+                                    out.println("<td><input type='text' name='lnc"+i+"' value='" + les.getContext() + "'></td>");
+                                    out.println("<td><input type='text' name='lnl"+i+"' value='" + les.getLessons() + "'></td>");
                                     out.println("</tr>");
                                     i++;
                                 }
@@ -204,8 +241,8 @@
                                     Plan plan = (Plan) itr.next();
                                     out.println("<tr>");
                                     out.println("<td><input type='text' value='" + i + "'></td>");
-                                    out.println("<td><input type='text' value='" + plan.getDeliverable() + "'></td>");
-                                    out.println("<td><input type='text' value='" + plan.getIntendToAccomplish() + "'></td>");
+                                    out.println("<td><input type='text' name='pld"+i+"' value='" + plan.getDeliverable() + "'></td>");
+                                    out.println("<td><input type='text' name='plw"+i+"' value='" + plan.getIntendToAccomplish() + "'></td>");
                                     out.println("</tr>");
                                     i++;
                                 }
