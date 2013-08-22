@@ -15,7 +15,9 @@ import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
+import com.lowagie.text.HeaderFooter;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import java.awt.Color;
@@ -30,7 +32,7 @@ import java.util.Set;
  */
 public class Download {
     
-    public boolean enbPdf(String enbname) throws FileNotFoundException, DocumentException
+    public boolean enbPdf(String enbname,String name) throws FileNotFoundException, DocumentException
     {
         Document document=new Document();
         PdfWriter writer=PdfWriter.getInstance(document,new FileOutputStream("E:\\"+enbname+".pdf"));
@@ -38,6 +40,8 @@ public class Download {
         String ownrpas=enbname;
         writer.setEncryption(usrpas.getBytes(), ownrpas.getBytes(), PdfWriter.AllowPrinting, true);
         document.open();
+        HeaderFooter header=new HeaderFooter(new Phrase("Name : "+name+"\n"+"EnbName : "+enbname), false);
+        header.setAlignment(HeaderFooter.ALIGN_CENTER);
         Chunk chunk = new Chunk("Notes");
 	Font font = new Font(Font.COURIER);
 	font.setStyle(Font.UNDERLINE);
@@ -56,13 +60,7 @@ public class Download {
             paragraph.add(notes.getNotes().toString());
             //System.out.println(itr.next());
         }
-       /* NotesHelper nh=new NotesHelper();
-        ArrayList<Notes> notes=new ArrayList<Notes>();
-        notes=nh.getNotes(enb);
-        for(int i=0;i<notes.size();i++)
-        {
-            paragraph.add(notes.get(i).getNotes().toString());
-        } */
+       
         
         Chunk chunk1 = new Chunk("Delivearables");
         chunk1.setFont(font);
@@ -91,20 +89,7 @@ public class Download {
                                 table1.addCell(del.getEffort());
                                               i++;
                                     }
-       /* DeliverablestatusHelper dsh=new DeliverablestatusHelper();
-        ArrayList<Deliverablestatus> del=new ArrayList<Deliverablestatus>();
-        del=dsh.getDeliverable(enb);
-        for(int i=0;i<del.size();i++)
-        {
-            int j=i+1;
-            String sno=""+j;
-            table1.addCell(sno);
-            table1.addCell(del.get(i).getDeliverables());
-            table1.addCell(del.get(i).getPlanToAccomplish());
-            table1.addCell(del.get(i).getActualAccomplished());
-            table1.addCell(del.get(i).getSize());
-            table1.addCell(del.get(i).getEffort());
-        }*/
+       
         
         Chunk chunk2 = new Chunk("Plan");
         chunk2.setFont(font);
@@ -127,17 +112,7 @@ public class Download {
             table2.addCell(les.getLessons());
                                                       i++;
                                     }
-       /* ArrayList<Lessons> les = new ArrayList<Lessons>();
-        LessonsHelper lh=new LessonsHelper();
-        les=lh.getLessons(enb);
-        for(int i=0;i<les.size();i++)
-        {
-            int j=i+1;
-            String sno=""+j;
-            table2.addCell(sno);
-            table2.addCell(les.get(i).getContext());
-            table2.addCell(les.get(i).getLessons());
-        }*/
+       
         
         Chunk chunk3 = new Chunk("Reflection");
         chunk3.setFont(font);
@@ -159,17 +134,8 @@ public class Download {
             table3.addCell(plan.getIntendToAccomplish());
                                                       i++;
                                     }
-       /* ArrayList<Plan> plan = new ArrayList<Plan>();
-        PlanHelper ph=new PlanHelper();
-        plan=ph.getPlans(enb);
-        for(int i=0;i<plan.size();i++)
-        {
-            int j=i+1;
-            String sno=""+j;
-            table3.addCell(sno);
-            table3.addCell(plan.get(i).getDeliverable());
-            table3.addCell(plan.get(i).getIntendToAccomplish());
-        }*/
+       
+        document.setHeader(header);
         document.add(chunk);
         document.add(paragraph);
         document.add(chunk1);
