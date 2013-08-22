@@ -1,12 +1,10 @@
 <%-- 
-    Document   : Homepage
-    Created on : Aug 8, 2013, 4:10:55 PM
+    Document   : HomePage-2
+    Created on : Aug 8, 2013, 4:11:34 PM
     Author     : B.Revanth
 --%>
 
-<%@page import="com.enb.MiscClasses.ConstructString"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <html>
 	<head>
 		<title>Dashboard</title>
@@ -37,24 +35,22 @@
                                 else{
                                     out.println(session.getAttribute("name"));
                                 }
-                             %>                            
+
+                             %>
+                            
+                            
                         </h3>
 			<a href="Homepage.jsp">Home</a>
 			<a href="create.jsp">Create ENB</a>
-			<a href="manageselect.jsp">Manage ENB</a>
-			<a href="viewselect.jsp">View ENB</a>
+			<a href="manage.jsp">Manage ENB</a>
+			<a href="view.jsp">View ENB</a>
 			<a href="logs.jsp">Logs</a>
 			<a href="account.jsp">Account</a>
 		</nav>
 		
 		<div id="main">
 			<div class="gridster">
-                            <% 
-                            if(ConstructString.getProjects(session.getAttribute("uid").toString())=="")
-                                out.print(""+ConstructString.getProjects(session.getAttribute("uid").toString())); 
-    else
-response.sendRedirect("HomePage-2.jsp");
-%>
+				<h3>You do not have any ENB's. Please Create an ENB</h3>
 			</div>
 		</div>
 	</body>
