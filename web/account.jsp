@@ -45,7 +45,6 @@
 
                 %>
 
-
             </h3>
             <a href="Homepage.jsp">Home</a>
             <a href="create.jsp">Create ENB</a>
