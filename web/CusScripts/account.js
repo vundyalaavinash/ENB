@@ -19,5 +19,24 @@ $(document).ready(function(){
             if(value!="Default") return true;
             else return false;
     },"<span class='alert'>Select Maximum no of Players</span>");
-
+    
+    $("#changebtn").click(function(){
+        $('#mydiv').show();
+        $.ajax({
+            type: "POST",
+            url: "ChangePassword",
+            data: $("#changepassword").serialize(),
+            success: function(msg) {                  
+                $('#mydiv').hide();
+                if(msg=="done"){
+                    alertify.success("Password Changed Succesfully!");
+                }
+                else{
+                    alertify.error(msg);
+                }
+            },
+            async: false
+        });
+        return false;
+    });   
 });

@@ -40,7 +40,11 @@ public class ChangePassword extends HttpServlet {
             Userauth ua=new Userauth();
             RegistrationHelper rh=new RegistrationHelper();
             HttpSession session=request.getSession();
-            Userauth ua1=rh.getUserauth(request.getParameter("email"), request.getParameter("npass"));
+            System.out.println(""+request.getParameter("email"));
+            System.out.println(""+request.getParameter("cpass"));
+            System.out.println("");
+            System.out.println("");
+            Userauth ua1=rh.getUserauth(request.getParameter("email"), request.getParameter("cpass"));
             if(ua1!=null)
             {
                 if(request.getParameter("npass").equals(request.getParameter("renpass")))
@@ -51,13 +55,14 @@ public class ChangePassword extends HttpServlet {
                     ua.setPassword(request.getParameter("npass"));
                     ua.setName((String)session.getAttribute("name"));
                     rh.changePassword(ua);
-                    response.sendRedirect("Homepage.jsp");
+                    out.print("done");
                 }
                 else
-                    response.sendRedirect("account.jsp");  
+                      out.print("Retype Password Not Matching!");
             }
-            else
-                response.sendRedirect("account.jsp");
+            else{
+                out.print("Incorrect Old Password!");
+            }
             
         } finally {            
             out.close();

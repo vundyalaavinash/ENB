@@ -4,10 +4,20 @@
  */
 package com.enb.Helper;
 
+import com.enb.POJO.HibernateUtil;
+import org.hibernate.Session;
+
 /**
  *
  * @author Avinash
  */
 public class UserLogHelper {
+    Session session = null;
+    public UserLogHelper() {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+    }
+    
+    
+    
     
 }

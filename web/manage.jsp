@@ -4,6 +4,7 @@
     Author     : B.Revanth
 --%>
 
+<%@page import="java.util.Calendar"%>
 <%@page import="com.enb.POJO.Plan"%>
 <%@page import="com.enb.POJO.Lessons"%>
 <%@page import="com.enb.POJO.Deliverablestatus"%>
@@ -56,7 +57,26 @@
 			<a href="logs.jsp">Logs</a>
 			<a href="account.jsp">Account</a>
         </nav>
+        <%
+            int eid = Integer.parseInt(request.getParameter("eid"));
 
+            EnbdescHelper eh = new EnbdescHelper();
+            Enbdesc ed = eh.getEnbdescID(eid);
+
+            Calendar from = Calendar.getInstance();
+            from.setTime(ed.getFromdate());
+
+            Calendar to = Calendar.getInstance();
+            to.setTime(ed.getTodate());
+
+            String proj = ed.getProject().getProjectName();
+            Set notes = ed.getNoteses();
+            Set ds =  ed.getDeliverablestatuses();
+            Set ln = ed.getLessonses();
+            Set pl = ed.getPlans();
+            
+        
+        %>
         <div id="main">
             <form method="post" id="enbform">
                 <div id="content">
@@ -64,10 +84,7 @@
                         <tr>
                             <td width="80%">
                                 ENB Name :<br>
-                                <select name="eid" id="enbtitle">
-                                    <option value="Default">Select Project</option>
-                                    <% out.print(ConstructString.getProjectsList(session.getAttribute("uid").toString()));%>
-                                </select>
+                                <h2><%=proj%></h2>
                             </td >
                             <td width="20%">
                                 <input type="submit" class="button floatr hide" id="delbtn" value="Delete ENB"/>
@@ -100,9 +117,9 @@
                             Iterator itr = set.iterator();
 
                             while (itr.hasNext()) {
-                                Notes notes = (Notes) itr.next();
-                                out.println("<textarea>" + notes.getNotes().toString() + "</textarea>");
-                                //System.out.println(itr.next());
+                                Notes note = (Notes) itr.next();
+                                String s=new String(note.getNotes());
+                                out.println("<textarea>" + s + "</textarea>");
                             }
                         %>
                         <br><br>
@@ -113,10 +130,10 @@
                             <tr>
                                 <td width="5%">SNO</td>
                                 <td width="16%"><center>Deliverable</center></td>
-                            <td width="27%"><center>What did you plan to accomplish?</center></td>
-                            <td width="27%"><center>What did you actually accomplish?</center></td>
-                            <td width="10%"><center>Size</center></td>
-                            <td width="10%"><center>Effort</center></td>
+                                <td width="27%"><center>What did you plan to accomplish?</center></td>
+                                <td width="27%"><center>What did you actually accomplish?</center></td>
+                                <td width="10%"><center>Size</center></td>
+                                <td width="10%"><center>Effort</center></td>
                             </tr>
                             <%
                                 Set set1 = enb.getDeliverablestatuses();
