@@ -50,11 +50,8 @@
 		<div id="main">
 			<div class="gridster">
                             <% 
-                            if(ConstructString.getProjects(session.getAttribute("uid").toString())=="")
                                 out.print(""+ConstructString.getProjects(session.getAttribute("uid").toString())); 
-    else
-response.sendRedirect("HomePage-2.jsp");
-%>
+                            %>
 			</div>
 		</div>
 	</body>

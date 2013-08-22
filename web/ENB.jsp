@@ -28,16 +28,18 @@
     
         <script src="CusScripts/writeenb.js" type="text/javascript"></script>
         <%
-       // HttpSession ses=request.getSession();
-        String enbname =(String) session.getAttribute("enbname");
+                    HttpSession ses=request.getSession();
+                    String enbname =(String) session.getAttribute("enbname");
                     EnbdescHelper eh1 = new EnbdescHelper();
                     Enbdesc enb = eh1.getEnbid(enbname);
-                    //int enbid=enb.getId();
+                    int enbid=enb.getId();
                     Set set = enb.getNoteses();
-                    Iterator itr = set.iterator();
-                    Notes note = (Notes) itr.next();
-                    String notes=note.getNotes().toString();
-    %>
+                    Iterator<Notes> itr = set.iterator();
+                    String notes="";
+                    if(itr.hasNext()){
+                        notes=itr.next().getNotes().toString();
+                    }
+        %>
         <style>
         .highlight-green 
         {
@@ -50,12 +52,10 @@
             
             }
 </style>
-       <script type="text/javascript">
-    
-    
+<script type="text/javascript">
     function getText()
     {
-    document.getElementById("notes").innerHTML="<p><%=notes%> Got Text </p>";
+        document.getElementById("notes").innerHTML="<p><%=notes%> Got Text </p>";
     }
     
     function copyNotes()
@@ -67,28 +67,28 @@
     
     function saveHighlight()
     {
-    var selection;
+        var selection;
+        
+        //Get the selected stuff
+        if(window.getSelection) 
+          selection = window.getSelection();
+        else if(typeof document.selection!="undefined")
+          selection = document.selection;
 
-            //Get the selected stuff
-            if(window.getSelection) 
-              selection = window.getSelection();
-            else if(typeof document.selection!="undefined")
-              selection = document.selection;
+        //Get a the selected content, in a range object
+        var range = selection.getRangeAt(0);
 
-            //Get a the selected content, in a range object
-            var range = selection.getRangeAt(0);
-
-            //If the range spans some text, and inside a tag, set its css class.
-            if(range && !selection.isCollapsed)
-            {
-              if(selection.anchorNode.parentNode == selection.focusNode.parentNode)
-              {
-                var span = document.createElement('span');
-                span.className = 'highlight-green';
-                range.surroundContents(span);
-                alert(range);
-              }
-            }
+        //If the range spans some text, and inside a tag, set its css class.
+        if(range && !selection.isCollapsed)
+        {
+          if(selection.anchorNode.parentNode == selection.focusNode.parentNode)
+          {
+            var span = document.createElement('span');
+            span.className = 'highlight-green';
+            range.surroundContents(span);
+            alert(range);
+          }
+        }
     }
     
     function getReference(elem,e)
@@ -125,16 +125,9 @@
             alert("nothing");
             e.preventDefault();
             elem.innerHTML=rep_text;
-        }
-        
-    }
-    
-}
-
-
-        
-    
-        
+        }        
+    }    
+} 
 </script> 
     </head>
     <body>

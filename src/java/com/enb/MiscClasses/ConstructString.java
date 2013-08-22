@@ -94,7 +94,6 @@ public class ConstructString {
     public static String getProjects(String Uname){        
         ProjectHelper ph=new ProjectHelper();            
         ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
-        System.out.println("Got back");
         String projects="";
         if(!alp.isEmpty()){
             int j=1;
@@ -130,7 +129,6 @@ public class ConstructString {
     public static String getProjectsList(String Uname){        
         ProjectHelper ph=new ProjectHelper();            
         ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
-        System.out.println("Got back");
         String projects="";
         if(!alp.isEmpty()){
             int j=1;
