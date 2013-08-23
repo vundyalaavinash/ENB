@@ -21,6 +21,7 @@ $(document).ready(function(){
     },"<span class='alert'>Select Maximum no of Players</span>");
     
     $("#changebtn").click(function(){
+         $("#changepassword").validate();
         $('#mydiv').show();
         $.ajax({
             type: "POST",

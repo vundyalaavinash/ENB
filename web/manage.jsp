@@ -120,6 +120,12 @@
             Set pl = ed.getPlans();
         %>
         <div id="main">
+            <div id="mydiv" class="hide">
+                <div  class="ajax-loader">
+                    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading</h3>
+                    <img src="Styles/images/loader.gif" />
+                </div>
+           </div>
             <form method="post" id="enbform">
                 <div id="content">
                     <table width="100%" border="0">

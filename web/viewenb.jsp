@@ -41,13 +41,12 @@
                 <%
                     if (session.getAttribute("name") == null) {
                         response.sendRedirect("index.jsp");
-                    } else {
+                    } 
+                    else {
                         out.println(session.getAttribute("name"));
                     }
 
                 %>
-
-
             </h3>
             <a href="Homepage.jsp">Home</a>
             <a href="create.jsp">Create ENB</a>
@@ -59,20 +58,22 @@
 
         <div id="main">
             <div id="content">
-                <table width="100%" border="0">
-                    <tr>
-                        <td width="80%">
-                            ENB Name :<br>
-                            <select name="selectenb" id="enbtitle">
-                                <option value="Default">Select ENB</option>
-                                <% out.print(ConstructString.getENBList(Integer.parseInt(request.getParameter("pid").toString())));%>
-                            </select>
-                        </td >
-                        <td width="20%">
-                            <input type="button" class="button floatr hide" id="delbtn" value="Download ENB"/>
-                        </td>
-                    </tr>
-                </table>
+                <form action='DownloadPDF' method="post">
+                    <table width="100%" border="0">
+                        <tr>
+                            <td width="80%">
+                                ENB Name :<br>
+                                <select name="selectenb" id="enbtitle">
+                                    <option value="Default">Select ENB</option>
+                                    <% out.print(ConstructString.getENBList(Integer.parseInt(request.getParameter("pid").toString())));%>
+                                </select>
+                            </td >
+                            <td width="20%">
+                                <input type="submit" class="button floatr hide" id="delbtn" value="Download ENB"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>>
             </div>
             <div id="mydiv" class="hide">
                 <div  class="ajax-loader">
@@ -82,12 +83,12 @@
             </div>
             <div id='tabs' class='invicible'>
             </div>
-
-
             <div id="mydiv" class="hide">
-                <img src="Styles/images/loader.gif">;
-            </div>
-
+                <div  class="ajax-loader">
+                    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading</h3>
+                    <img src="Styles/images/loader.gif" />
+                </div>
+           </div>
         </div>
     </body>
 </html>

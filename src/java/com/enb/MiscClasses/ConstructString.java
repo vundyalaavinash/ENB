@@ -4,8 +4,8 @@
  */
 package com.enb.MiscClasses;
 
-import com.enb.Helper.EnbdescHelper;
-import com.enb.Helper.ProjectHelper;
+import com.enb.Helper.*;
+
 import com.enb.POJO.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -157,5 +157,21 @@ public class ConstructString {
         else{
             return "";
         }
+    }
+    
+    public static String getLogs(int uid,Calendar cal){
+        UserLogHelper uh=new UserLogHelper();
+        ArrayList<Userlog> logs=new ArrayList<Userlog>();
+        logs=uh.getUserlogs(uid, cal);
+        if(!logs.isEmpty()){
+            int j=0;
+            String log="";
+            for(int i=0;i<logs.size();i++){
+                log=log+"<tr><td>"+logs.get(i).getId().getLogDt() +"</td>";
+                log=log+"<td>"+logs.get(i).getDescription() +"</td></tr>";
+            }
+            return log;
+        }
+        return "<tr><td>No Activity on that date</td><td></td></tr>";
     }
 }

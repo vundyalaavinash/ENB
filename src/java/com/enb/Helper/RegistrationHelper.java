@@ -61,7 +61,7 @@ public class RegistrationHelper {
     public boolean changePassword (Userauth uauth){
         try{
             SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-			session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             Transaction trans=session.beginTransaction();
             session.update(uauth);
             System.out.println("this is query : \t"+trans.toString());
@@ -80,6 +80,7 @@ public class RegistrationHelper {
         return null;
     }
     public Userauth getUserauth (String email,String Password){
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Userauth> userinfo = new ArrayList<Userauth>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();

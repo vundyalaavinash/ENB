@@ -48,20 +48,23 @@ public class UserLogHelper {
         } 
     }     
     
-    public ArrayList<Userlog> getUserlogs (int uid,Date date){
+    public ArrayList<Userlog> getUserlogs (int uid,Calendar cal){
         ArrayList<Userlog> userinfo = new ArrayList<Userlog>();
         try {
+            cal.add(Calendar.DATE, -1);
+            String date1=cal.get(Calendar.YEAR)+"/"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DATE);
+            cal.add(Calendar.DATE, +2);
+            String date2=cal.get(Calendar.YEAR)+"/"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DATE);
+            System.out.print("\n"+date1);
+            System.out.print("\n"+date2);
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Userlog where uid='"+uid+"' and LogDT='"+date+"'");
+            Query q = session.createQuery ("from Userlog where uid='"+uid+"' and LogDT>'"+date1+"' and LogDT<'"+date2+"'");
             userinfo = (ArrayList<Userlog>) q.list();
-            if(userinfo.size()>=1){
-                return userinfo;
-            }
+            return userinfo;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }        
-        return null;
     } 
     
 }
