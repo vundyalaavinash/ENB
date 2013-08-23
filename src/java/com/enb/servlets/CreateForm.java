@@ -117,7 +117,8 @@ public class CreateForm extends HttpServlet {
             EnbdescHelper eh= new EnbdescHelper();
             eh.insertEnbdesc(e);            
             session.setAttribute("enbname", e.getEnbname());    
-            session.setAttribute("emid", eh.getEnbid(e.getEnbname()).getId());
+            
+            session.setAttribute("emid", eh.getEnbid(e.getEnbname(),Integer.parseInt(session.getAttribute("uid").toString())).getId());
             System.out.println(""+session.getAttribute("emid"));
             response.sendRedirect("ENB.jsp");
             

@@ -31,7 +31,7 @@
                     HttpSession ses=request.getSession();
                     String enbname =(String) session.getAttribute("enbname");
                     EnbdescHelper eh1 = new EnbdescHelper();
-                    Enbdesc enb = eh1.getEnbid(enbname);
+                    Enbdesc enb = eh1.getEnbid(enbname,Integer.parseInt(session.getAttribute("uid").toString()));
                     int enbid=enb.getId();
                     Set set = enb.getNoteses();
                     Iterator<Notes> itr = set.iterator();
@@ -52,83 +52,101 @@
             
             }
 </style>
-<script type="text/javascript">
-    function getText()
-    {
-        document.getElementById("notes").innerHTML="<p><%=notes%> Got Text </p>";
-    }
+<script>
+     
+function edValueKeyPress(){
     
-    function copyNotes()
-    {
-        var notes1=document.getElementById("notes").innerHTML;
-        document.edit_notes.mynotes.value=notes1;
-        alert("saved text is "+notes1);
-    }
+    var myElement = document.getElementById('edValue');
+myElement.onpaste = function(e) {
+  var pastedText = undefined;
+  if (window.clipboardData && window.clipboardData.getData) { // IE
+    pastedText = window.clipboardData.getData('Text');
+  } else if (e.clipboardData && e.clipboardData.getData) {
+    pastedText = e.clipboardData.getData('text/plain');
+  }
+  //alert(pastedText); // Process and handle text...
+  
+  var reference=prompt("Please enter a Reference","");
+    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br></p> <p style="color:#46786">Reference: '+reference+'</p>')
+  return false; // Prevent the default handler from running.
+};
+   
+}
     
-    function saveHighlight()
-    {
-        var selection;
-        
-        //Get the selected stuff
-        if(window.getSelection) 
-          selection = window.getSelection();
-        else if(typeof document.selection!="undefined")
-          selection = document.selection;
+    function insertHtmlAtCursor(html) {
+    var range, node;
+    if (window.getSelection && window.getSelection().getRangeAt) {
+        range = window.getSelection().getRangeAt(0);
+        node = range.createContextualFragment(html);
+        range.insertNode(node);
+    } else if (document.selection && document.selection.createRange) {
+        document.selection.createRange().pasteHTML(html);
+    }
+}
+  
+function getSelectionHtml() {
+    var html = "";
+    if (typeof window.getSelection != "undefined") {
+        var sel = window.getSelection();
+        if (sel.rangeCount) {
+            var container = document.createElement("div");
+            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+                container.appendChild(sel.getRangeAt(i).cloneContents());
+            }
+            html = container.innerHTML;
+        }
+    } else if (typeof document.selection != "undefined") {
+        if (document.selection.type == "Text") {
+            html = document.selection.createRange().htmlText;
+        }
+    }
+    //alert(html);
+    replaceSelectionWithHtml('<del>'+html+'<del>')
+        lblValue.innerHTML = edValue.innerHTML;
+}
 
-        //Get a the selected content, in a range object
-        var range = selection.getRangeAt(0);
-
-        //If the range spans some text, and inside a tag, set its css class.
-        if(range && !selection.isCollapsed)
-        {
-          if(selection.anchorNode.parentNode == selection.focusNode.parentNode)
-          {
-            var span = document.createElement('span');
-            span.className = 'highlight-green';
-            range.surroundContents(span);
-            alert(range);
-          }
+function replaceSelectionWithHtml(html) {
+    var range, html;
+    if (window.getSelection && window.getSelection().getRangeAt) {
+        range = window.getSelection().getRangeAt(0);
+        range.deleteContents();
+        var div = document.createElement("div");
+        div.innerHTML = html;
+        var frag = document.createDocumentFragment(), child;
+        while ( (child = div.firstChild) ) {
+            frag.appendChild(child);
         }
+        range.insertNode(frag);
+    } else if (document.selection && document.selection.createRange) {
+        range = document.selection.createRange();
+        html = (node.nodeType == 3) ? node.data : node.outerHTML;
+        range.pasteHTML(html);
     }
-    
-    function getReference(elem,e)
+}
+
+
+function doKey(event) {
+  var key = event.keyCode || event.charCode;
+  var lblValue = document.getElementById("lblValue");
+    var i=lblValue.innerHTML;
+    var edValue = document.getElementById("edValue");
+    var s = edValue.innerHTML;  
+    switch(key)
     {
-        var savedcontent = elem.innerHTML;
-        alert("my text is "+e.clipboardData.getData('text/plain'));
-        var texttocopy=e.clipboardData.getData('text/plain');
-        var reference=prompt("Enter the Reference for Copied Text ","");
-        var mynotes=document.getElementById("notes").innerHTML;
-        var rep_text="";
-        if(reference.length!=0)
-        {
-            rep_text="<font style=\"background-color:yellow;\">"+texttocopy+"</font>"
-            rep_text=rep_text+"  &nbsp; &nbsp; <font style=\"background-color:green;\">Reference : "+reference+"</font> for Copied text";
-            alert(rep_text);
-            rep_text=mynotes+rep_text;
-        }
-        else
-            {
-                rep_text=elem.innerHTML;
-        }
-    if (e && e.clipboardData && e.clipboardData.getData) {// Webkit - get data from clipboard, put into editdiv, cleanup, then cancel event
-        if (/text\/html/.test(e.clipboardData.types)) {
-            alert("got html");
-            e.preventDefault();
-            elem.innerHTML = rep_text;
-        }
-        else if (/text\/plain/.test(e.clipboardData.types)) {
-            alert("got it");
-            e.preventDefault();
-            elem.innerHTML = rep_text;
-        }
-        else {
-            alert("nothing");
-            e.preventDefault();
-            elem.innerHTML=rep_text;
-        }        
-    }    
-} 
-</script> 
+      case 8:   
+        edValue.innerHTML=i
+      break;  
+      case 46:
+        edValue.innerHTML=i
+      break;
+      default:
+      break;
+   }
+    //  var lblValue = document.getElementById("lblValue");
+    lblValue.innerHTML = edValue.innerHTML;
+    
+}
+</script>        
     </head>
     <body>
         <header>
@@ -178,11 +196,11 @@
                     <div id="tab1">
                         <br>
                         <br>
-                        <div class="test" contenteditable="true" id="notes" style="border:medium dotted black" onPaste="getReference(this,event);">
-                            <textarea name="notes1" rows="13" placeholder="Enter your notes here"></textarea>
-                        </div>
-<!--
-                        <div id="notes1" contenteditable='true' style='width:100%;height:300px;border:1px;' placeholder='Enter your notes here'></div>                        
+                        <div style="width:100%; height:300px; border: 2px #999999 double;" id="edValue" contenteditable="true" onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" onkeydown="doKey(arguments[0] || window.event)"> </div>
+                        <div id="lblValue"  style="display:none;"></div>
+                        <input type='button' class='button' onclick="getSelectionHtml();" value="Strike OFF"> 
+                        
+<!--<div id="notes1" contenteditable='true' style='width:100%;height:300px;border:1px;' placeholder='Enter your notes here'></div>                        
                         <input type='hidden' value='' name='notes1' id='notes1h''>
 >>>>>>> create manage-->
                     </div> 

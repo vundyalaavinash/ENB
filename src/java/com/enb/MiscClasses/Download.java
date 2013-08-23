@@ -32,7 +32,7 @@ import java.util.Set;
  */
 public class Download {
     
-    public boolean enbPdf(String enbname,String name) throws FileNotFoundException, DocumentException
+    public boolean enbPdf(String enbname,String name,int uid) throws FileNotFoundException, DocumentException
     {
         Document document=new Document();
         PdfWriter writer=PdfWriter.getInstance(document,new FileOutputStream("E:\\"+enbname+".pdf"));
@@ -50,7 +50,9 @@ public class Download {
 	chunk.setBackground(Color.CYAN);
         Paragraph paragraph = new Paragraph();
         EnbdescHelper eh1=new EnbdescHelper();
-        Enbdesc enb=eh1.getEnbid(enbname);
+        
+        Enbdesc enb=eh1.getEnbid(enbname,uid);
+        
         Set set=enb.getNoteses();
         Iterator itr = set.iterator();
 

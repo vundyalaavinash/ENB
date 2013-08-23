@@ -93,13 +93,13 @@ public class EnbdescHelper {
     public boolean checkproject(String pname){
         return false;
     }
-    public Enbdesc getEnbid(String enbname)
+    public Enbdesc getEnbid(String enbname,int uid)
     {
         session =  HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Enbdesc> enbinfo = new ArrayList<Enbdesc>();
         try {
             Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Enbdesc where enbname='"+enbname+"'");
+            Query q = session.createQuery ("from Enbdesc where enbname='"+enbname+"' and uid='"+uid+"'");
             enbinfo = (ArrayList<Enbdesc>) q.list();
             if(enbinfo.size()==1){
                 return enbinfo.get(0);
