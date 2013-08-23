@@ -33,7 +33,7 @@
             <span>Engineering Notebook</span>
             <h1>View ENB</h1>
             <nav>
-                <a href="logout.jsp">Logout</a>
+                <a href="Logout.jsp">Logout</a>
             </nav>
         </header>
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">

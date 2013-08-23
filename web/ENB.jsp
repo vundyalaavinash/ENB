@@ -196,7 +196,7 @@ function doKey(event) {
                     <div id="tab1">
                         <br>
                         <br>
-                        <div style="width:100%; height:300px; border: 2px #999999 double;" id="edValue" contenteditable="true" onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" onkeydown="doKey(arguments[0] || window.event)"> </div>
+                        <div style="width:100%; min-height:300px; border: 2px #999999 double;" id="edValue" contenteditable="true" onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" onkeydown="doKey(arguments[0] || window.event)"> </div>
                         <div id="lblValue"  style="display:none;"></div>
                         <input type='button' class='button' onclick="getSelectionHtml();" value="Strike OFF"> 
                         

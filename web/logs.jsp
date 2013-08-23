@@ -27,7 +27,7 @@
             <span>Engineering Notebook</span>
             <h1>Logs</h1>
             <nav>
-                <a href="Home.html">Logout</a>
+                <a href="Logout.jsp">Logout</a>
             </nav>
         </header>
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">

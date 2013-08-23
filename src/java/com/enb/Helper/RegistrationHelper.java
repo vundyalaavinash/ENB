@@ -24,8 +24,23 @@ public class RegistrationHelper {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     } 
         
-    public boolean ValidateUser(String email){
-        return false;
+    public Userauth ValidateUser(String email){
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Userauth where emailId='"+email+"'");
+            userinfo = (ArrayList<Userauth>) q.list();
+            if(userinfo.size()==1){
+                return userinfo.get(0);
+            }
+            else{
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     public boolean CheckEmail(Userauth uauth){
         return false;

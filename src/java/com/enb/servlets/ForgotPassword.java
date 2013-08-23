@@ -5,6 +5,7 @@
 package com.enb.servlets;
 
 import com.enb.Helper.RegistrationHelper;
+import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -35,8 +36,9 @@ public class ForgotPassword extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
             RegistrationHelper rh=new RegistrationHelper();
-            if(rh.ValidateUser(request.getParameter("email").toString())){
-                
+            Userauth ua=rh.ValidateUser(request.getParameter("email").toString());
+            if(ua!=null){
+                //SendMailTLS semail
             }
         } finally {            
             out.close();

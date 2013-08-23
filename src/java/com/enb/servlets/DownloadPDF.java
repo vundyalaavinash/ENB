@@ -46,7 +46,7 @@ public class DownloadPDF extends HttpServlet {
             String name=(String)session.getAttribute("name");
             //int uid=Integer.parseInt((String)session.getAttribute("uid"));
             Download d=new Download();
-            d.enbPdf(enbname, name);
+            d.enbPdf(enbname, name,Integer.parseInt(session.getAttribute("uid").toString()));
             out.println("download done");
         } finally {            
             out.close();
