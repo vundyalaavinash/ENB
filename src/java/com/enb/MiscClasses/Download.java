@@ -10,18 +10,20 @@ import com.enb.POJO.Enbdesc;
 import com.enb.POJO.Lessons;
 import com.enb.POJO.Notes;
 import com.enb.POJO.Plan;
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Font;
-import com.lowagie.text.HeaderFooter;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.html.simpleparser.HTMLWorker;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import java.awt.Color;
+import java.awt.Font;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -31,41 +33,40 @@ import java.util.Set;
  */
 public class Download {
 
-    public String enbPdf(String enbname, String name, int uid) throws FileNotFoundException, DocumentException {
+    public String enbPdf(String enbname, String name, int uid) throws FileNotFoundException, DocumentException, IOException {
         EnbdescHelper eh1 = new EnbdescHelper();
         Enbdesc enb = eh1.getEnbdescID(Integer.parseInt(enbname));
         System.out.println("name : " + enb.getEnbname());
 
         Document document = new Document();
+        
+        
         String path="E:\\" + enbname + ".pdf";
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("E:\\" + enbname + ".pdf"));
         String usrpas = enbname;
         String ownrpas = enbname;
         writer.setEncryption(usrpas.getBytes(), ownrpas.getBytes(), PdfWriter.AllowPrinting, true);
         document.open();
-        HeaderFooter header = new HeaderFooter(new Phrase("Name : " + name + "\n" + "EnbName : " + enb.getEnbname()), false);
-        header.setAlignment(HeaderFooter.ALIGN_CENTER);
-        Chunk chunk = new Chunk("Notes");
-        Font font = new Font(Font.COURIER);
-        font.setStyle(Font.UNDERLINE);
-        font.setStyle(Font.ITALIC);
-        chunk.setFont(font);
-        chunk.setBackground(Color.CYAN);
+         //HeaderFooter header = new HeaderFooter(new Phrase("This is page: ", new Font(Font.COURIER)), true);
+
+        //header.setAlignment(Element.ALIGN_CENTER);
+        HTMLWorker htmlWorker = new HTMLWorker(document);
+        StringBuilder sb = new StringBuilder();
         Paragraph paragraph = new Paragraph();
 
         Set set = enb.getNoteses();
         Iterator itr = set.iterator();
-
+        PdfPTable table = new PdfPTable(1);
         while (itr.hasNext()) {
             Notes notes = (Notes) itr.next();
             String s = new String(notes.getNotes());
             System.out.println("notes : " + s);
-            paragraph.add(s);
+            htmlWorker.parse(new StringReader(s));
+            //paragraph.add(s);
             //System.out.println(itr.next());
         }
         Chunk chunk1 = new Chunk("Delivearables");
-        chunk1.setFont(font);
-        chunk1.setBackground(Color.CYAN);
+       
         PdfPTable table1 = new PdfPTable(6);
         table1.addCell("Sno");
         table1.addCell("Deliverables");
@@ -89,9 +90,7 @@ public class Download {
             table1.addCell(del.getEffort());
             i++;
         }
-        Chunk chunk2 = new Chunk("Plan");
-        chunk2.setFont(font);
-        chunk2.setBackground(Color.CYAN);
+        
         PdfPTable table2 = new PdfPTable(3);
         table2.addCell("Sno");
         table2.addCell("Context");
@@ -111,9 +110,7 @@ public class Download {
         }
 
 
-        Chunk chunk3 = new Chunk("Reflection");
-        chunk3.setFont(font);
-        chunk3.setBackground(Color.CYAN);
+       
         PdfPTable table3 = new PdfPTable(3);
         table3.addCell("Sno");
         table3.addCell("Deliverable");
@@ -131,14 +128,16 @@ public class Download {
             i++;
         }
 
-        document.setHeader(header);
-        document.add(chunk);
+       // document.add(ch);
+       // document.add(ch1);
+
+        
         document.add(paragraph);
         document.add(chunk1);
         document.add(table1);
-        document.add(chunk2);
+        
         document.add(table2);
-        document.add(chunk3);
+        
         document.add(table3);
         document.close();
         return path;

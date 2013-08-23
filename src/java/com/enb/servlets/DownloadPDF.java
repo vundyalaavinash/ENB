@@ -5,10 +5,21 @@
 package com.enb.servlets;
 
 import com.enb.MiscClasses.Download;
-import com.lowagie.text.DocumentException;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.html.simpleparser.HTMLWorker;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.pdfcrowd.Client;
+import java.io.ByteArrayOutputStream;
+
+
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -40,14 +51,34 @@ public class DownloadPDF extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            
+            String html=request.getParameter("htmlcontent");
+            String enbname=request.getParameter("selectenb");
+            Client client = new Client("hemanth", "62ebd12b355aac3c0020b484bbc92ec9");
+            out.println(html);
+            FileOutputStream file = new FileOutputStream(new File("E:\\" + enbname + ".pdf"));
+          // ByteArrayOutputStream memStream  = new ByteArrayOutputStream();
+            
+            client.convertHtml(html, file);
+          //  Document document = new Document();
+           // PdfWriter.getInstance(document, file);
+
+          //  document.open();
+          //  HTMLWorker htmlWorker = new HTMLWorker(document);
+          //  htmlWorker.parse(new StringReader(html));
+            
+
+         //   document.close();
+            
+            file.close();
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session=request.getSession();
+           /* HttpSession session=request.getSession();
             String enbname=request.getParameter("selectenb");
             String name=(String)session.getAttribute("name");
             //int uid=Integer.parseInt((String)session.getAttribute("uid"));
             Download d=new Download();
             String path=d.enbPdf(enbname, name,Integer.parseInt(session.getAttribute("uid").toString()));
-            out.println(""+path);
+            out.println(""+path);*/
         } finally {            
             out.close();
         }
