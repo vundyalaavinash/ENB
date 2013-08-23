@@ -15,7 +15,6 @@
         <script src="Scripts/jquery.validate.min.js" type="text/javascript"></script>
         <script src="Scripts/additional-methods.js" type="text/javascript"></script>
 
-
         <script src="CusScripts/Home.js" type="text/javascript"></script>
 
     </head>
@@ -35,7 +34,7 @@
                                 <p><label for="password2">Full Name</label></p>
                                 <p><input type="text" id="fname" name="fname" class="required"  placeholder="Enter Your Name"></p>
                                 <p><label for="email">E-mail address</label></p>
-                                <p><input type="email" id="email" name="email" class="email required" placeholder="Enter Email ID"></p>
+                                <p><input type="email" id="email" name="email" class="email required uemails" placeholder="Enter Email ID"></p>
 
                                 <p><label for="password">Password</label></p>
                                 <p><input type="password" id="password" name="pass" class="required"  placeholder="Enter Password"></p>

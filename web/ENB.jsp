@@ -63,10 +63,14 @@
                         pastedText = e.clipboardData.getData('text/plain');
                     }
                     //alert(pastedText); // Process and handle text...
-  
-                    var reference=prompt("Please enter a Reference","");
-                    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br></p> <p style="color:#46786">Reference: '+reference+'</p>')
-                    return false; // Prevent the default handler from running.
+                    ref='';
+                    while(ref==null||ref==''){
+                     ref =prompt("Please enter a Reference","");
+                  }
+                    //alert(ref.length)
+                    if(ref!=null||ref!=''){                    
+                    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br></p> <p style="color:#46786">Reference: '+ref+'</p>')
+                    }  return false; // Prevent the default handler from running.
                 };
    
             }

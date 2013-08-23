@@ -28,7 +28,7 @@
 
         <script src="CusScripts/manage.js" type="text/javascript"></script>
         <script src="CusScripts/manageenb.js" type="text/javascript"></script>
-<script>
+        <script>
      
             function edValueKeyPress(){
     
@@ -41,10 +41,14 @@
                         pastedText = e.clipboardData.getData('text/plain');
                     }
                     //alert(pastedText); // Process and handle text...
-  
-                    var reference=prompt("Please enter a Reference","");
-                    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br></p> <p style="color:#46786">Reference: '+reference+'</p>')
-                    return false; // Prevent the default handler from running.
+                    ref='';
+                    while(ref==null||ref==''){
+                     ref =prompt("Please enter a Reference","");
+                  }
+                    //alert(ref.length)
+                    if(ref!=null||ref!=''){                    
+                    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br></p> <p style="color:#46786">Reference: '+ref+'</p>')
+                    }  return false; // Prevent the default handler from running.
                 };
    
             }
@@ -77,7 +81,7 @@
                     }
                 }
                 //alert(html);
-                replaceSelectionWithHtml('<del>'+html+'<del>&nbsp;')
+                replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
                 lblValue.innerHTML = edValue.innerHTML;
             }
 
@@ -220,6 +224,7 @@
                         <li><a href="#tab4" id="atab4">Plan for the Next Week</a></li>
                     </ul> 
                     <div class="settings">
+                        <span class="status"></span>
                         <input type="submit" value="save" style="float:right;" class="button" id="savebtn">
                     </div>
                     <div id="tab1">

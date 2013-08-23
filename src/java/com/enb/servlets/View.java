@@ -76,6 +76,7 @@ public class View extends HttpServlet {
             //Notes
             Iterator<Notes> n=notes.iterator();
             out.print("<h2>Notes</h2><style='font-size:15px;'>");
+            out.print("<h2>Notes</h2><table><tr><td><div style='font-size:15px; width:100%;' id='results'>");
             if(n.hasNext()){
                 String note = new String(n.next().getNotes());
                 out.print(note);
@@ -84,6 +85,7 @@ public class View extends HttpServlet {
                 out.println("No Notes in the ENB ....");
             }
             out.print("<br><hr><br>");
+            out.print("</div></td></tr></table><br><hr><br>");
 
             //Deliverable Status
             Iterator<Deliverablestatus> dsi=ds.iterator();

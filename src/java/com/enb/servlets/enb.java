@@ -90,7 +90,7 @@ public class enb extends HttpServlet {
             Enbdesc e=new Enbdesc();
             
             Calendar savedtime=Calendar.getInstance();
-            notes=notes+"<br/>"+savedtime.get(Calendar.DATE)+"-"+savedtime.get(Calendar.MONTH)+"-"+savedtime.get(Calendar.YEAR)+" @ "+savedtime.get(Calendar.HOUR)+":"+savedtime.get(Calendar.MINUTE)+":"+savedtime.get(Calendar.SECOND)+"<br/><br/>";
+            notes=notes+"<br/>"+savedtime.get(Calendar.DATE)+"/"+savedtime.get(Calendar.MONTH)+"/"+savedtime.get(Calendar.YEAR)+" @ "+savedtime.get(Calendar.HOUR)+":"+savedtime.get(Calendar.MINUTE)+":"+savedtime.get(Calendar.SECOND)+"<br/><br/>";
             
             e.setId(eid);                                 
             n.setNotes(notes.getBytes());

@@ -1,7 +1,15 @@
 $(document).ready(function(){
-	$('.datepicker').pickadate({
+        var currentDate = new Date(new Date().getTime());
+        var currentDate1 = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+	$('.datepicker1').pickadate({
             format: 'dd/mm/yyyy',
-            formatSubmit: 'dd/mm/yyyy'
+            formatSubmit: 'dd/mm/yyyy',
+            max:currentDate
+        });
+        $('.datepicker').pickadate({
+            format: 'dd/mm/yyyy',
+            formatSubmit: 'dd/mm/yyyy',
+            min:currentDate1
         });
 	
 	$("#createform").validate();
@@ -21,5 +29,16 @@ $(document).ready(function(){
 		else return false;
 	},"<span class='alert'>Select Maximum no of Players</span>");
 	
-	
+	$.validator.addMethod('uproject',function(value,event){
+                    $.post('ValidateEmail',
+                    {email:value},
+                    function(data){
+                        if(data==="Yes"){
+                            return false;
+                        }
+                        else{
+                            return true;
+                        }
+                    },false);
+		},"<span class='alert'>Project Name already exists</span>");
 });

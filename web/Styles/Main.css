@@ -383,3 +383,5 @@ textarea{
     top: 50%;
     display: block; 
 }
+.found {background-color: yellow; font-weight: bold; color: blue;}
+#results {border: solid blue 2px;}

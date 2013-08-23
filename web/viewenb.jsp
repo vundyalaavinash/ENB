@@ -26,7 +26,28 @@
 
         <script src="CusScripts/manage.js" type="text/javascript"></script>
         <script src="CusScripts/view.js" type="text/javascript"></script>
-
+        
+        <script>
+            function searchText(){
+                outStr = ""
+                inStr = document.myForm.myText.value
+                alert(inStr);
+                searchStr = document.myForm.searchField.value
+                sLen = searchStr.length
+                foundCount = 0
+                for (x=0; x<inStr.length; x++){
+                    if (inStr.substr(x,sLen) == searchStr){
+                        outStr = outStr + "<span class='found'>" + searchStr + "</span>"
+                        foundCount ++
+                        x += sLen-1
+                    }
+                    else{
+                        outStr += inStr.substr(x,1)
+                    }
+                }
+                document.getElementById("results").innerHTML = "<b>" + foundCount + " </b>results found.<br><br> " + outStr
+            }
+        </script>
     </head>
     <body>
         <header>
@@ -58,6 +79,13 @@
 
         <div id="main">
             <div id="content">
+                <div style="float:right;">
+                    <form name="myForm">
+                    <input name="to" type="text" size="20" name="myText" width="50%"/>
+                    &nbsp;&nbsp;&nbsp;
+                    <input type="button" class="button floatr" value="Search" id="getlogs" onClick="searchText()" />                    
+                    </form>
+                </div>
                 <form action='DownloadPDF' method="post">
                     <table width="100%" border="0">
                         <tr>

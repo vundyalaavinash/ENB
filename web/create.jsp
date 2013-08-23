@@ -61,7 +61,7 @@
                         <td><br>
                             Project Name:
                             <br>
-                            <input type="text" value="" name="proj" class="required" placeholder="Enter Project" />
+                            <input type="text" value="" name="proj" class="required uproject" placeholder="Enter Project" />
                         </td>
                     </tr>
                     <tr>
@@ -83,7 +83,7 @@
                                     <td>
                                         From:
                                         <br>
-                                        <input name="from" type="text" class="datepicker required" placeholder="From" />
+                                        <input name="from" type="text" class="datepicker1 required" placeholder="From" />
                                     </td>
                                     <td>
                                         To:

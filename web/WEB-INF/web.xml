@@ -28,6 +28,14 @@
         <servlet-name>Logs</servlet-name>
         <servlet-class>com.enb.servlets.Logs</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ValidateEmail</servlet-name>
+        <servlet-class>com.enb.servlets.ValidateEmail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ValidatePassword</servlet-name>
+        <servlet-class>com.enb.servlets.ValidateProject</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Registration</servlet-name>
         <url-pattern>/Registration</url-pattern>
@@ -55,6 +63,14 @@
     <servlet-mapping>
         <servlet-name>Logs</servlet-name>
         <url-pattern>/Logs</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ValidateEmail</servlet-name>
+        <url-pattern>/ValidateEmail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ValidatePassword</servlet-name>
+        <url-pattern>/ValidatePassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

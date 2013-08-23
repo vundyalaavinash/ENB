@@ -24,4 +24,17 @@ $(document).ready(function(){
 			if(value==$('#password').val()) return true;
 			else return false;
 		},"<span class='alert'>Password not matching</span>");
+                
+                $.validator.addMethod('uemails',function(value,event){
+                    $.post('ValidateEmail',
+                    {email:value},
+                    function(data){
+                        if(data==="Yes"){
+                            return false;
+                        }
+                        else{
+                            return true;
+                        }
+                    },false);
+		},"<span class='alert'>Email ID already registered</span>");
 });
