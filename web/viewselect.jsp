@@ -46,7 +46,6 @@
 			<a href="logs.jsp">Logs</a>
 			<a href="account.jsp">Account</a>
 		</nav>
-		
 		<div id="main">
 			<div class="gridster">
                             <% out.print(""+ConstructString.getProjectsView(session.getAttribute("uid").toString())); %>

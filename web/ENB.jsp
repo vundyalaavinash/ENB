@@ -1,7 +1,7 @@
 <%-- 
     Document   : ENB
     Created on : Aug 8, 2013, 4:11:59 PM
-    Author     :
+    Author     : B.Revanth
 --%>
 
 <%@page import="com.enb.POJO.Notes"%>
@@ -18,14 +18,12 @@
         <link rel="stylesheet"  href="Styles/Main.css">			
         <link href="Styles/alertify.bootstrap.css" rel="stylesheet" type="text/css" />
         <link href="Styles/alertify.core.css" rel="stylesheet" type="text/css" />
-        <link href="Styles/alertify.default.css" rel="stylesheet" type="text/css" />
-        
+        <link href="Styles/alertify.default.css" rel="stylesheet" type="text/css" />   
         <script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
         <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
         <script src="Scripts/jquery-ui.js" type="text/javascript"></script>
         <script src="Scripts/alertify.min.js" type="text/javascript"></script>
-    
         <script src="CusScripts/writeenb.js" type="text/javascript"></script>
         <%
                     HttpSession ses=request.getSession();
