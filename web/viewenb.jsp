@@ -73,7 +73,7 @@
                             </td>
                         </tr>
                     </table>
-                </form>>
+                </form>
             </div>
             <div id="mydiv" class="hide">
                 <div  class="ajax-loader">

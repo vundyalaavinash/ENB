@@ -4,7 +4,7 @@
  */
 package com.enb.servlets;
 
-import com.enb.Helper.RegistrationHelper;
+import com.enb.Helper.*;
 import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,7 +38,7 @@ public class ForgotPassword extends HttpServlet {
             RegistrationHelper rh=new RegistrationHelper();
             Userauth ua=rh.ValidateUser(request.getParameter("email").toString());
             if(ua!=null){
-                //SendMailTLS semail
+                //SendMailTLS semail=new SendMailTLS();
             }
         } finally {            
             out.close();
