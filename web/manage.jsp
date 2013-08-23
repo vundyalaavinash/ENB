@@ -77,7 +77,7 @@
                     }
                 }
                 //alert(html);
-                replaceSelectionWithHtml('<del>'+html+'<del>')
+                replaceSelectionWithHtml('<del>'+html+'<del>&nbsp;')
                 lblValue.innerHTML = edValue.innerHTML;
             }
 
@@ -235,12 +235,15 @@
                             if (itr.hasNext()) {
                                 Notes note = (Notes) itr.next();
                                 String s=new String(note.getNotes());
-                                out.println("<br/><br/><textarea name='notes1' rows='13' placeholder='Enter your notes here'>" + s + "</textarea>");
+                                
+                                out.println("<br/><br/><div style='width:100%; min-height:300px; border: 2px #999999 double;' id='edValue' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()' onkeydown='doKey(arguments[0] || window.event)'>"+s+" </div><br>");
                             }
                             else{
-                                out.println("<br/><br/><textarea name='notes1' rows='13' placeholder='Enter your notes here'></textarea>");
+                                out.println("<br/><br/><div style='width:100%; min-height:300px; border: 2px #999999 double;' id='edValue' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()' onkeydown='doKey(arguments[0] || window.event)'> </div><br>");
                             }
-                        %>
+                            out.print("<input type='button' class='button' onclick='getSelectionHtml();' value='Strike OFF'> <input type='hidden' value='' name='notes1' id='notes1'>");
+                        %>              
+                        
                         <br><br>
                     </div> 
                     <div id="tab2">

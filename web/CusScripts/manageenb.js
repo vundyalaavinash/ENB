@@ -48,11 +48,19 @@ $(document).ready(function(){
 	$("#dsr").click(function(){
 		dscount+=1;
 		$("#dstable").append("<tr><td>"+dscount+".</td><td><input type='text' name='dsd"+dscount+"'></td><td><input type='text' name='dsp"+dscount+"'></td><td><input type='text' name='dsa"+dscount+"'></td><td><input type='text' name='dss"+dscount+"'></td><td><input type='text' name='dse"+dscount+"'></td></tr>");
-	});	
+	});	        
         
         $("#savebtn").click(function(){
             $('#mydiv').show();
+            var notes=$("#edValue").html();
+            $("#notes1").val(notes);            
             var currentdate = new Date(); 
+            var datesetted = currentdate.getDate() + "/"
+                +(currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
             var datetime = "Last Sync: " + currentdate.getDate() + "/"
                 + (currentdate.getMonth()+1)  + "/" 
                 + currentdate.getFullYear() + " @ "  
@@ -68,6 +76,7 @@ $(document).ready(function(){
                   $('#mydiv').hide();
                   alertify.success("ENB saved Succesfully!");
                   $(".status").html(datetime);
+                  $("#edValue").append("<p>"+datesetted+"</p>");
                 },
                 async: false
             }); 

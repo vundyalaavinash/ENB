@@ -99,7 +99,7 @@
                     }
                 }
                 //alert(html);
-                replaceSelectionWithHtml('<del>'+html+'<del>')
+                replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
                 lblValue.innerHTML = edValue.innerHTML;
             }
 
@@ -172,7 +172,6 @@
                         <br>
                         <br>
                         <div style="width:100%; min-height: 300px; border: 2px #999999 double;" id="edValue" contenteditable="true" onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" onkeydown="doKey(arguments[0] || window.event)"> </div>
-                        <div id="lblValue"  style="display:none;"></div>
                         <br>
                         <input type='button' class='button' onclick="getSelectionHtml();" value="Strike OFF"> 
                         <input type='hidden' value="" name='notes1' id="notes1">                        
