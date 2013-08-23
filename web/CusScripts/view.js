@@ -18,4 +18,10 @@ $(document).ready(function(){
             );
         }
     });
+    
+    $("#delbtn").click(function(){
+        var htext=$('.invicible').html();
+        $('#htmlcontent').val(htext);
+        return false;
+    });
 });

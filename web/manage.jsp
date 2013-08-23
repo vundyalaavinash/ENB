@@ -28,7 +28,78 @@
 
         <script src="CusScripts/manage.js" type="text/javascript"></script>
         <script src="CusScripts/manageenb.js" type="text/javascript"></script>
+<script>
+     
+            function edValueKeyPress(){
+    
+                var myElement = document.getElementById('edValue');
+                myElement.onpaste = function(e) {
+                    var pastedText = undefined;
+                    if (window.clipboardData && window.clipboardData.getData) { // IE
+                        pastedText = window.clipboardData.getData('Text');
+                    } else if (e.clipboardData && e.clipboardData.getData) {
+                        pastedText = e.clipboardData.getData('text/plain');
+                    }
+                    //alert(pastedText); // Process and handle text...
+  
+                    var reference=prompt("Please enter a Reference","");
+                    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br></p> <p style="color:#46786">Reference: '+reference+'</p>')
+                    return false; // Prevent the default handler from running.
+                };
+   
+            }
+    
+            function insertHtmlAtCursor(html) {
+                var range, node;
+                if (window.getSelection && window.getSelection().getRangeAt) {
+                    range = window.getSelection().getRangeAt(0);
+                    node = range.createContextualFragment(html);
+                    range.insertNode(node);
+                } else if (document.selection && document.selection.createRange) {
+                    document.selection.createRange().pasteHTML(html);
+                }
+            }
+  
+            function getSelectionHtml() {
+                var html = "";
+                if (typeof window.getSelection != "undefined") {
+                    var sel = window.getSelection();
+                    if (sel.rangeCount) {
+                        var container = document.createElement("div");
+                        for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+                            container.appendChild(sel.getRangeAt(i).cloneContents());
+                        }
+                        html = container.innerHTML;
+                    }
+                } else if (typeof document.selection != "undefined") {
+                    if (document.selection.type == "Text") {
+                        html = document.selection.createRange().htmlText;
+                    }
+                }
+                //alert(html);
+                replaceSelectionWithHtml('<del>'+html+'<del>')
+                lblValue.innerHTML = edValue.innerHTML;
+            }
 
+            function replaceSelectionWithHtml(html) {
+                var range, html;
+                if (window.getSelection && window.getSelection().getRangeAt) {
+                    range = window.getSelection().getRangeAt(0);
+                    range.deleteContents();
+                    var div = document.createElement("div");
+                    div.innerHTML = html;
+                    var frag = document.createDocumentFragment(), child;
+                    while ( (child = div.firstChild) ) {
+                        frag.appendChild(child);
+                    }
+                    range.insertNode(frag);
+                } else if (document.selection && document.selection.createRange) {
+                    range = document.selection.createRange();
+                    html = (node.nodeType == 3) ? node.data : node.outerHTML;
+                    range.pasteHTML(html);
+                }
+            }
+        </script>   
     </head>
     <body>
         <header>
@@ -66,7 +137,7 @@
             Enbdesc ed = eh.getEnbdescPID(pid);
             Project p=ph.getProjectPID(pid);
             System.out.print(""+ed);  
-            
+            int uid=Integer.parseInt(session.getAttribute("uid").toString());
             if(ed==null){
                 ed=new Enbdesc();
                 Userauth ua=rh.getUserId(session.getAttribute("email").toString());
@@ -101,11 +172,12 @@
                 System.out.print(""+ed);                       
                 eh.insertEnbdesc(ed);            
                 session.setAttribute("enbname", ed.getEnbname());    
-                session.setAttribute("emid", eh.getEnbid(ed.getEnbname()).getId());
+                
+                session.setAttribute("emid", eh.getEnbid(ed.getEnbname(),uid).getId());
                 System.out.println(""+session.getAttribute("emid"));
             }            
             
-            session.setAttribute("emid", eh.getEnbid(ed.getEnbname()).getId());
+            session.setAttribute("emid", eh.getEnbid(ed.getEnbname(),uid).getId());
             
             Calendar from = Calendar.getInstance();
             from.setTime(ed.getFromdate());
@@ -155,7 +227,7 @@
                         <%
                             String enbname = ed.getEnbname();
                             EnbdescHelper eh1 = new EnbdescHelper();
-                            Enbdesc enb = eh1.getEnbid(enbname);
+                            Enbdesc enb = eh1.getEnbid(enbname,uid);
                             //int enbid = enb.getId();
                             Set set = enb.getNoteses();
                             Iterator itr = set.iterator();

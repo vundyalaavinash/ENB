@@ -49,7 +49,11 @@
 		
 		<div id="main">
 			<div class="gridster">
-                            <% out.print(""+ConstructString.getProjectsManage(session.getAttribute("uid").toString())); %>
+                            <% 
+                                ConstructString cs=new ConstructString();
+                                String text=cs.getProjectsManage(session.getAttribute("uid").toString());
+                                out.print(""+text); 
+                            %>
 			</div>
 		</div>
 	</body>

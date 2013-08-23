@@ -48,7 +48,11 @@
 		</nav>
 		<div id="main">
 			<div class="gridster">
-                            <% out.print(""+ConstructString.getProjectsView(session.getAttribute("uid").toString())); %>
+                            <% 
+                                ConstructString cs=new ConstructString();
+                                String text=cs.getProjectsView(session.getAttribute("uid").toString());
+                                out.print(""+text); 
+                            %>
 			</div>
 		</div>
 	</body>

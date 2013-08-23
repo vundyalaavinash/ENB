@@ -26,125 +26,102 @@
         <script src="Scripts/alertify.min.js" type="text/javascript"></script>
         <script src="CusScripts/writeenb.js" type="text/javascript"></script>
         <%
-                    HttpSession ses=request.getSession();
-                    String enbname =(String) session.getAttribute("enbname");
-                    EnbdescHelper eh1 = new EnbdescHelper();
-                    Enbdesc enb = eh1.getEnbid(enbname,Integer.parseInt(session.getAttribute("uid").toString()));
-                    //int enbid=enb.getId();
-                    Set set = enb.getNoteses();
-                    Iterator<Notes> itr = set.iterator();
-                    String notes="";
-                    if(itr.hasNext()){
-                        notes=itr.next().getNotes().toString();
-                    }
+            HttpSession ses = request.getSession();
+            String enbname = (String) session.getAttribute("enbname");
+            EnbdescHelper eh1 = new EnbdescHelper();
+            Enbdesc enb = eh1.getEnbid(enbname, Integer.parseInt(session.getAttribute("uid").toString()));
+            //int enbid=enb.getId();
+            Set set = enb.getNoteses();
+            Iterator<Notes> itr = set.iterator();
+            String notes = "";
+            if (itr.hasNext()) {
+                notes = itr.next().getNotes().toString();
+            }
         %>
         <style>
-        .highlight-green 
-        {
-            color: #00FF00;
-        }
-        .test {
-            width: 600px;
-            height: 600px;
-            overflow: auto
-            
+            .highlight-green 
+            {
+                color: #00FF00;
             }
-</style>
-<script>
+            .test {
+                width: 600px;
+                height: 600px;
+                overflow: auto
+
+            }
+        </style>
+        <script>
      
-function edValueKeyPress(){
+            function edValueKeyPress(){
     
-    var myElement = document.getElementById('edValue');
-myElement.onpaste = function(e) {
-  var pastedText = undefined;
-  if (window.clipboardData && window.clipboardData.getData) { // IE
-    pastedText = window.clipboardData.getData('Text');
-  } else if (e.clipboardData && e.clipboardData.getData) {
-    pastedText = e.clipboardData.getData('text/plain');
-  }
-  //alert(pastedText); // Process and handle text...
+                var myElement = document.getElementById('edValue');
+                myElement.onpaste = function(e) {
+                    var pastedText = undefined;
+                    if (window.clipboardData && window.clipboardData.getData) { // IE
+                        pastedText = window.clipboardData.getData('Text');
+                    } else if (e.clipboardData && e.clipboardData.getData) {
+                        pastedText = e.clipboardData.getData('text/plain');
+                    }
+                    //alert(pastedText); // Process and handle text...
   
-  var reference=prompt("Please enter a Reference","");
-    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br></p> <p style="color:#46786">Reference: '+reference+'</p>')
-  return false; // Prevent the default handler from running.
-};
+                    var reference=prompt("Please enter a Reference","");
+                    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br></p> <p style="color:#46786">Reference: '+reference+'</p>')
+                    return false; // Prevent the default handler from running.
+                };
    
-}
-    
-    function insertHtmlAtCursor(html) {
-    var range, node;
-    if (window.getSelection && window.getSelection().getRangeAt) {
-        range = window.getSelection().getRangeAt(0);
-        node = range.createContextualFragment(html);
-        range.insertNode(node);
-    } else if (document.selection && document.selection.createRange) {
-        document.selection.createRange().pasteHTML(html);
-    }
-}
-  
-function getSelectionHtml() {
-    var html = "";
-    if (typeof window.getSelection != "undefined") {
-        var sel = window.getSelection();
-        if (sel.rangeCount) {
-            var container = document.createElement("div");
-            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                container.appendChild(sel.getRangeAt(i).cloneContents());
             }
-            html = container.innerHTML;
-        }
-    } else if (typeof document.selection != "undefined") {
-        if (document.selection.type == "Text") {
-            html = document.selection.createRange().htmlText;
-        }
-    }
-    //alert(html);
-    replaceSelectionWithHtml('<del>'+html+'<del>')
-        lblValue.innerHTML = edValue.innerHTML;
-}
-
-function replaceSelectionWithHtml(html) {
-    var range, html;
-    if (window.getSelection && window.getSelection().getRangeAt) {
-        range = window.getSelection().getRangeAt(0);
-        range.deleteContents();
-        var div = document.createElement("div");
-        div.innerHTML = html;
-        var frag = document.createDocumentFragment(), child;
-        while ( (child = div.firstChild) ) {
-            frag.appendChild(child);
-        }
-        range.insertNode(frag);
-    } else if (document.selection && document.selection.createRange) {
-        range = document.selection.createRange();
-        html = (node.nodeType == 3) ? node.data : node.outerHTML;
-        range.pasteHTML(html);
-    }
-}
-
-
-function doKey(event) {
-  var key = event.keyCode || event.charCode;
-  var lblValue = document.getElementById("lblValue");
-    var i=lblValue.innerHTML;
-    var edValue = document.getElementById("edValue");
-    var s = edValue.innerHTML;  
-    switch(key)
-    {
-      case 8:   
-        edValue.innerHTML=i
-      break;  
-      case 46:
-        edValue.innerHTML=i
-      break;
-      default:
-      break;
-   }
-    //  var lblValue = document.getElementById("lblValue");
-    lblValue.innerHTML = edValue.innerHTML;
     
-}
-</script>        
+            function insertHtmlAtCursor(html) {
+                var range, node;
+                if (window.getSelection && window.getSelection().getRangeAt) {
+                    range = window.getSelection().getRangeAt(0);
+                    node = range.createContextualFragment(html);
+                    range.insertNode(node);
+                } else if (document.selection && document.selection.createRange) {
+                    document.selection.createRange().pasteHTML(html);
+                }
+            }
+  
+            function getSelectionHtml() {
+                var html = "";
+                if (typeof window.getSelection != "undefined") {
+                    var sel = window.getSelection();
+                    if (sel.rangeCount) {
+                        var container = document.createElement("div");
+                        for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+                            container.appendChild(sel.getRangeAt(i).cloneContents());
+                        }
+                        html = container.innerHTML;
+                    }
+                } else if (typeof document.selection != "undefined") {
+                    if (document.selection.type == "Text") {
+                        html = document.selection.createRange().htmlText;
+                    }
+                }
+                //alert(html);
+                replaceSelectionWithHtml('<del>'+html+'<del>')
+                lblValue.innerHTML = edValue.innerHTML;
+            }
+
+            function replaceSelectionWithHtml(html) {
+                var range, html;
+                if (window.getSelection && window.getSelection().getRangeAt) {
+                    range = window.getSelection().getRangeAt(0);
+                    range.deleteContents();
+                    var div = document.createElement("div");
+                    div.innerHTML = html;
+                    var frag = document.createDocumentFragment(), child;
+                    while ( (child = div.firstChild) ) {
+                        frag.appendChild(child);
+                    }
+                    range.insertNode(frag);
+                } else if (document.selection && document.selection.createRange) {
+                    range = document.selection.createRange();
+                    html = (node.nodeType == 3) ? node.data : node.outerHTML;
+                    range.pasteHTML(html);
+                }
+            }
+        </script>        
     </head>
     <body>
         <header>
@@ -157,13 +134,12 @@ function doKey(event) {
         <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
             <h3>
                 <%
-                    if(session.getAttribute("name")==null){
+                    if (session.getAttribute("name") == null) {
                         response.sendRedirect("index.jsp");
-                    }
-                    else{
+                    } else {
                         out.println(session.getAttribute("name"));
                     }
-                 %>
+                %>
             </h3>
             <a href="Homepage.jsp">Home</a>
             <a href="create.jsp">Create ENB</a>
@@ -177,7 +153,7 @@ function doKey(event) {
                 <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading</h3>
                 <img src="Styles/images/loader.gif" />
             </div>
-       </div>
+        </div>
         <div id="main">					
             <div id="tabs">
                 <form method="post" action="enb" id="enbform">
@@ -190,17 +166,16 @@ function doKey(event) {
                     <div class="settings">
                         <span class="status"></span>
                         <input type="button" value="save" style="float:right;" class="button" id="savebtn" >
+                        <br>
                     </div>
                     <div id="tab1">
                         <br>
                         <br>
                         <div style="width:100%; min-height: 300px; border: 2px #999999 double;" id="edValue" contenteditable="true" onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" onkeydown="doKey(arguments[0] || window.event)"> </div>
                         <div id="lblValue"  style="display:none;"></div>
+                        <br>
                         <input type='button' class='button' onclick="getSelectionHtml();" value="Strike OFF"> 
-                        
-<!--<div id="notes1" contenteditable='true' style='width:100%;height:300px;border:1px;' placeholder='Enter your notes here'></div>                        
-                        <input type='hidden' value='' name='notes1' id='notes1h''>
->>>>>>> create manage-->
+                        <input type='hidden' value="" name='notes1' id="notes1">                        
                     </div> 
                     <div id="tab2">
                         <br>
@@ -209,10 +184,10 @@ function doKey(event) {
                             <tr>
                                 <td width="5%">SNO</td>
                                 <td width="16%"><center>Deliverable</center></td>
-                                <td width="27%"><center>What did you plan to accomplish?</center></td>
-                                <td width="27%"><center>What did you actually accomplish?</center></td>
-                                <td width="10%"><center>Size</center></td>
-                                <td width="10%"><center>Effort</center></td>
+                            <td width="27%"><center>What did you plan to accomplish?</center></td>
+                            <td width="27%"><center>What did you actually accomplish?</center></td>
+                            <td width="10%"><center>Size</center></td>
+                            <td width="10%"><center>Effort</center></td>
                             </tr>
                             <tr>
                                 <td>1.</td>
@@ -251,7 +226,7 @@ function doKey(event) {
                             <tr>
                                 <td width="10%">S.NO.</td>
                                 <td width="25%"><center>Deliverable</center></td>
-                                <td width="65%"><center>What do you intend to accomplish and why</center></td>
+                            <td width="65%"><center>What do you intend to accomplish and why</center></td>
                             </tr>
                             <tr>
                                 <td>1.</td>

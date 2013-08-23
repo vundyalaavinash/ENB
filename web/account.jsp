@@ -73,21 +73,21 @@
                         <td><br><br><br><br>
                             Current Password:
                             <br>
-                            <input type="password" value="" name="cpass" class="required">
+                            <input type="password" value="" name="cpass" id="cpass" class="required">
                         </td>
                     </tr>
                     <tr>
                         <td><br>
                             New Password:
                             <br>
-                            <input type="password" value="" name="npass" class="required">
+                            <input type="password" value="" name="npass" id="npass" class="required">
                         </td>
                     </tr>
                     <tr>
                         <td><br>
                             Re-Type Password:
                             <br>
-                            <input type="password" value="" name="renpass" class="required passsame">
+                            <input type="password" value="" name="renpass" id="renpass" class="required passsame">
                         </td>
                     </tr>
                     <tr>

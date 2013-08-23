@@ -57,9 +57,15 @@ $(document).ready(function(){
         
         $("#savebtn").click(function(){
             $('#mydiv').show();
-            $("notes1h").val($("#notes1").html());
-            alert($("notes1h").val());
+            var notes=$("#edValue").html();
+            $("#notes1").val(notes);            
             var currentdate = new Date(); 
+            var datesetted = currentdate.getDate() + "/"
+                +(currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
             var datetime = "Last Sync: " + currentdate.getDate() + "/"
                 + (currentdate.getMonth()+1)  + "/" 
                 + currentdate.getFullYear() + " @ "  
@@ -75,9 +81,28 @@ $(document).ready(function(){
                   $('#mydiv').hide();
                   alertify.success("ENB saved Succesfully!");
                   $(".status").html(datetime);
+                  $("#edValue").append("<p>"+datesetted+"</p>");
                 },
                 async: false
             }); 
             return false;
         });
+        
+        $(document).keydown(function(e) {
+            var doPrevent;
+            if (e.keyCode == 8 || e.keyCode == 46) {
+                var d = e.srcElement || e.target;
+                if (d.tagName.toUpperCase() == 'INPUT' || d.tagName.toUpperCase() == 'TEXTAREA') {
+                    doPrevent = d.readOnly || d.disabled;
+                }
+                else
+                    doPrevent = true;
+            }
+            else
+                doPrevent = false;
+
+            if (doPrevent)
+                e.preventDefault();
+        });
+
 });

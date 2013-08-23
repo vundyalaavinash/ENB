@@ -15,7 +15,7 @@ import java.util.Calendar;
  * @author Avinash
  */
 public class ConstructString {
-    public static String getProjectsView(String Uname){        
+    public String getProjectsView(String Uname){        
         ProjectHelper ph=new ProjectHelper();            
         ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
         System.out.println("Got back");
@@ -53,7 +53,7 @@ public class ConstructString {
         }
     }
     
-    public static String getProjectsManage(String Uname){        
+    public String getProjectsManage(String Uname){        
         ProjectHelper ph=new ProjectHelper();            
         ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
         System.out.println("Got back");
@@ -91,7 +91,7 @@ public class ConstructString {
         }
     }
     
-    public static String getProjects(String Uname){        
+    public String getProjects(String Uname){        
         ProjectHelper ph=new ProjectHelper();            
         ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
         String projects="";
@@ -126,7 +126,7 @@ public class ConstructString {
         }
     }
     
-    public static String getProjectsList(String Uname){        
+    public String getProjectsList(String Uname){        
         ProjectHelper ph=new ProjectHelper();            
         ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
         String projects="";
@@ -142,7 +142,7 @@ public class ConstructString {
         }
     }
     
-    public static String getENBList(int pid){        
+    public String getENBList(int pid){        
         EnbdescHelper edh=new EnbdescHelper();          
         ArrayList<Enbdesc> alp=edh.getEnbdesc(pid);
         System.out.println("Got back");

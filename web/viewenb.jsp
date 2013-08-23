@@ -65,8 +65,12 @@
                                 ENB Name :<br>
                                 <select name="selectenb" id="enbtitle">
                                     <option value="Default">Select ENB</option>
-                                    <% out.print(ConstructString.getENBList(Integer.parseInt(request.getParameter("pid").toString())));%>
+                                    <% 
+                                        ConstructString cs=new ConstructString();
+                                        out.print(cs.getENBList(Integer.parseInt(request.getParameter("pid").toString())));
+                                    %>
                                 </select>
+                                <input type='hidden' value="" name="htmlcontent" id="htmlcontent">
                             </td >
                             <td width="20%">
                                 <input type="submit" class="button floatr hide" id="delbtn" value="Download ENB"/>
@@ -83,12 +87,6 @@
             </div>
             <div id='tabs' class='invicible'>
             </div>
-            <div id="mydiv" class="hide">
-                <div  class="ajax-loader">
-                    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading</h3>
-                    <img src="Styles/images/loader.gif" />
-                </div>
-           </div>
         </div>
     </body>
 </html>
