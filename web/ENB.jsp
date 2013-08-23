@@ -32,7 +32,7 @@
                     String enbname =(String) session.getAttribute("enbname");
                     EnbdescHelper eh1 = new EnbdescHelper();
                     Enbdesc enb = eh1.getEnbid(enbname,Integer.parseInt(session.getAttribute("uid").toString()));
-                    int enbid=enb.getId();
+                    //int enbid=enb.getId();
                     Set set = enb.getNoteses();
                     Iterator<Notes> itr = set.iterator();
                     String notes="";
@@ -196,7 +196,7 @@ function doKey(event) {
                     <div id="tab1">
                         <br>
                         <br>
-                        <div style="width:100%; min-height:300px; border: 2px #999999 double;" id="edValue" contenteditable="true" onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" onkeydown="doKey(arguments[0] || window.event)"> </div>
+                        <div style="width:100%; min-height: 300px; border: 2px #999999 double;" id="edValue" contenteditable="true" onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" onkeydown="doKey(arguments[0] || window.event)"> </div>
                         <div id="lblValue"  style="display:none;"></div>
                         <input type='button' class='button' onclick="getSelectionHtml();" value="Strike OFF"> 
                         
