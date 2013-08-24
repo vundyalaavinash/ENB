@@ -4,10 +4,18 @@
  */
 package com.enb.servlets;
 
-import com.enb.Helper.*;
-import com.enb.POJO.Userauth;
+import com.enb.Helper.RegistrationHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,12 +42,47 @@ public class ForgotPassword extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
+            String email=request.getParameter("email");
             RegistrationHelper rh=new RegistrationHelper();
-            Userauth ua=rh.ValidateUser(request.getParameter("email").toString());
-            if(ua!=null){
-                //SendMailTLS semail=new SendMailTLS();
-            }
+                String pass=rh.getPassword(email);
+                final String username = "enbtool@gmail.com";
+		final String password = "enbarm007";
+ 
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+ 
+		Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		  });
+ 
+		try {
+ 
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("enbtool@gmail.com"));
+			message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(email));
+			message.setSubject("Forgot->Password");
+			message.setText("Dear User,\n\n"+"\t\tUserName: "+email+"\n"
+				+ "\n\t\t Your PassWord is: "+pass);
+ 
+			Transport.send(message);
+ 
+			System.out.println("Done");
+                        response.sendRedirect("index.jsp");
+ 
+		} catch (MessagingException e) {
+                        RequestDispatcher rd=request.getRequestDispatcher("forgot.jsp");
+                        request.setAttribute("error", "<div id='projalert'><span class='alert'>Error in sending email. Try Later!</span></div>");
+                        rd.forward(request, response);
+                        
+		}
+            
         } finally {            
             out.close();
         }

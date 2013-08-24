@@ -23,13 +23,11 @@ public class UserLogHelper {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
     
-    public void insertlog(int uid,String Description){
+    public void insertlog(String uid,String Description){
         Userlog log=new Userlog();      
-        UserlogId usid=new UserlogId();
-        usid.setUid(uid);
+        log.setUid(""+uid);
         Calendar cal=Calendar.getInstance();
-        usid.setLogDt(cal.getTime());
-        log.setId(usid);
+        log.setLogDt(cal.getTime());
         log.setDescription(Description);
         insertUserlog(log);
     }
@@ -48,17 +46,17 @@ public class UserLogHelper {
         } 
     }     
     
-    public ArrayList<Userlog> getUserlogs (int uid,Calendar cal){
+    public ArrayList<Userlog> getUserlogs (int uid,String cal){
         ArrayList<Userlog> userinfo = new ArrayList<Userlog>();
         try {
-            cal.add(Calendar.DATE, -1);
-            String date1=cal.get(Calendar.YEAR)+"/"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DATE);
-            cal.add(Calendar.DATE, +2);
-            String date2=cal.get(Calendar.YEAR)+"/"+cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DATE);
-            System.out.print("\n"+date1);
-            System.out.print("\n"+date2);
+            
+            String h[]=cal.split("/");
+            String a1=h[2]+"-"+h[1]+"-"+h[0]+" 00:00:00";
+            String a2=h[2]+"-"+h[1]+"-"+h[0]+" 23:59:59";
+            System.out.print("\n"+a1);
+            System.out.print("\n"+a2);
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Userlog where uid='"+uid+"' and LogDT>'"+date1+"' and LogDT<'"+date2+"'");
+            Query q = session.createQuery ("from Userlog where uid='"+uid+"' and LogDT>='"+a1+"' and LogDt<='"+a2+"'");
             userinfo = (ArrayList<Userlog>) q.list();
             return userinfo;
         } catch (Exception e) {

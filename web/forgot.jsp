@@ -27,7 +27,7 @@
 				<div id="headright">
 					<div id="login">						
 						<h2>Forgot Password.</h2>
-						<form id="loginForm" method="post">
+						<form id="loginForm" method="post" action='ForgotPassword'>
 							<fieldset>
 								<p><label for="email">E-mail address</label></p>
 								<p><input type="email" id="email" class="email required" placeholder="Enter Email ID"></p>

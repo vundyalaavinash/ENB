@@ -20,6 +20,7 @@ public class ConstructString {
         ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
         System.out.println("Got back");
         String projects="";
+        System.out.println(""+alp.size());
         if(!alp.isEmpty()){
             int j=1;
             projects=projects+"<ul>";
@@ -58,6 +59,7 @@ public class ConstructString {
         ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
         System.out.println("Got back");
         String projects="";
+        System.out.println(""+alp.size());
         if(!alp.isEmpty()){
             int j=1;
             projects=projects+"<ul>";
@@ -105,6 +107,7 @@ public class ConstructString {
                 to.setTime(alp.get(i).getToDate());                
                 projects=projects+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='1'><span><center><h2>"+alp.get(i).getProjectName() +"</h2><p>"+from.get(Calendar.DATE)+"-"+from.get(Calendar.MONTH)+"-"+from.get(Calendar.YEAR)+" to "+to.get(Calendar.DATE)+"-"+to.get(Calendar.MONTH)+"-"+to.get(Calendar.YEAR)+"</p><div style='width:80%'><a href='manage.jsp?pid="+alp.get(i).getId()+"' style='float:left;'>Manage</a><a href='viewenb.jsp?pid="+alp.get(i).getId()+"' style='float:right;'>View</a></center></span></li>";
                 i++;
+                System.out.println(""+alp.size());
                 if(i<alp.size()){
                     from.setTime(alp.get(i).getFromDate());
                     to.setTime(alp.get(i).getToDate());
@@ -159,7 +162,7 @@ public class ConstructString {
         }
     }
     
-    public static String getLogs(int uid,Calendar cal){
+    public static String getLogs(int uid,String cal){
         UserLogHelper uh=new UserLogHelper();
         ArrayList<Userlog> logs=new ArrayList<Userlog>();
         logs=uh.getUserlogs(uid, cal);
@@ -167,7 +170,7 @@ public class ConstructString {
             int j=0;
             String log="";
             for(int i=0;i<logs.size();i++){
-                log=log+"<tr><td>"+logs.get(i).getId().getLogDt() +"</td>";
+                log=log+"<tr><td>"+logs.get(i).getLogDt() +"</td>";
                 log=log+"<td>"+logs.get(i).getDescription() +"</td></tr>";
             }
             return log;

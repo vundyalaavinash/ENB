@@ -44,7 +44,7 @@
                     ref='';
                     while(ref==null||ref==''){
                      ref =prompt("Please enter a Reference","");
-                  }
+                    }
                     //alert(ref.length)
                     if(ref!=null||ref!=''){                    
                     insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br></p> <p style="color:#46786">Reference: '+ref+'</p>')
@@ -241,10 +241,10 @@
                                 Notes note = (Notes) itr.next();
                                 String s=new String(note.getNotes());
                                 
-                                out.println("<br/><br/><div style='width:100%; min-height:300px; border: 2px #999999 double;' id='edValue' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()' onkeydown='doKey(arguments[0] || window.event)'>"+s+" </div><br>");
+                                out.println("<br/><br/><div style='width:100%; min-height:300px; border: 2px #999999 double;' id='edValue' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()'>"+s+" </div><br>");
                             }
                             else{
-                                out.println("<br/><br/><div style='width:100%; min-height:300px; border: 2px #999999 double;' id='edValue' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()' onkeydown='doKey(arguments[0] || window.event)'> </div><br>");
+                                out.println("<br/><br/><div style='width:100%; min-height:300px; border: 2px #999999 double;' id='edValue' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()'> </div><br>");
                             }
                             out.print("<input type='button' class='button' onclick='getSelectionHtml();' value='Strike OFF'> <input type='hidden' value='' name='notes1' id='notes1'>");
                         %>              

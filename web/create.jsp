@@ -13,6 +13,9 @@
         <link rel="stylesheet"  href="Styles/default.css">		
         <link rel="stylesheet"  href="Styles/default.date.css">		
         <link rel="stylesheet"  href="Styles/square/blue.css">	
+        <link href="Styles/alertify.bootstrap.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/alertify.core.css" rel="stylesheet" type="text/css" />
+        <link href="Styles/alertify.default.css" rel="stylesheet" type="text/css" /> 
 
         <script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>
@@ -56,12 +59,15 @@
 
         <div id="main">
             <form id="createform" method="post" action="CreateForm">
+                <% if(request.getAttribute("error")!=null){
+                    out.println(request.getAttribute("error").toString());
+                }%>
                 <table width="50%">
                     <tr>
                         <td><br>
                             Project Name:
                             <br>
-                            <input type="text" value="" name="proj" class="required uproject" placeholder="Enter Project" />
+                            <input type="text" value="" name="proj" id="proj" class="required" placeholder="Enter Project" />
                         </td>
                     </tr>
                     <tr>
@@ -120,6 +126,7 @@
                                             <tr>
                                                 <td>
                                                     <input type="radio" id="radio2" name="weekmonth" value="monthly">
+                                                    <input type="hidden" id="radio" name="as" value="">
                                                 </td>
                                                 <td>
                                                     &nbsp;&nbsp;&nbsp;<label for="radio1">Monthly</label><br/>
@@ -131,8 +138,8 @@
                                     $(document).ready(function() {
                                         function callback_logType(id, type) {
                                             type1 = $("#" + id).val();
-                                        }
-                                        ;
+                                            $("#radio").val(type1);
+                                        };
                                         $('#main input').on('ifChanged', function(event) {
                                             callback_logType(this.id, event.type);
                                         }).iCheck({
@@ -149,7 +156,7 @@
                 <tr>
                     <td><br>
 
-                        <input type="Submit" value="Create ENB" name="submitbtn" class="button" />
+                        <input type="Submit" value="Create ENB" name="submitbtn" id="submitbtn" class="button" />
                     </td>
                 </tr>
                 </table>			

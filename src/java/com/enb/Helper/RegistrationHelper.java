@@ -121,4 +121,20 @@ public class RegistrationHelper {
             }
         return null; 
     }
+    
+     public String getPassword(String email){
+        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Userauth where emailId='"+email+"'");
+            userinfo = (ArrayList<Userauth>) q.list();
+            if(userinfo.size()==1){
+                return userinfo.get(0).getPassword();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }        
+        return null;
+    }
 }

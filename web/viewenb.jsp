@@ -79,14 +79,7 @@
 
         <div id="main">
             <div id="content">
-                <div style="float:right;">
-                    <form name="myForm">
-                    <input name="to" type="text" size="20" name="myText" width="50%"/>
-                    &nbsp;&nbsp;&nbsp;
-                    <input type="button" class="button floatr" value="Search" id="getlogs" onClick="searchText()" />                    
-                    </form>
-                </div>
-                <form action='DownloadPDF' method="post">
+                <form action='DownloadPDF' method="post" target="_blank">
                     <table width="100%" border="0">
                         <tr>
                             <td width="80%">

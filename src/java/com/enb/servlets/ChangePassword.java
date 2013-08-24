@@ -4,6 +4,7 @@
  */
 package com.enb.servlets;
 import com.enb.Helper.RegistrationHelper;
+import com.enb.Helper.UserLogHelper;
 import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -55,6 +56,8 @@ public class ChangePassword extends HttpServlet {
                     ua.setPassword(request.getParameter("npass"));
                     ua.setName((String)session.getAttribute("name"));
                     rh.changePassword(ua);
+                    UserLogHelper uh=new UserLogHelper();
+                    uh.insertlog(session.getAttribute("uid").toString(),"Change Password");
                     out.print("done");
                 }
                 else

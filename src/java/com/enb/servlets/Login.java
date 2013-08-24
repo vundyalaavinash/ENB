@@ -5,6 +5,7 @@
 package com.enb.servlets;
 
 import com.enb.Helper.RegistrationHelper;
+import com.enb.Helper.UserLogHelper;
 import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -45,6 +46,8 @@ public class Login extends HttpServlet {
                 session.setAttribute("name", ua.getName());
                 session.setAttribute("uid", ua.getId());
                 System.out.print("\n\nlogin"+ua.getId()+"\n\n");
+                UserLogHelper uh=new UserLogHelper();
+                uh.insertlog(session.getAttribute("uid").toString(),"Login");
                 response.sendRedirect("Homepage.jsp");
             }
             else{

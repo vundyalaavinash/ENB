@@ -9,7 +9,7 @@ $(document).ready(function(){
 	var plancount=1;
 	var dscount=1;
         
-        function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
+        function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); }
         $(document).bind("keydown", disableF5);
         $(document).on("keydown", disableF5);
 

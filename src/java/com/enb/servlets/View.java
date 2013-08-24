@@ -5,6 +5,7 @@
 package com.enb.servlets;
 
 import com.enb.Helper.EnbdescHelper;
+import com.enb.Helper.UserLogHelper;
 import com.enb.POJO.*;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,8 +76,7 @@ public class View extends HttpServlet {
             
             //Notes
             Iterator<Notes> n=notes.iterator();
-            out.print("<h2>Notes</h2><style='font-size:15px;'>");
-            out.print("<h2>Notes</h2><table><tr><td><div style='font-size:15px; width:100%;' id='results'>");
+            out.print("<h2>Notes</h2><table><tr><td><div style='font-size:15px; width:100%;'>");
             if(n.hasNext()){
                 String note = new String(n.next().getNotes());
                 out.print(note);
@@ -84,7 +84,6 @@ public class View extends HttpServlet {
             else{
                 out.println("No Notes in the ENB ....");
             }
-            out.print("<br><hr><br>");
             out.print("</div></td></tr></table><br><hr><br>");
 
             //Deliverable Status
@@ -118,7 +117,10 @@ public class View extends HttpServlet {
                 out.print("<tr><td width='10%'>"+i+"</td><td width='25%'>"+plo.getDeliverable()+"</td><td width='65%'>"+plo.getIntendToAccomplish()+"</td></tr>");
             }
             out.print("<tr><td></td><td></td><td></td></tr></table>");
-
+            UserLogHelper uh=new UserLogHelper();
+            if(session.getAttribute("uid")==null)
+                response.sendRedirect("index.jsp");
+            uh.insertlog(session.getAttribute("uid").toString(),"View ENB-"+ed.getEnbname());
         } finally {
             out.close();
         }

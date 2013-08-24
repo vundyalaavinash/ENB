@@ -1,5 +1,4 @@
 $(document).ready(function(){
-	$("#title").shuffleLetters();
 	$('#login').fadeIn(600);
 	
 	$("#loginForm").validate();
@@ -25,16 +24,32 @@ $(document).ready(function(){
 			else return false;
 		},"<span class='alert'>Password not matching</span>");
                 
-                $.validator.addMethod('uemails',function(value,event){
+               /* $.validator.addMethod('uemails',function(value,event){
                     $.post('ValidateEmail',
                     {email:value},
                     function(data){
+                        alert(data);
                         if(data==="Yes"){
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                    },false);
+		},"<span class='alert'>Email ID already registered</span>");*/
+                
+                $("#submit").click(function(){
+                    $.post('ValidateEmail',
+                    {email:value},
+                    function(data){
+                        alert(data);
+                        if(data==="Yes"){
+                            alertify.alert("Email ID alrready Exits!");
                             return false;
                         }
                         else{
                             return true;
                         }
                     },false);
-		},"<span class='alert'>Email ID already registered</span>");
+                });
 });

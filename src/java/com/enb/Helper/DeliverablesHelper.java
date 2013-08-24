@@ -25,7 +25,7 @@ public class DeliverablesHelper {
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction trans=session.beginTransaction();
             session.saveOrUpdate(ds);
-            trans.commit();
+            trans.commit();            
             return true;
         }
         catch(Exception ex){

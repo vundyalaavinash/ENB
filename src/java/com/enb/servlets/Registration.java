@@ -4,12 +4,15 @@
  */
 package com.enb.servlets;
 
+import com.enb.Helper.ProjectHelper;
 import com.enb.Helper.RegistrationHelper;
+import com.enb.Helper.UserLogHelper;
 import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,22 +40,31 @@ public class Registration extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            Userauth ua = new Userauth();
-            
-            ua.setEmailId(request.getParameter("email"));
-            ua.setName(request.getParameter("fname"));
-            ua.setPassword(request.getParameter("pass"));
-            
-            RegistrationHelper rh = new RegistrationHelper();            
-            rh.insertUserauth(ua);
-            
-            Userauth ua1=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
-            HttpSession session=request.getSession();
-            session.setAttribute("email", request.getParameter("email"));
-            session.setAttribute("uid", ua1.getId());
-            session.setAttribute("name", request.getParameter("fname"));
-            response.sendRedirect("Homepage.jsp");
+            String email=request.getParameter("email");
+            RegistrationHelper rh=new RegistrationHelper();
+            if(rh.ValidateUser(email)!=null){
+                RequestDispatcher rd=request.getRequestDispatcher("signup.jsp");
+                request.setAttribute("error", "<span class='alert'>Email ID already Exists</span>");
+                rd.forward(request, response);
+            }
+            else{
+                /* TODO output your page here. You may use following sample code. */
+                Userauth ua = new Userauth();
+
+                ua.setEmailId(request.getParameter("email"));
+                ua.setName(request.getParameter("fname"));
+                ua.setPassword(request.getParameter("pass"));
+              
+                rh.insertUserauth(ua);
+                HttpSession session=request.getSession();
+                Userauth ua1=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
+                session.setAttribute("email", request.getParameter("email"));
+                session.setAttribute("uid", ua1.getId());
+                session.setAttribute("name", request.getParameter("fname"));
+                UserLogHelper uh=new UserLogHelper();
+                uh.insertlog(session.getAttribute("uid").toString(),"Registered");
+                response.sendRedirect("Homepage.jsp");
+            }
         } finally {            
             out.close();
         }

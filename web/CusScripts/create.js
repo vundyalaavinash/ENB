@@ -32,8 +32,8 @@ $(document).ready(function(){
 	$.validator.addMethod('uproject',function(value,event){
                     $.post('ValidateEmail',
                     {email:value},
-                    function(data){
-                        if(data==="Yes"){
+                    function(data){                      
+                        if(data==="No"){
                             return false;
                         }
                         else{
@@ -41,4 +41,19 @@ $(document).ready(function(){
                         }
                     },false);
 		},"<span class='alert'>Project Name already exists</span>");
+                
+           $("#submitbtn").click(function(){  
+               $("#createform").validate();
+               if($("#radio").val()==""){
+                   alertify.error("Select ENB Duration!");
+                   return false;
+               }
+               else{
+                   return true;
+               }
+           });
+           
+           $("#proj").keydown(function(){
+               $("#projalert").hide();
+           });
 });

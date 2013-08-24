@@ -38,25 +38,23 @@ public class Logs extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             HttpSession session=request.getSession();
-            String date[]=request.getParameter("to").split("/");
-            Calendar cal=Calendar.getInstance();
-            cal.add(Calendar.DATE, Integer.parseInt(date[0]));
-            cal.add(Calendar.MONTH, Integer.parseInt(date[1])-1);
-            cal.add(Calendar.YEAR, Integer.parseInt(date[2]));
+            
             UserLogHelper uh=new UserLogHelper();
             ArrayList<Userlog> logs=new ArrayList<Userlog>();
-            logs=uh.getUserlogs(Integer.parseInt(session.getAttribute("uid").toString()), cal);
+            logs=uh.getUserlogs(Integer.parseInt(session.getAttribute("uid").toString()), request.getParameter("to"));
             if(!logs.isEmpty()){
                 int j=0;
                 String log="";
                 log=log+"<table border='0' width=100%' cellspacing=10px' id='logs'><tr><td><strong>Date & Time</strong></td><td><strong>Description</strong></td></tr>";				
                 for(int i=0;i<logs.size();i++){
-                    log=log+"<tr><td>"+logs.get(i).getId().getLogDt() +"</td>";
+                    log=log+"<tr><td>"+logs.get(i).getLogDt() +"</td>";
                     log=log+"<td>"+logs.get(i).getDescription() +"</td></tr>";
                 }
                 out.print(log+"</table>");
             }
-            out.print("<table border='0' width=100%' cellspacing=10px' id='logs'><tr><td><strong>Date & Time</strong></td><td><strong>Description</strong></td></tr><tr><td>No Activity on that date</td><td></td></tr></table>");
+            else{
+                out.print("<table border='0' width=100%' cellspacing=10px' id='logs'><tr><td><strong>Date & Time</strong></td><td><strong>Description</strong></td></tr><tr><td>No Activity on that date</td><td></td></tr></table>");
+            }
         } finally {            
             out.close();
         }

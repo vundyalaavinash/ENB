@@ -6,12 +6,14 @@ package com.enb.servlets;
 
 import com.enb.Helper.EnbdescHelper;
 import com.enb.Helper.ProjectHelper;
+import com.enb.Helper.UserLogHelper;
 import com.enb.POJO.Enbdesc;
 import com.enb.POJO.Project;
 import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
+import javax.servlet.RequestDispatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,91 +44,102 @@ public class CreateForm extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /* TODO output your page here. You may use following sample code. */
-            Project p=new Project();
-            Enbdesc e=new Enbdesc();
-            String dateFrom=request.getParameter("from");
-            String dateTo=request.getParameter("to");
-            p.setProjectName(request.getParameter("proj"));
-            
-            
-            Userauth ua=new Userauth();
-            HttpSession session=request.getSession();
-            ua.setId(Integer.parseInt(session.getAttribute("uid").toString()));
-            
-            p.setUserauth(ua);
-            String date[]=request.getParameter("from").toString().split("/");
-            Calendar c=Calendar.getInstance();
-            c.set(Calendar.YEAR, Integer.parseInt(date[2]));
-            c.set(Calendar.MONTH, Integer.parseInt(date[1])-1);
-            c.set(Calendar.DATE, Integer.parseInt(date[0]));
-            
-            String date1[]=request.getParameter("to").toString().split("/");
-            Calendar c1=Calendar.getInstance();
-            c1.set(Calendar.YEAR, Integer.parseInt(date1[2]));
-            c1.set(Calendar.MONTH, Integer.parseInt(date1[1])-1);
-            c1.set(Calendar.DATE, Integer.parseInt(date1[0]));                        
-            
-            p.setFromDate(c.getTime());
-            p.setToDate(c1.getTime());
-            
-            
-             
-            
-            Calendar cal = Calendar.getInstance();
-            if(request.getParameter("weekmonth").toString().equals("monthly")){
-                p.setIsMonthly("Yes");
-            }
-            else{
-                p.setIsMonthly("No");
-            }
-            
-            Calendar now = Calendar.getInstance();  
-            
-            if(p.getIsMonthly()=="No"){
-                int weekday = now.get(Calendar.DAY_OF_WEEK);               
-                int days = (Calendar.SATURDAY - weekday) % 7;  
-                now.add(Calendar.DAY_OF_YEAR, days); 
+            String email = request.getParameter("proj");
+            ProjectHelper ph = new ProjectHelper();
+            HttpSession session = request.getSession();
+            Project p12=ph.getProject(Integer.parseInt(session.getAttribute("uid").toString()), email);
+            System.out.println("\nproject name"+p12);
+            if (ph.getProject(Integer.parseInt(session.getAttribute("uid").toString()), email) != null) {
+                RequestDispatcher rd=request.getRequestDispatcher("create.jsp");
+                request.setAttribute("error", "<div id='projalert'><span class='alert' >Project Name already Exists</span></div>");
+                rd.forward(request, response);
+            } else {
 
-                Calendar projto=Calendar.getInstance();
-                projto.setTime(p.getToDate());
-                if(projto.compareTo(now)<0){
-                    now=projto;
+                /* TODO output your page here. You may use following sample code. */
+                Project p = new Project();
+                Enbdesc e = new Enbdesc();
+                String dateFrom = request.getParameter("from");
+                String dateTo = request.getParameter("to");
+                p.setProjectName(request.getParameter("proj"));
+
+
+                Userauth ua = new Userauth();
+               
+                ua.setId(Integer.parseInt(session.getAttribute("uid").toString()));
+
+                p.setUserauth(ua);
+                String date[] = request.getParameter("from").toString().split("/");
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.YEAR, Integer.parseInt(date[2]));
+                c.set(Calendar.MONTH, Integer.parseInt(date[1]) - 1);
+                c.set(Calendar.DATE, Integer.parseInt(date[0]));
+
+                String date1[] = request.getParameter("to").toString().split("/");
+                Calendar c1 = Calendar.getInstance();
+                c1.set(Calendar.YEAR, Integer.parseInt(date1[2]));
+                c1.set(Calendar.MONTH, Integer.parseInt(date1[1]) - 1);
+                c1.set(Calendar.DATE, Integer.parseInt(date1[0]));
+
+                p.setFromDate(c.getTime());
+                p.setToDate(c1.getTime());
+
+                Calendar cal = Calendar.getInstance();
+                if (request.getParameter("weekmonth").toString().equals("monthly")) {
+                    p.setIsMonthly("Yes");
+                } else {
+                    p.setIsMonthly("No");
                 }
-            }            
-            else{
-                now.set(Calendar.DATE,now.getActualMaximum(Calendar.DATE)); 
-                
-                Calendar projto=Calendar.getInstance();
-                projto.setTime(p.getToDate());
-                if(projto.compareTo(now)<0){
-                    now=projto;
+
+                Calendar now = Calendar.getInstance();
+
+                if (p.getIsMonthly() == "No") {
+                    int weekday = now.get(Calendar.DAY_OF_WEEK);
+                    int days = (Calendar.SATURDAY - weekday) % 7;
+                    now.add(Calendar.DAY_OF_YEAR, days);
+
+                    Calendar projto = Calendar.getInstance();
+                    projto.setTime(p.getToDate());
+                    if (projto.compareTo(now) < 0) {
+                        now = projto;
+                    }
+                } else {
+                    now.set(Calendar.DATE, now.getActualMaximum(Calendar.DATE));
+
+                    Calendar projto = Calendar.getInstance();
+                    projto.setTime(p.getToDate());
+                    if (projto.compareTo(now) < 0) {
+                        now = projto;
+                    }
                 }
+
+                ph.insertProject(p);
+                p = ph.getProject(ua.getId(), p.getProjectName());
+                Calendar at = Calendar.getInstance();
+                e.setEnbname(request.getParameter("proj") + " : " + at.get(Calendar.DATE) + "-" + (at.get(Calendar.MONTH) + 1) + "-" + at.get(Calendar.YEAR) + " to " + now.get(Calendar.DATE) + "-" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.YEAR));
+                e.setProject(p);
+                e.setFromdate(at.getTime());
+                e.setTodate(now.getTime());
+                e.setUserauth(ua);
+
+                EnbdescHelper eh = new EnbdescHelper();
+                eh.insertEnbdesc(e);
+
+                UserLogHelper uh = new UserLogHelper();
+                uh.insertlog(session.getAttribute("uid").toString(), "Create ENB-" + e.getEnbname());
+                uh.insertlog(session.getAttribute("uid").toString(), "Create Project-" + p.getProjectName());
+
+                session.setAttribute("enbname", e.getEnbname());
+
+                session.setAttribute("emid", eh.getEnbid(e.getEnbname(), Integer.parseInt(session.getAttribute("uid").toString())).getId());
+                System.out.println("" + session.getAttribute("emid"));
+                response.sendRedirect("ENB.jsp");
             }
-            
-            ProjectHelper ph=new ProjectHelper();
-            ph.insertProject(p);
-            p=ph.getProject(ua.getId(),p.getProjectName());
-            Calendar at=Calendar.getInstance();
-            e.setEnbname(request.getParameter("proj")+" : "+at.get(Calendar.DATE)+"-"+(at.get(Calendar.MONTH)+1)+"-"+at.get(Calendar.YEAR)+" to "+now.get(Calendar.DATE)+"-"+(now.get(Calendar.MONTH)+1)+"-"+now.get(Calendar.YEAR)); 
-            e.setProject(p);
-            e.setFromdate(at.getTime());
-            e.setTodate(now.getTime());         
-            e.setUserauth(ua);          
-            
-            EnbdescHelper eh= new EnbdescHelper();
-            eh.insertEnbdesc(e);            
-            session.setAttribute("enbname", e.getEnbname());    
-            
-            session.setAttribute("emid", eh.getEnbid(e.getEnbname(),Integer.parseInt(session.getAttribute("uid").toString())).getId());
-            System.out.println(""+session.getAttribute("emid"));
-            response.sendRedirect("ENB.jsp");
-            
-        } finally {            
+
+        } finally {
             out.close();
-            
+
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

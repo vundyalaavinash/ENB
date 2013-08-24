@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 22, 2013 12:32:00 AM by Hibernate Tools 3.2.1.GA
+// Generated Aug 23, 2013 11:30:59 PM by Hibernate Tools 3.2.1.GA
 
 
 
