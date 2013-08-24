@@ -5,12 +5,12 @@
 $(document).ready(function(){
     $("#search").click(function(){
         $('#mydiv').show();
-        $.post('ValidateEmail',
+        $.post('Search',
         {
             keywords:$('#keyword').val()
         },
         function(data){
-            $('#results').html();
+            $('#results').html(data);
             $('#mydiv').hide();
             },false);
         return false;

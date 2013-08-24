@@ -25,12 +25,12 @@ public class SearchHelper {
         return Jsoup.parse(html).text();
     }
     
-    public ArrayList<Notes> getAllNotes(int uid){
+    public ArrayList<Notes> getAllNotes(){
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Notes> userinfo = new ArrayList<Notes>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Notes where uid="+uid);
+            Query q = session.createQuery ("from Notes");
             userinfo = (ArrayList<Notes>) q.list();
             return userinfo;
         } catch (Exception e) {
@@ -41,19 +41,24 @@ public class SearchHelper {
     
     public ArrayList<Notes> Search(String Keyword,int uid){
         String keys[]=Keyword.split(" ");
-        ArrayList<Notes> all=getAllNotes(uid);
+        ArrayList<Notes> all=getAllNotes();
         ArrayList<Notes> found=new ArrayList<Notes>();
         for(int i=0;i<all.size();i++){
-            String note=new String(all.get(i).getNotes());
-            for(int j=0;j<keys.length;j++){
-                if(keys[i].toLowerCase().contains(note.toLowerCase())){
-                    if(!found.contains(all.get(i))){
-                        found.add(all.get(i));
+            Notes n=all.get(i);
+            String note=new String(n.getNotes());            
+            if(n.getEnbdesc().getUserauth().getId()==uid){
+                for(int j=0;j<keys.length;j++){
+                    String ah=html2text(note);                   
+                    if(ah.toLowerCase().contains(keys[j].toLowerCase())){
+                        System.out.println("text:"+ah);
+                        if(!found.contains(all.get(i))){
+                            found.add(all.get(i));
+                        }
                     }
                 }
             }
         }
-        return null;
+        return found;
     }
     
     public String Searching(String keyword,int uid){

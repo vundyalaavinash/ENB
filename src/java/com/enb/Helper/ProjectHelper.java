@@ -21,6 +21,7 @@ public class ProjectHelper {
     Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
     
     public ArrayList<Project> getProject (int uid){
+        session =  HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Project> userinfo = new ArrayList<Project>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();

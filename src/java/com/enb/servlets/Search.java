@@ -44,6 +44,7 @@ public class Search extends HttpServlet {
                 int uid=Integer.parseInt(session.getAttribute("uid").toString());
                 SearchHelper sh=new SearchHelper();
                 String search=sh.Searching(request.getParameter("keywords"), uid);
+                
                 UserLogHelper uh=new UserLogHelper();
                 uh.insertlog(session.getAttribute("uid").toString(),"Search - "+request.getParameter("keywords"));
                 out.print(""+search);

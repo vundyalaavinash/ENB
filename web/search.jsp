@@ -67,7 +67,7 @@
             </table>
             <br>
             <div id='results'>
-
+                
             </div>
             <div id="mydiv" class="hide">
                 <div  class="ajax-loader">
