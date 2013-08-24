@@ -4,6 +4,8 @@
     Author     : B.Revanth
 --%>
 
+<%@page import="java.util.Calendar"%>
+<%@page import="com.enb.Helper.UserLogHelper"%>
 <%@page import="com.enb.POJO.Plan"%>
 <%@page import="com.enb.POJO.Lessons"%>
 <%@page import="com.enb.POJO.Deliverablestatus"%>
@@ -26,28 +28,6 @@
 
         <script src="CusScripts/manage.js" type="text/javascript"></script>
         <script src="CusScripts/view.js" type="text/javascript"></script>
-        
-        <script>
-            function searchText(){
-                outStr = ""
-                inStr = document.myForm.myText.value
-                alert(inStr);
-                searchStr = document.myForm.searchField.value
-                sLen = searchStr.length
-                foundCount = 0
-                for (x=0; x<inStr.length; x++){
-                    if (inStr.substr(x,sLen) == searchStr){
-                        outStr = outStr + "<span class='found'>" + searchStr + "</span>"
-                        foundCount ++
-                        x += sLen-1
-                    }
-                    else{
-                        outStr += inStr.substr(x,1)
-                    }
-                }
-                document.getElementById("results").innerHTML = "<b>" + foundCount + " </b>results found.<br><br> " + outStr
-            }
-        </script>
     </head>
     <body>
         <header>
@@ -62,8 +42,7 @@
                 <%
                     if (session.getAttribute("name") == null) {
                         response.sendRedirect("index.jsp");
-                    } 
-                    else {
+                    } else {
                         out.println(session.getAttribute("name"));
                     }
 
@@ -71,6 +50,7 @@
             </h3>
             <a href="Homepage.jsp">Home</a>
             <a href="create.jsp">Create ENB</a>
+            <a href="search.jsp">Search</a>
             <a href="manageselect.jsp">Manage ENB</a>
             <a href="viewselect.jsp">View ENB</a>
             <a href="logs.jsp">Logs</a>
@@ -86,8 +66,8 @@
                                 ENB Name :<br>
                                 <select name="selectenb" id="enbtitle">
                                     <option value="Default">Select ENB</option>
-                                    <% 
-                                        ConstructString cs=new ConstructString();
+                                    <%
+                                        ConstructString cs = new ConstructString();
                                         out.print(cs.getENBList(Integer.parseInt(request.getParameter("pid").toString())));
                                     %>
                                 </select>
@@ -107,6 +87,90 @@
                 </div>
             </div>
             <div id='tabs' class='invicible'>
+
+                <%
+
+                    int eid = Integer.parseInt(request.getParameter("eid"));
+
+                    EnbdescHelper eh = new EnbdescHelper();
+                    Enbdesc ed = eh.getEnbdescID(eid);
+
+                    Calendar from = Calendar.getInstance();
+                    from.setTime(ed.getFromdate());
+
+                    Calendar to = Calendar.getInstance();
+                    to.setTime(ed.getTodate());
+
+                    String proj = ed.getProject().getProjectName();
+                    Set notes = ed.getNoteses();
+                    Set ds = ed.getDeliverablestatuses();
+                    Set ln = ed.getLessonses();
+                    Set pl = ed.getPlans();
+
+
+                    out.print("<table width='100%'><tr><td colspan='2'><h2>" + proj.toUpperCase() + "</h2></td></tr><tr>");
+                    out.print("<td width='50%'>Engineer: <span style='color:#47a3da;'>");
+                    if (session.getAttribute("name") == null) {
+                        response.sendRedirect("index.jsp");
+                    } else {
+                        out.println(session.getAttribute("name"));
+                    }
+                    out.print("</span></td>");
+                    out.print("<td width='50%' align='right'>Duration: <span style='color:#47a3da;'>");
+                    out.print("&nbsp;&nbsp;&nbsp;" + from.get(Calendar.DATE) + "-" + from.get(Calendar.MONTH) + "-" + from.get(Calendar.YEAR));
+                    out.print("</span>&nbsp;&nbsp;to<span style='color:#47a3da;'>");
+                    out.print("&nbsp;&nbsp;&nbsp;" + to.get(Calendar.DATE) + "-" + to.get(Calendar.MONTH) + "-" + to.get(Calendar.YEAR));
+                    out.print("</span></td></tr></table><br><hr><br>");
+
+                    //Notes
+                    Iterator<Notes> n = notes.iterator();
+                    out.print("<h2>Notes</h2><table><tr><td><div style='font-size:15px; width:100%;'>");
+                    if (n.hasNext()) {
+                        String note = new String(n.next().getNotes());
+                        out.print(note);
+                    } else {
+                        out.println("No Notes in the ENB ....");
+                    }
+                    out.print("</div></td></tr></table><br><hr><br>");
+
+                    //Deliverable Status
+                    Iterator<Deliverablestatus> dsi = ds.iterator();
+                    out.print("<h2>Deliverable Status</h2><table width='100%' border='0' cellspacing='10'><tr><td width='5%'>SNO</td><td width='16%'>Deliverable</td><td width='27%'>What did you plan to accomplish?</td><td width='27%'>What did you actually accomplish?</td><td width='10%'>Size</td><td width='10%'>Effort</td></tr>");
+                    int i = 0;
+                    while (dsi.hasNext()) {
+                        i++;
+                        Deliverablestatus dso = dsi.next();
+                        out.print("<tr><td>" + i + "</td><td>" + dso.getDeliverables() + "</td><td>" + dso.getPlanToAccomplish() + "</td><td>" + dso.getActualAccomplished() + "</td><td>" + dso.getSize() + "</td><td>" + dso.getEffort() + "</td></tr>");
+                    }
+                    out.print("<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></table><br><hr><br>");
+                    //Lessons Learned  
+                    Iterator<Lessons> lni = ln.iterator();
+                    out.print("<h2>Lessons Learned Reflection</h2><table width='100%' border='0' cellspacing='10'><tr><td width='10%'>S.NO.</td><td width='25%'>Context</td><td width='65%'>Lesson</td></tr>");
+                    i = 0;
+                    while (lni.hasNext()) {
+                        i++;
+                        Lessons lno = lni.next();
+                        out.print("<tr><td>" + i + "</td><td>" + lno.getContext() + "</td><td>" + lno.getLessons() + "</td></tr>");
+                    }
+                    out.print("<tr><td></td><td></td><td></td></tr></table><br><hr><br>");
+
+                    //plans
+                    Iterator<Plan> pli = pl.iterator();
+                    out.print("<h2>Plan for the Next Week</h2><table width='100%' border='0' cellspacing='10'><tr><td width='10%'>S.NO</td><td width='25%'>Deliverable</td><td width='65%'>What do you intend to accomplish and why</td></tr>");
+                    i = 0;
+                    while (pli.hasNext()) {
+                        i++;
+                        Plan plo = pli.next();
+                        out.print("<tr><td width='10%'>" + i + "</td><td width='25%'>" + plo.getDeliverable() + "</td><td width='65%'>" + plo.getIntendToAccomplish() + "</td></tr>");
+                    }
+                    out.print("<tr><td></td><td></td><td></td></tr></table>");
+                    UserLogHelper uh = new UserLogHelper();
+                    if (session.getAttribute("uid") == null) {
+                        response.sendRedirect("index.jsp");
+                    }
+                    uh.insertlog(session.getAttribute("uid").toString(), "View ENB-" + ed.getEnbname());
+
+                %>
             </div>
         </div>
     </body>

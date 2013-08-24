@@ -36,6 +36,10 @@
         <servlet-name>ValidatePassword</servlet-name>
         <servlet-class>com.enb.servlets.ValidateProject</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Search</servlet-name>
+        <servlet-class>com.enb.servlets.Search</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Registration</servlet-name>
         <url-pattern>/Registration</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>ValidatePassword</servlet-name>
         <url-pattern>/ValidatePassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Search</servlet-name>
+        <url-pattern>/Search</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
