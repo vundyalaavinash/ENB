@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package com.enb.Helper;
+
 import com.enb.POJO.*;
 import java.util.*;
 
@@ -14,127 +15,208 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
 /**
+ * <p> Title: RegistrationHelper Class - - A component of the ENBTool </p>
+ *
+ * <p> Description: A controller object class that is used to control the
+ * operations of user details on database i.e., inserting, retrieving and
+ * deleting the user details. retrieving of details is for specified email</p>
+ *
+ * <p> Copyright: Copyright 2013 </p>
  *
  * @author Avinash
  */
 public class RegistrationHelper {
+
     Session session = null;
+
+    /**
+     * default class which initializes session
+     */
     public RegistrationHelper() {
+        // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-    } 
-        
-    public Userauth ValidateUser(String email){
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();
+    }
+
+    /**
+     * retrieves userauth instance for given email id
+     *
+     * @param email The email id
+     * @return instance of userauth
+     */
+    public Userauth ValidateUser(String email) {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();               // arraylist which stores instances of Userauth class
         try {
-            org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Userauth where emailId='"+email+"'");
-            userinfo = (ArrayList<Userauth>) q.list();
-            if(userinfo.size()==1){
-                return userinfo.get(0);
-            }
-            else{
+            org.hibernate.Transaction tx = session.beginTransaction();      // load the connection for the given session
+            Query q = session.createQuery("from Userauth where emailId='" + email + "'");  //Query instance is obtained
+            userinfo = (ArrayList<Userauth>) q.list();      //list of instances are stored in arraylist
+            // checks the size of arraylist whether the user details are available for the given email or not.
+            if (userinfo.size() == 1) {
+                return userinfo.get(0);             // if true then returns the userauth reference
+            } else {
                 return null;
             }
-        } catch (Exception e) {
+        }// catches if any exception in retrieving the user details from the database or loading the connection for session 
+        catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-    public boolean CheckEmail(Userauth uauth){
+
+    /**
+     * class which does nothing
+     *
+     * @param uauth
+     * @return
+     */
+    public boolean CheckEmail(Userauth uauth) {
         return false;
     }
-    public boolean insertUserauth(Userauth uauth){        
-        try{
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction trans=session.beginTransaction();
-            session.save(uauth);
-            System.out.println("this is query : \t"+trans.toString());
-            trans.commit();
+
+    /**
+     * inserts the user details into the database
+     *
+     * @param uauth The Userauth reference to access the Userauth
+     * @return
+     */
+    public boolean insertUserauth(Userauth uauth) {
+        try {
+            this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            Transaction trans = session.beginTransaction();       // load the connection for the given session
+            session.save(uauth);                //code for inserting the details in database
+            System.out.println("this is query : \t" + trans.toString());
+            trans.commit();         // database is updated
             return true;
-        }
-        catch(Exception ex){
+        }// catches if any exception in inserting the user details into the database or loading the connection for session
+        catch (Exception ex) {
             ex.printStackTrace();
             return false;
-        } 
+        }
     }
-    public boolean updateUserauth (Userauth uauth){
-        try{
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction trans=session.beginTransaction();
-            session.update(uauth);
-            System.out.println("this is query : \t"+trans.toString());
-            trans.commit();
+
+    /**
+     * updates the user details into the database
+     *
+     * @param uauth The Userauth reference to access the Userauth
+     * @return true if updated user details is successful else false
+     */
+    public boolean updateUserauth(Userauth uauth) {
+        try {
+            this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            Transaction trans = session.beginTransaction();           // load the connection for the given session
+            session.update(uauth);              //code for updating the details in database
+            System.out.println("this is query : \t" + trans.toString());
+            trans.commit();             // database is updated
             return true;
-        }
-        catch(Exception ex){
+        }// catches if any exception in updating the user details into the database or loading the connection for session
+        catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
-    }    
-    public boolean changePassword (Userauth uauth){
-        try{
-            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+    }
+
+    /**
+     * changes the password of the user
+     *
+     * @param uauth The Userauth reference to access the Userauth
+     * @return true if updated user details is successful else false
+     */
+    public boolean changePassword(Userauth uauth) {
+        try {
+            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();  // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             session = sessionFactory.openSession();
-            Transaction trans=session.beginTransaction();
-            session.update(uauth);
-            System.out.println("this is query : \t"+trans.toString());
-            trans.commit();
+            Transaction trans = session.beginTransaction();           // load the connection for the given session
+            session.update(uauth);          //code for updating the details in database
+            System.out.println("this is query : \t" + trans.toString());
+            trans.commit();         // database is updated
             return true;
-        }
-        catch(Exception ex){
+        }// catches if any exception in updating the user details into the database or loading the connection for session
+        catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
     }
-    public boolean forgotPassword (Userauth uauth){
+
+    /**
+     *
+     * @param uauth
+     * @return
+     */
+    public boolean forgotPassword(Userauth uauth) {
         return false;
     }
-    public Userauth getUserauth (String email){
+
+    public Userauth getUserauth(String email) {
         return null;
     }
-    public Userauth getUserauth (String email,String Password){
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();
+
+    /**
+     * retrieves the user details for a given email and password
+     *
+     * @param email The email id
+     * @param Password The password
+     * @return the userauth instance for given email and password
+     */
+    public Userauth getUserauth(String email, String Password) {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();               // arraylist which stores instances of Userauth class
         try {
-            org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Userauth where emailId='"+email+"' and password='"+Password+"'");
-            userinfo = (ArrayList<Userauth>) q.list();
-            if(userinfo.size()==1){
+            org.hibernate.Transaction tx = session.beginTransaction();          // load the connection for the given session
+            Query q = session.createQuery("from Userauth where emailId='" + email + "' and password='" + Password + "'");  //Query instance is obtained
+            userinfo = (ArrayList<Userauth>) q.list();      //list of instances are stored in arraylist
+            // checks the size of arraylist whether the user details are available for the given email and password or not.
+            if (userinfo.size() == 1) {
                 return userinfo.get(0);
             }
-        } catch (Exception e) {
+        }// catches if any exception in retrieving the user details from the database or loading the connection for session 
+        catch (Exception e) {
             e.printStackTrace();
             return null;
-        }        
+        }
         return null;
-    } 
-    public Userauth getUserId(String email)
-    {
-       ArrayList<Userauth> userinfo = new ArrayList<Userauth>();
-       Transaction tx = session.beginTransaction();
-       Query q = session.createQuery ("from Userauth where emailId='"+email+"'");
-       userinfo = (ArrayList<Userauth>) q.list();
-       if(userinfo.size()!=0){
-                return userinfo.get(0);
-            }
-        return null; 
     }
-    
-     public String getPassword(String email){
-        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();
+
+    /**
+     * retrieves the user details for a given email
+     *
+     * @param email The email id
+     * @return the userauth instance for a given email
+     */
+    public Userauth getUserId(String email) {
+        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();            // arraylist which stores instances of Userauth class
+        Transaction tx = session.beginTransaction();             // load the connection for the given session
+        Query q = session.createQuery("from Userauth where emailId='" + email + "'");   //Query instance is obtained
+        userinfo = (ArrayList<Userauth>) q.list();       //list of instances are stored in arraylist
+        // checks the size of arraylist whether the user details are available for the given email or not.
+        if (userinfo.size() != 0) {
+            return userinfo.get(0);
+        }
+        return null;
+    }
+
+    /**
+     * retrieves the password of the user for a given email
+     *
+     * @param email The email id
+     * @return the password for the given email
+     */
+    public String getPassword(String email) {
+        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();           // arraylist which stores instances of Userauth class
         try {
-            org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Userauth where emailId='"+email+"'");
-            userinfo = (ArrayList<Userauth>) q.list();
-            if(userinfo.size()==1){
+            org.hibernate.Transaction tx = session.beginTransaction();          // load the connection for the given session
+            Query q = session.createQuery("from Userauth where emailId='" + email + "'");  //Query instance is obtained
+            userinfo = (ArrayList<Userauth>) q.list();      //list of instances are stored in arraylist
+            // checks the size of arraylist whether the user details are available for the given email or not.
+            if (userinfo.size() == 1) {
                 return userinfo.get(0).getPassword();
             }
-        } catch (Exception e) {
+        }// catches if any exception in retrieving the user details from the database or loading the connection for session 
+        catch (Exception e) {
             e.printStackTrace();
             return null;
-        }        
+        }
         return null;
     }
 }

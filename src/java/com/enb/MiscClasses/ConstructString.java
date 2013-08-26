@@ -11,26 +11,34 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
+ * <p> Title: ConstructString Class - - A component of the ENBTool </p>
  *
+ * <p> Description: A controller object class </p>
  * @author Avinash
  */
 public class ConstructString {
+    /**
+     * retrieves the project names and duration dates of a specified user 
+     * @param Uname The user name
+     * @return the html tag string with the projects names and from date to to date
+     */
     public String getProjectsView(String Uname){        
-        ProjectHelper ph=new ProjectHelper();            
-        ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
+        ProjectHelper ph=new ProjectHelper();                   // ceates the instances of projecthelper class to retrive the project details
+        ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));  // calls the getproject method for retrieving the instances of project class
         System.out.println("Got back");
         String projects="";
         System.out.println(""+alp.size());
-        if(!alp.isEmpty()){
+        if(!alp.isEmpty()){             // checks for arraylist is empty or not
+            // code for the arraylist is not empty i.e., projects are available for the given user
             int j=1;
             projects=projects+"<ul>";
+            // code for retrieving all the projects and duration of the project and it is appended to the string with html tags
             for(int i=0;i<alp.size();i++){
                 Calendar from=Calendar.getInstance();
                 Calendar to=Calendar.getInstance();
                 from.setTime(alp.get(i).getFromDate());
                 to.setTime(alp.get(i).getToDate());
                 
-                ;
                     projects=projects+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='1'><span><center><a href='viewenb.jsp?pid="+alp.get(i).getId()+"'><h2>"+alp.get(i).getProjectName() +"</h2><p>"+from.get(Calendar.DATE)+"-"+from.get(Calendar.MONTH)+"-"+from.get(Calendar.YEAR)+" to "+to.get(Calendar.DATE)+"-"+to.get(Calendar.MONTH)+"-"+to.get(Calendar.YEAR)+"</p></a></center></span></li>";
                 i++;
                 if(i<alp.size()){
@@ -49,27 +57,31 @@ public class ConstructString {
             projects=projects+"</ul>";
             return projects;
         }
-        else{
+        else{                       // if arraylist is empty then it returns the below string
             return "<h3>You do not have any ENBs. Please <a href='create.jsp'>Create an ENB</a> </h3>";
         }
     }
-    
+    /**
+     * retrieves the project names and duration dates of a specified user
+     * @param Uname The user
+     * @return the html tag string with the projects names and from date to to date
+     */
     public String getProjectsManage(String Uname){        
-        ProjectHelper ph=new ProjectHelper();            
-        ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
+        ProjectHelper ph=new ProjectHelper();                   // ceates the instances of projecthelper class to retrive the project details       
+        ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));      // calls the getproject method for retrieving the instances of project class
         System.out.println("Got back");
         String projects="";
-        System.out.println(""+alp.size());
-        if(!alp.isEmpty()){
+        System.out.println(""+alp.size());  
+        if(!alp.isEmpty()){                 // checks for arraylist is empty or not
+            // code for the arraylist is not empty i.e., projects are available for the given user
             int j=1;
             projects=projects+"<ul>";
+            // code for retrieving all the projects and duration of the project and it is appended to the string with html tags
             for(int i=0;i<alp.size();i++){
                 Calendar from=Calendar.getInstance();
                 Calendar to=Calendar.getInstance();
                 from.setTime(alp.get(i).getFromDate());
                 to.setTime(alp.get(i).getToDate());
-                
-                ;
                     projects=projects+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='1'><span><center><a href='manage.jsp?pid="+alp.get(i).getId()+"'><h2>"+alp.get(i).getProjectName() +"</h2><p>"+from.get(Calendar.DATE)+"-"+from.get(Calendar.MONTH)+"-"+from.get(Calendar.YEAR)+" to "+to.get(Calendar.DATE)+"-"+to.get(Calendar.MONTH)+"-"+to.get(Calendar.YEAR)+"</p></a></center></span></li>";
                 i++;
                 if(i<alp.size()){
@@ -88,18 +100,24 @@ public class ConstructString {
             projects=projects+"</ul>";
             return projects;
         }
-        else{
+        else{           // if arraylist is empty then it returns the below string
             return "<h3>You do not have any ENBs. Please <a href='create.jsp'>Create an ENB</a> </h3>";
         }
     }
-    
+    /**
+     * retrieves the project names and duration dates of a specified user
+     * @param Uname The user
+     * @return the html tag string with the projects names and from date to to date 
+     */
     public String getProjects(String Uname){        
-        ProjectHelper ph=new ProjectHelper();            
-        ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
+        ProjectHelper ph=new ProjectHelper();            // ceates the instances of projecthelper class to retrive the project details
+        ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));           // calls the getproject method for retrieving the instances of project class
         String projects="";
-        if(!alp.isEmpty()){
+        if(!alp.isEmpty()){         // checks for arraylist is empty or not
+            // code for the arraylist is not empty i.e., projects are available for the given user
             int j=1;
             projects=projects+"<ul>";
+             // code for retrieving all the projects and duration of the project and it is appended to the string with html tags
             for(int i=0;i<alp.size();i++){
                 Calendar from=Calendar.getInstance();
                 Calendar to=Calendar.getInstance();
@@ -124,14 +142,18 @@ public class ConstructString {
             projects=projects+"</ul>";
             return projects;
         }
-        else{
+        else{               // if arraylist is empty then it returns the below string
             return "<h3>You do not have any ENBs. Please <a href='create.jsp'>Create an ENB</a> </h3>";
         }
     }
-    
+    /**
+     * retrieves the project names and duration dates of a specified user
+     * @param Uname The user
+     * @return the html tag string with the projects names and from date to to date 
+     */
     public String getProjectsList(String Uname){        
-        ProjectHelper ph=new ProjectHelper();            
-        ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));
+        ProjectHelper ph=new ProjectHelper();           // ceates the instances of projecthelper class to retrive the project details 
+        ArrayList<Project> alp=ph.getProject(Integer.parseInt(Uname));      // calls the getproject method for retrieving the instances of project class
         String projects="";
         if(!alp.isEmpty()){
             int j=1;
@@ -144,7 +166,11 @@ public class ConstructString {
             return "";
         }
     }
-    
+    /**
+     * 
+     * @param pid
+     * @return 
+     */
     public String getENBList(int pid){        
         EnbdescHelper edh=new EnbdescHelper();          
         ArrayList<Enbdesc> alp=edh.getEnbdesc(pid);
@@ -161,7 +187,12 @@ public class ConstructString {
             return "";
         }
     }
-    
+    /**
+     * 
+     * @param uid
+     * @param cal
+     * @return 
+     */
     public static String getLogs(int uid,String cal){
         UserLogHelper uh=new UserLogHelper();
         ArrayList<Userlog> logs=new ArrayList<Userlog>();
