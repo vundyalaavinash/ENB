@@ -4,6 +4,8 @@
     Author     : B.Revanth
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.hibernate.Hibernate"%>
 <%@page import="com.enb.Helper.ProjectHelper"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="com.enb.POJO.*"%>
@@ -138,7 +140,11 @@
             ProjectHelper ph=new ProjectHelper();
             EnbdescHelper eh = new EnbdescHelper();
             RegistrationHelper rh=new RegistrationHelper();
-            
+            NotesHelper nh=new NotesHelper();
+            DeliverablesHelper dh=new DeliverablesHelper();
+            LessonsHelper lh=new LessonsHelper();
+            PlanHelper plh=new PlanHelper();
+                       
             Enbdesc ed = eh.getEnbdescPID(pid);
             Project p=ph.getProjectPID(pid);
             System.out.print(""+ed);  
@@ -183,18 +189,14 @@
             }            
             
             session.setAttribute("emid", eh.getEnbid(ed.getEnbname(),uid).getId());
-            
+
             Calendar from = Calendar.getInstance();
             from.setTime(ed.getFromdate());
 
             Calendar to = Calendar.getInstance();
             to.setTime(ed.getTodate());
 
-            String proj = ed.getProject().getProjectName();
-            Set notes = ed.getNoteses();
-            Set ds =  ed.getDeliverablestatuses();
-            Set ln = ed.getLessonses();
-            Set pl = ed.getPlans();
+            String proj = p.getProjectName();
         %>
         <div id="main">
             <div id="mydiv" class="hide">
@@ -233,15 +235,12 @@
                         <%
                             String enbname = ed.getEnbname();
                             EnbdescHelper eh1 = new EnbdescHelper();
-                            Enbdesc enb = eh1.getEnbid(enbname,uid);
-                            //int enbid = enb.getId();
-                            Set set = enb.getNoteses();
-                            Iterator itr = set.iterator();
-
-                            if (itr.hasNext()) {
-                                Notes note = (Notes) itr.next();
-                                String s=new String(note.getNotes());
-                                
+                            Enbdesc enb = eh1.getEnbid(enbname,uid);    
+                                                        
+                            ArrayList<Notes> itr = nh.getNotes(ed.getId());                           
+                            if (!itr.isEmpty()) {
+                                Notes note = (Notes) itr.get(0);
+                                String s=new String(note.getNotes());                                
                                 out.println("<br/><br/><div style='width:100%; min-height:300px; border: 2px #999999 double;' id='edValue' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()'>"+s+" </div><br>");
                             }
                             else{
@@ -266,17 +265,16 @@
                             </tr>
                             <%
                                 //Deliverable Status
-                                Iterator<Deliverablestatus> dsi=ds.iterator();                               
+                                ArrayList<Deliverablestatus> dsi=dh.getDeliverablestatus(ed.getId());
                                 int i=0;
-                                while(dsi.hasNext()){
-                                    i++;
-                                    Deliverablestatus dso=dsi.next();                                    
-                                    out.print("<tr><td>"+i+".</td>");
-                                    out.print("<td><input type='text' name='dsd"+i+"' class='required' value='"+dso.getDeliverables()+"'></td>");
-                                    out.print("<td><input type='text' name='dsp"+i+"' class='required' value='"+dso.getPlanToAccomplish()+"'></td>");
-                                    out.print("<td><input type='text' name='dsa"+i+"' class='required' value='"+dso.getActualAccomplished()+"'></td>");
-                                    out.print("<td><input type='text' name='dss"+i+"' class='required' value='"+dso.getSize()+"'></td>");
-                                    out.print("<td><input type='text' name='dse"+i+"' class='required' value='"+dso.getEffort()+"'></td></tr>");
+                                for(i=0;i<dsi.size();i++){
+                                    Deliverablestatus dso=dsi.get(i);                                    
+                                    out.print("<tr><td>"+(i+1)+".</td>");
+                                    out.print("<td><input type='text' name='dsd"+(i+1)+"' class='required' value='"+dso.getDeliverables()+"'></td>");
+                                    out.print("<td><input type='text' name='dsp"+(i+1)+"' class='required' value='"+dso.getPlanToAccomplish()+"'></td>");
+                                    out.print("<td><input type='text' name='dsa"+(i+1)+"' class='required' value='"+dso.getActualAccomplished()+"'></td>");
+                                    out.print("<td><input type='text' name='dss"+(i+1)+"' class='required' value='"+dso.getSize()+"'></td>");
+                                    out.print("<td><input type='text' name='dse"+(i+1)+"' class='required' value='"+dso.getEffort()+"'></td></tr>");
                                 }
                                 out.print("</table><input type='hidden' id='idscount' name='idscount' value='"+i+"'>");                            					  
                              %>                             
@@ -295,19 +293,17 @@
                             </tr>
                             <%
                                 //Lessons Learned  
-                                Iterator<Lessons> lni=ln.iterator();
-                                i=0;
-                                while(lni.hasNext()){
-                                    i++;
-                                    Lessons lno=lni.next();
-                                    out.print("<tr><td>"+i+".</td>");
-                                    out.print("<td><input type='text' name='lnc"+i+"' class='required' value='"+lno.getContext()+"'></td>");
-                                    out.print("<td><input type='text' name='lnl"+i+"' class='required' value='"+lno.getLessons()+"'></td></tr>");                                    
+                                ArrayList<Lessons> lni=lh.getLessons(ed.getId());
+                                for(i=0;i<lni.size();i++){
+                                    Lessons lno=lni.get(i);
+                                    out.print("<tr><td>"+(i+1)+".</td>");
+                                    out.print("<td><input type='text' name='lnc"+(i+1)+"' class='required' value='"+lno.getContext()+"'></td>");
+                                    out.print("<td><input type='text' name='lnl"+(i+1)+"' class='required' value='"+lno.getLessons()+"'></td></tr>");                                    
                                 }
                                 out.print("</table><input type='hidden' id='ilncount' name='ilncount' value='"+i+"'>");                            					  
                             %>
                         <br/>
-                        <input type="button" class="button" value="Add Row" id="lnar" name="lnar">
+                        <input type="button" class="button" value="Add Row" id="lnar" name="lnar"/>
                     </div>
                     <div id="tab4">
                         <br/>
@@ -320,14 +316,13 @@
                             </tr>
                             <%
                                 //plans
-                                Iterator<Plan> pli=pl.iterator();                                
+                                ArrayList<Plan> pli=plh.getPlan(ed.getId());                            
                                 i=0;
-                                while(pli.hasNext()){
-                                    i++;
-                                    Plan plo=pli.next();                                    
-                                    out.print("<tr><td>"+i+".</td>");
-                                    out.print("<td><input type='text' name='pld"+i+"' class='required' value='"+plo.getDeliverable()+"'></td>");
-                                    out.print("<td><input type='text' name='plw"+i+"' class='required' value='"+plo.getIntendToAccomplish()+"'></td></tr>");
+                                for(i=0;i<pli.size();i++){
+                                    Plan plo=pli.get(i);                                    
+                                    out.print("<tr><td>"+(i+1)+".</td>");
+                                    out.print("<td><input type='text' name='pld"+(i+1)+"' class='required' value='"+plo.getDeliverable()+"'></td>");
+                                    out.print("<td><input type='text' name='plw"+(i+1)+"' class='required' value='"+plo.getIntendToAccomplish()+"'></td></tr>");
                                 }
                                 out.print("</table><input type='hidden' id='iplancount' name='iplancount' value='"+i+"'>");
                             %>

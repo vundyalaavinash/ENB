@@ -22,12 +22,14 @@ public class ProjectHelper {
     
     public ArrayList<Project> getProject (int uid){
         session =  HibernateUtil.getSessionFactory().getCurrentSession();
+        
         ArrayList<Project> userinfo = new ArrayList<Project>();
         try {
-            org.hibernate.Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("from Project where UID='"+uid+"' and Todate>=curdate()");
+            org.hibernate.Transaction tx = session.beginTransaction();                      
+            Query q = session.createQuery ("from Project where UID='"+uid+"' and Todate>=curdate()");            
             userinfo = (ArrayList<Project>) q.list();
-            return userinfo;
+            
+            return userinfo;            
         } catch (Exception e) {
             System.out.println("error "+e.getMessage());
             e.printStackTrace();
@@ -36,7 +38,7 @@ public class ProjectHelper {
     }
     
     public Project getProject (int uid, String ProjectName){
-        session =  HibernateUtil.getSessionFactory().getCurrentSession();
+        session =  HibernateUtil.getSessionFactory().getCurrentSession();        
         ArrayList<Project> userinfo = new ArrayList<Project>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
@@ -59,7 +61,7 @@ public class ProjectHelper {
         session =  HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Project> userinfo = new ArrayList<Project>();
         try {
-            org.hibernate.Transaction tx = session.beginTransaction();
+            org.hibernate.Transaction tx = session.beginTransaction(); 
             Query q = session.createQuery ("from Project where UID='"+uid+"' ORDER BY Id DESC");
             userinfo = (ArrayList<Project>) q.list();
             if(userinfo.size()!=0){
@@ -79,6 +81,7 @@ public class ProjectHelper {
         ArrayList<Project> userinfo = new ArrayList<Project>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
+            session.clear(); 
             Query q = session.createQuery ("from Project where ID='"+pid+"'");
             userinfo = (ArrayList<Project>) q.list();
             if(userinfo.size()!=0){
@@ -98,8 +101,8 @@ public class ProjectHelper {
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction trans=session.beginTransaction();
             session.save(project);
-            System.out.println("this is query : \t"+trans.toString());
             trans.commit();
+            session.flush();
             return true;
         }
         catch(Exception ex){

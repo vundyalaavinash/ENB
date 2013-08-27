@@ -20,7 +20,6 @@ public class NotesHelper {
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction trans=session.beginTransaction();
             session.saveOrUpdate(notes);
-            System.out.println("this is query : \t"+trans.toString());
             trans.commit();
             return true;
         }
@@ -47,22 +46,17 @@ public class NotesHelper {
         }
     }
     
-    public Notes getNotes (int pid,Date from,Date to){
-        return null;
-    }
-    public ArrayList<Notes> getNotes (int pid){
-        return null;
-    }
-    
-    public String constuctCrossThrough (String text){
-        return "";
-    }
-    
-    public String constuctHyperLink (String url){
-        return "";
-    }
-    
-    public String colorText (String text){
-        return "";
-    }    
+    public ArrayList<Notes> getNotes(int eid){
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<Notes> userinfo = new ArrayList<Notes>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Notes where ENBID="+eid);
+            userinfo = (ArrayList<Notes>) q.list();
+            return userinfo;            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }        
 }

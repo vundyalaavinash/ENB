@@ -17,13 +17,13 @@ public class EnbdescHelper {
     Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
     
     public boolean insertEnbdesc(Enbdesc enbdes){
-        session =  HibernateUtil.getSessionFactory().getCurrentSession();
         try{
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction trans=session.beginTransaction();
             session.save(enbdes);
             System.out.println("this is query : \t"+trans.toString());
             trans.commit();
+            session.flush();
             return true;
         }
         catch(Exception ex){
@@ -41,6 +41,7 @@ public class EnbdescHelper {
     }   
     
     public ArrayList<Enbdesc> getEnbdesc(int pid){
+        session =  HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
@@ -55,12 +56,14 @@ public class EnbdescHelper {
     }
     
      public Enbdesc getEnbdescPID(int pid){
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from Enbdesc where PID='"+pid+"' and Todate>=curdate()");
             userinfo = (ArrayList<Enbdesc>) q.list();
             if(userinfo.size()>0){
+                session.update(userinfo.get(0));
                 return userinfo.get(0);
             }
             else{
@@ -95,7 +98,7 @@ public class EnbdescHelper {
     }
     public Enbdesc getEnbid(String enbname,int uid)
     {
-        session =  HibernateUtil.getSessionFactory().getCurrentSession();
+        session =  HibernateUtil.getSessionFactory().openSession();
         ArrayList<Enbdesc> enbinfo = new ArrayList<Enbdesc>();
         try {
             Transaction tx = session.beginTransaction();

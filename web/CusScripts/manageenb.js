@@ -61,7 +61,7 @@ $(document).ready(function(){
                 + currentdate.getHours() + ":"  
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
-            var datetime = "Last Sync: " + currentdate.getDate() + "/"
+            var datetime = "Last Saved: " + currentdate.getDate() + "/"
                 + (currentdate.getMonth()+1)  + "/" 
                 + currentdate.getFullYear() + " @ "  
                 + currentdate.getHours() + ":"  

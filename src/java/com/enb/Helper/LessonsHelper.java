@@ -15,9 +15,11 @@ import org.hibernate.Transaction;
  */
 public class LessonsHelper {
     Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
+    
+    
     public boolean insertLessons(Lessons lessons){
          try{
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction trans=session.beginTransaction();
             session.saveOrUpdate(lessons);
             trans.commit();
@@ -33,8 +35,8 @@ public class LessonsHelper {
         try {
             Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("delete from Lessons where ENBID="+eid+"");
-            int result = q.executeUpdate();
-            System.out.println(eid+":"+result);
+            int result = q.executeUpdate();           
+            session.flush();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,6 +46,21 @@ public class LessonsHelper {
              session.close();
          }
     }
+    
+    public ArrayList<Lessons> getLessons(int eid){
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<Lessons> userinfo = new ArrayList<Lessons>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Lessons where ENBID="+eid);
+            userinfo = (ArrayList<Lessons>) q.list();
+            return userinfo;            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    } 
+    
     public boolean updateLessons(Lessons lessons){
         return false;
     }

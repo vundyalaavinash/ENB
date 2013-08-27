@@ -50,4 +50,18 @@ public class PlanHelper {
         }
     } 
     
+    public ArrayList<Plan> getPlan(int eid){
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<Plan> userinfo = new ArrayList<Plan>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Plan where ENBID="+eid);
+            userinfo = (ArrayList<Plan>) q.list();
+            return userinfo;            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    } 
+    
 }

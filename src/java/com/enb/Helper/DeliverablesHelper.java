@@ -34,11 +34,25 @@ public class DeliverablesHelper {
         }
     }
     
+    public ArrayList<Deliverablestatus> getDeliverablestatus(int eid){
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<Deliverablestatus> userinfo = new ArrayList<Deliverablestatus>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Deliverablestatus where ENBID="+eid);
+            userinfo = (ArrayList<Deliverablestatus>) q.list();
+            return userinfo;            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public boolean removeDeliverablestatus(int eid){
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
             Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("delete from Deliverablestatus where ENBID="+eid+"");
+            Query q = session.createQuery ("delete from Deliverablestatus where ENBID="+eid);
             int result = q.executeUpdate();
             System.out.println(eid+":"+result);
             return true;

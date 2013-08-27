@@ -15,7 +15,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,10 +42,11 @@ public class ForgotPassword extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             String email=request.getParameter("email");
+            out.println(email);
             RegistrationHelper rh=new RegistrationHelper();
-                String pass=rh.getPassword(email);
-                final String username = "enbtool@gmail.com";
-		final String password = "enbarm007";
+               // String pass=rh.getPassword(email);
+                final String username = "rajasekharizcool91@gmail.com";
+		final String password = "man@mandarin";
  
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -64,23 +64,19 @@ public class ForgotPassword extends HttpServlet {
 		try {
  
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("enbtool@gmail.com"));
+			message.setFrom(new InternetAddress("lynnrobertcarter@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse(email));
+				InternetAddress.parse("vundyala.avinash@gmail.com"));
 			message.setSubject("Forgot->Password");
 			message.setText("Dear User,\n\n"+"\t\tUserName: "+email+"\n"
-				+ "\n\t\t Your PassWord is: "+pass);
+				+ "\n\t\t Your PassWord is: pass");
  
 			Transport.send(message);
  
 			System.out.println("Done");
-                        response.sendRedirect("index.jsp");
  
 		} catch (MessagingException e) {
-                        RequestDispatcher rd=request.getRequestDispatcher("forgot.jsp");
-                        request.setAttribute("error", "<div id='projalert'><span class='alert'>Error in sending email. Try Later!</span></div>");
-                        rd.forward(request, response);
-                        
+			throw new RuntimeException(e);
 		}
             
         } finally {            
