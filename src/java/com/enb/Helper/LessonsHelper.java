@@ -24,19 +24,9 @@ import org.hibernate.Transaction;
  * @version 1.00
  */
 public class LessonsHelper {
-<<<<<<< HEAD
+
     Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
-    
-    
-    public boolean insertLessons(Lessons lessons){
-         try{
-            session = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction trans=session.beginTransaction();
-=======
-    // Create the SessionFactory from standard (hibernate.cfg.xml) config file
-
-    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-
+        
     /**
      * inserts the enb lessons in the database
      *
@@ -50,7 +40,6 @@ public class LessonsHelper {
             // load the connection for the given session
             Transaction trans = session.beginTransaction();
             // code for inserting or updating the lessons
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
             session.saveOrUpdate(lessons);
             trans.commit();                 // database is updated
             return true;
@@ -74,27 +63,18 @@ public class LessonsHelper {
         try {
             // load the connection for the given session
             Transaction tx = session.beginTransaction();
-<<<<<<< HEAD
             Query q = session.createQuery ("delete from Lessons where ENBID="+eid+"");
             int result = q.executeUpdate();           
             session.flush();
-            return true;
-        } catch (Exception e) {
-=======
-            Query q = session.createQuery("delete from Lessons where ENBID=" + eid + "");      // query for deleting the required lessons details using eid
-            int result = q.executeUpdate();         // database is updated
-            System.out.println(eid + ":" + result);
-            return true;                //returns true if deletes successfully
+            return true;                  //returns true if deletes successfully
         } // catches if any exception in deleting the enb lessons in the database or loading the connection for session
         catch (Exception e) {
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
             e.printStackTrace();
             return false;
         } finally {
             session.close();   // session is closed
         }
     }
-<<<<<<< HEAD
     
     public ArrayList<Lessons> getLessons(int eid){
         session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -110,9 +90,6 @@ public class LessonsHelper {
         }
     } 
     
-    public boolean updateLessons(Lessons lessons){
-=======
-
     /**
      * class which does nothing
      *
@@ -120,7 +97,6 @@ public class LessonsHelper {
      * @return
      */
     public boolean updateLessons(Lessons lessons) {
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
         return false;
     }
 

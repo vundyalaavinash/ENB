@@ -24,20 +24,9 @@ import org.hibernate.Transaction;
  * @version 1.00
  */
 public class EnbdescHelper {
-<<<<<<< HEAD
     
     Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
-    
-    public boolean insertEnbdesc(Enbdesc enbdes){
-        try{
-=======
-
-    /**
-     * This is the class attribute Create the SessionFactory from standard
-     * (hibernate.cfg.xml) config file
-     */
-    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-
+       
     /**
      * inserts the new enb details in enbdesc table in database
      *
@@ -46,23 +35,20 @@ public class EnbdescHelper {
      * exception occurs
      */
     public boolean insertEnbdesc(Enbdesc enbdes) {
+        /**
+     * This is the class attribute Create the SessionFactory from standard
+     * (hibernate.cfg.xml) config file
+     */
         // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
             // load the connection for the given session
             Transaction trans = session.beginTransaction();
             // code for inserting the enb details
             session.save(enbdes);
-<<<<<<< HEAD
             System.out.println("this is query : \t"+trans.toString());
             trans.commit();
             session.flush();
-=======
-            System.out.println("this is query : \t" + trans.toString());
-            trans.commit();         // database is updated
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
             return true;
         } // catches if any exception in updating the enb in the database or loading the connection for session
         catch (Exception ex) {
@@ -89,14 +75,9 @@ public class EnbdescHelper {
      */
     public boolean removeEnbdesc(Enbdesc enbdesc) {
         return false;
-<<<<<<< HEAD
+
     }   
-    
-    public ArrayList<Enbdesc> getEnbdesc(int pid){
-        session =  HibernateUtil.getSessionFactory().getCurrentSession();
-        ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
-=======
-    }
+        
 
     /**
      * retrieves the enb details from enbdesc table
@@ -105,9 +86,9 @@ public class EnbdescHelper {
      * @return the list of Enbdesc references otherwise null
      */
     public ArrayList<Enbdesc> getEnbdesc(int pid) {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
         // creates the Arraylist of Enbdesc reference type
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();     // arraylist which stores instances of Enbdesc class
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
         try {
             // load the connection for the given session
             org.hibernate.Transaction tx = session.beginTransaction();
@@ -121,14 +102,7 @@ public class EnbdescHelper {
             e.printStackTrace();
             return null;
         }
-    }
-<<<<<<< HEAD
-    
-     public Enbdesc getEnbdescPID(int pid){
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
-=======
-
-    /**
+    }    /**
      * retrieves the enb details from enbdesc table
      *
      * @param pid The project id
@@ -136,18 +110,10 @@ public class EnbdescHelper {
      */
     public Enbdesc getEnbdescPID(int pid) {
         // creates the Arraylist of Enbdesc reference type
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
         try {
             // load the connection for the given session
             org.hibernate.Transaction tx = session.beginTransaction();
-<<<<<<< HEAD
-            Query q = session.createQuery ("from Enbdesc where PID='"+pid+"' and Todate>=curdate()");
-            userinfo = (ArrayList<Enbdesc>) q.list();
-            if(userinfo.size()>0){
-                session.update(userinfo.get(0));
-                return userinfo.get(0);
-=======
             // query for retrieving  the required enb details using pid
             Query q = session.createQuery("from Enbdesc where PID='" + pid + "' and Todate>=curdate()");   //Query instance is obtained
             userinfo = (ArrayList<Enbdesc>) q.list();       //list of instances are stored in arraylist
@@ -156,7 +122,6 @@ public class EnbdescHelper {
                 return userinfo.get(0);         // if true then returns the enbdesc reference
             } else {
                 return null;                    // otherwise return null
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
             }
         } // catches if any exception in retrieving the enb from the database or loading the connection for session
         catch (Exception e) {
@@ -198,11 +163,6 @@ public class EnbdescHelper {
     public boolean checkproject(String pname) {
         return false;
     }
-<<<<<<< HEAD
-    public Enbdesc getEnbid(String enbname,int uid)
-    {
-        session =  HibernateUtil.getSessionFactory().openSession();
-=======
 
     /**
      * retrieves the enb details from enbdesc table based on the enbname and
@@ -214,7 +174,6 @@ public class EnbdescHelper {
      */
     public Enbdesc getEnbid(String enbname, int uid) {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
         ArrayList<Enbdesc> enbinfo = new ArrayList<Enbdesc>();
         try {
             Transaction tx = session.beginTransaction();

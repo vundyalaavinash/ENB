@@ -66,7 +66,6 @@ public class DeliverablesHelper {
             return false;
         }
     }
-<<<<<<< HEAD
     
     public ArrayList<Deliverablestatus> getDeliverablestatus(int eid){
         session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -82,22 +81,7 @@ public class DeliverablesHelper {
         }
     }
     
-    public boolean removeDeliverablestatus(int eid){
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-        try {
-            Transaction tx = session.beginTransaction();
-            Query q = session.createQuery ("delete from Deliverablestatus where ENBID="+eid);
-            int result = q.executeUpdate();
-            System.out.println(eid+":"+result);
-=======
 
-    /**
-     * deletes the required enb deliverables from deliverablestatus table
-     *
-     * @param eid The enb id
-     * @return true if deliverables is deleted else false if it fails or any
-     * exception occurs
-     */
     public boolean removeDeliverablestatus(int eid) {
         this.session = HibernateUtil.getSessionFactory().getCurrentSession();           // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         try {
@@ -107,7 +91,6 @@ public class DeliverablesHelper {
             Query q = session.createQuery("delete from Deliverablestatus where ENBID=" + eid + "");
             int result = q.executeUpdate();                                             // changes updated in database
             System.out.println(eid + ":" + result);
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
             return true;
         } // catches if any exception in deleting the enb in database or loading the connection for session
         catch (Exception e) {

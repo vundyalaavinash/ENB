@@ -24,19 +24,7 @@ import org.hibernate.Transaction;
  * @version 1.00
  */
 public class NotesHelper {
-<<<<<<< HEAD
     Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
-    public boolean insertNotes (Notes notes){
-         try{
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction trans=session.beginTransaction();
-            session.saveOrUpdate(notes);
-            trans.commit();
-=======
-    // Create the SessionFactory from standard (hibernate.cfg.xml) config file
-
-    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-
     /**
      * inserts the enb notes in the database
      *
@@ -50,7 +38,6 @@ public class NotesHelper {
             session.saveOrUpdate(notes);                // code for inserting or updating the notes
             System.out.println("this is query : \t" + trans.toString());
             trans.commit();                         // database is updated
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
             return true;
         }// catches if any exception in updating the enb notes in the database or loading the connection for session
         catch (Exception ex) {
@@ -90,8 +77,13 @@ public class NotesHelper {
             return false;
         }
     }
-<<<<<<< HEAD
     
+    /**
+     * class which does nothing
+     *
+     * @param pid
+     * @return
+     */
     public ArrayList<Notes> getNotes(int eid){
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Notes> userinfo = new ArrayList<Notes>();
@@ -105,30 +97,7 @@ public class NotesHelper {
             return null;
         }
     }        
-=======
-
-    /**
-     * class which does nothing
-     *
-     * @param pid
-     * @param from
-     * @param to
-     * @return
-     */
-    public Notes getNotes(int pid, Date from, Date to) {
-        return null;
-    }
-
-    /**
-     * class which does nothing
-     *
-     * @param pid
-     * @return
-     */
-    public ArrayList<Notes> getNotes(int pid) {
-        return null;
-    }
-
+    
     /**
      * class which does nothing
      *
@@ -158,5 +127,4 @@ public class NotesHelper {
     public String colorText(String text) {
         return "";
     }
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
 }

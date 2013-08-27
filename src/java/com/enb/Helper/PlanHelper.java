@@ -87,7 +87,6 @@ public class PlanHelper {
             e.printStackTrace();
             return false;
         }
-<<<<<<< HEAD
     } 
     
     public ArrayList<Plan> getPlan(int eid){
@@ -104,7 +103,4 @@ public class PlanHelper {
         }
     } 
     
-=======
-    }
->>>>>>> d47e1b0fa0eced3e0ae5868adfacb974aa538ab4
 }
