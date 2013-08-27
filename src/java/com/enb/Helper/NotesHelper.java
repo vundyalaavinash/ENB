@@ -84,14 +84,19 @@ public class NotesHelper {
      * @param pid
      * @return
      */
-    public ArrayList<Notes> getNotes(int eid){
+    public String getNotes(int eid){
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Notes> userinfo = new ArrayList<Notes>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from Notes where ENBID="+eid);
             userinfo = (ArrayList<Notes>) q.list();
-            return userinfo;            
+            if(userinfo.size()==1)
+            {
+                String str=new String(userinfo.get(0).getNotes());
+            return str; 
+            }
+             return "No Notes";          
         } catch (Exception e) {
             e.printStackTrace();
             return null;
