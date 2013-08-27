@@ -54,7 +54,8 @@ public class Registration extends HttpServlet {
                 ua.setEmailId(request.getParameter("email"));
                 ua.setName(request.getParameter("fname"));
                 ua.setPassword(request.getParameter("pass"));
-              
+                ua.setUserrole("student");
+                ua.setMentoring(Integer.parseInt(request.getParameter("mentor")));
                 rh.insertUserauth(ua);
                 HttpSession session=request.getSession();
                 Userauth ua1=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));

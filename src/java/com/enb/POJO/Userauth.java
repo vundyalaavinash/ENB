@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 23, 2013 11:30:59 PM by Hibernate Tools 3.2.1.GA
+// Generated Aug 27, 2013 12:09:44 PM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -16,17 +16,21 @@ public class Userauth  implements java.io.Serializable {
      private String password;
      private String name;
      private String verificationCode;
+     private String userrole;
+     private Integer mentoring;
      private Set enbdescs = new HashSet(0);
      private Set projects = new HashSet(0);
 
     public Userauth() {
     }
 
-    public Userauth(String emailId, String password, String name, String verificationCode, Set enbdescs, Set projects) {
+    public Userauth(String emailId, String password, String name, String verificationCode, String userrole, Integer mentoring, Set enbdescs, Set projects) {
        this.emailId = emailId;
        this.password = password;
        this.name = name;
        this.verificationCode = verificationCode;
+       this.userrole = userrole;
+       this.mentoring = mentoring;
        this.enbdescs = enbdescs;
        this.projects = projects;
     }
@@ -65,6 +69,20 @@ public class Userauth  implements java.io.Serializable {
     
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
+    }
+    public String getUserrole() {
+        return this.userrole;
+    }
+    
+    public void setUserrole(String userrole) {
+        this.userrole = userrole;
+    }
+    public Integer getMentoring() {
+        return this.mentoring;
+    }
+    
+    public void setMentoring(Integer mentoring) {
+        this.mentoring = mentoring;
     }
     public Set getEnbdescs() {
         return this.enbdescs;
