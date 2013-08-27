@@ -32,202 +32,199 @@
         <script src="CusScripts/manageenb.js" type="text/javascript"></script>
         <script type="text/javascript">
      
-            function edValueKeyPress(){
+function edValueKeyPress(){
     
-                var myElement = document.getElementById('edValue');
-                myElement.onpaste = function(e) {
-                    var pastedText = undefined;
-                    if (window.clipboardData && window.clipboardData.getData) { // IE
-                        pastedText = window.clipboardData.getData('Text');
-                    } else if (e.clipboardData && e.clipboardData.getData) {
-                        pastedText = e.clipboardData.getData('text/plain');
-                    }
-                    //alert(pastedText); // Process and handle text...
-                    ref='';
-                    while(ref==null||ref==''){
-                        ref =prompt("Please enter a Reference","");
-                    }
-                    //alert(ref.length)
-                    if(ref!=null||ref!=''){
+    var myElement = document.getElementById('edValue');
+myElement.onpaste = function(e) {
+  var pastedText = undefined;
+  if (window.clipboardData && window.clipboardData.getData) { // IE
+    pastedText = window.clipboardData.getData('Text');
+  } else if (e.clipboardData && e.clipboardData.getData) {
+    pastedText = e.clipboardData.getData('text/plain');
+  }
+  //alert(pastedText); // Process and handle text...
+  ref='';
+  while(ref==null||ref==''){
+   ref =prompt("Please enter a Reference","");
+}
+  //alert(ref.length)
+  if(ref!=null||ref!=''){
       
-                        insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br> Reference: '+ref+'</p>')
-                    }
-                    return false; // Prevent the default handler from running.
-                };
+    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br> Reference: '+ref+'</p>')
+  }
+  return false; // Prevent the default handler from running.
+};
    
    
-            }
+}
     
-            function insertHtmlAtCursor(html) {
-                var range, node;
-                if (window.getSelection && window.getSelection().getRangeAt) {
-                    range = window.getSelection().getRangeAt(0);
-                    node = range.createContextualFragment(html);
-                    range.insertNode(node);
-                } else if (document.selection && document.selection.createRange) {
-                    document.selection.createRange().pasteHTML(html);
-                }
-            }
+    function insertHtmlAtCursor(html) {
+    var range, node;
+    if (window.getSelection && window.getSelection().getRangeAt) {
+        range = window.getSelection().getRangeAt(0);
+        node = range.createContextualFragment(html);
+        range.insertNode(node);
+    } else if (document.selection && document.selection.createRange) {
+        document.selection.createRange().pasteHTML(html);
+    }
+}
   
-            function getSelectionHtml() {
-                var html = "";
-                if (typeof window.getSelection != "undefined") {
-                    var sel = window.getSelection();
-                    if (sel.rangeCount) {
-                        var container = document.createElement("div");
-                        for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                            container.appendChild(sel.getRangeAt(i).cloneContents());
-                        }
-                        html = container.innerHTML;
-                    }
-                } else if (typeof document.selection != "undefined") {
-                    if (document.selection.type == "Text") {
-                        html = document.selection.createRange().htmlText;
-                    }
-                }
-                var el=document.getElementById("edValue");
-                if(html.length==0 && el.innerText.length==getCaretCharacterOffset(el)){
-                    html=getCaretCharacterOffsetWithin(el)
-                    replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-                }
+function getSelectionHtml() {
+    var html = "";
+    if (typeof window.getSelection != "undefined") {
+        var sel = window.getSelection();
+        if (sel.rangeCount) {
+            var container = document.createElement("div");
+            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+                container.appendChild(sel.getRangeAt(i).cloneContents());
+            }
+            html = container.innerHTML;
+        }
+    } else if (typeof document.selection != "undefined") {
+        if (document.selection.type == "Text") {
+            html = document.selection.createRange().htmlText;
+        }
+    }
+    var el=document.getElementById("edValue");
+    if(html.length==0 && el.innerText.length==getCaretCharacterOffset(el)){
+        html=getCaretCharacterOffsetWithin(el)
+        replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
+    }
     
-                else if(html.length==0){
+    else if(html.length==0){
         
-                    html=getCaretCharacterOffsetWithin(el)
-                    replaceSelectionWithHtml('<del>'+html+'</del>')
+        html=getCaretCharacterOffsetWithin(el)
+        replaceSelectionWithHtml('<del>'+html+'</del>')
         
-                }
-                else{
-                    replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-                }
-                //  alert(document.getElementById("edValue").innerText)
-            }
+    }
+    else{
+        replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
+    }
+      //  alert(document.getElementById("edValue").innerText)
+}
 
 
-            function getSelectionHtmlDel() {
-                var html = "";
+function getSelectionHtmlDel() {
+    var html = "";
     
-                if (typeof window.getSelection != "undefined") {
-                    var sel = window.getSelection();
-                    if (sel.rangeCount) {
-                        var container = document.createElement("div");
-                        for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                            container.appendChild(sel.getRangeAt(i).cloneContents());
-                        }
-                        html = container.innerHTML;
-                    }
-                } else if (typeof document.selection != "undefined") {
-                    if (document.selection.type == "Text") {
-                        html = document.selection.createRange().htmlText;
-                    }
-                }
+    if (typeof window.getSelection != "undefined") {
+        var sel = window.getSelection();
+        if (sel.rangeCount) {
+            var container = document.createElement("div");
+            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+                container.appendChild(sel.getRangeAt(i).cloneContents());
+            }
+            html = container.innerHTML;
+        }
+    } else if (typeof document.selection != "undefined") {
+        if (document.selection.type == "Text") {
+            html = document.selection.createRange().htmlText;
+        }
+    }
     
-                var el=document.getElementById("edValue");
+    var el=document.getElementById("edValue");
     
-                if(html.length==0){
+    if(html.length==0){
         
-                    var x=getCaretCharacterOffset(el)
-                    html=el.innerText.charAt(x)
-                    // alert(html)
-                    replaceSelectionWithHtml('<del>'+html+'</del>')
+        var x=getCaretCharacterOffset(el)
+        html=el.innerText.charAt(x)
+       // alert(html)
+        replaceSelectionWithHtml('<del>'+html+'</del>')
         
-                }
-                else{
-                    replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-                }
-                // alert(document.getElementById("edValue").innerHTML)
-            }
+    }
+    else{
+        replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
+    }
+       // alert(document.getElementById("edValue").innerHTML)
+}
 
-            function replaceSelectionWithHtml(html) {
-                var range, html;
-                if (window.getSelection && window.getSelection().getRangeAt) {
-                    range = window.getSelection().getRangeAt(0);
-                    range.deleteContents();
-                    var div = document.createElement("div");
-                    div.innerHTML = html;
-                    var frag = document.createDocumentFragment(), child;
-                    while ( (child = div.firstChild) ) {
-                        frag.appendChild(child);
-                    }
-                    range.insertNode(frag);
-                } else if (document.selection && document.selection.createRange) {
-                    range = document.selection.createRange();
-                    html = (node.nodeType == 3) ? node.data : node.outerHTML;
-                    range.pasteHTML(html);
-                }
-            }
-
-
-            function getCaretCharacterOffset(element) {
-                var caretOffset = 0;
-                var doc = element.ownerDocument || element.document;
-                var win = doc.defaultView || doc.parentWindow;
-                var sel;
-                if (typeof win.getSelection != "undefined") {
-                    var range = win.getSelection().getRangeAt(0);
-                    var preCaretRange = range.cloneRange();
-                    preCaretRange.selectNodeContents(element);
-                    preCaretRange.setEnd(range.endContainer, range.endOffset);
-                    caretOffset = preCaretRange.toString().length;//
-                } else if ( (sel = doc.selection) && sel.type != "Control") {
-                    var textRange = sel.createRange();
-                    var preCaretTextRange = doc.body.createTextRange();
-                    preCaretTextRange.moveToElementText(element);
-                    preCaretTextRange.setEndPoint("EndToEnd", textRange);
-                    caretOffset = preCaretTextRange.text.length;//
-                }
-                return caretOffset;
-            }
+function replaceSelectionWithHtml(html) {
+    var range, html;
+    if (window.getSelection && window.getSelection().getRangeAt) {
+        range = window.getSelection().getRangeAt(0);
+        range.deleteContents();
+        var div = document.createElement("div");
+        div.innerHTML = html;
+        var frag = document.createDocumentFragment(), child;
+        while ( (child = div.firstChild) ) {
+            frag.appendChild(child);
+        }
+        range.insertNode(frag);
+    } else if (document.selection && document.selection.createRange) {
+        range = document.selection.createRange();
+        html = (node.nodeType == 3) ? node.data : node.outerHTML;
+        range.pasteHTML(html);
+    }
+}
 
 
-            function getCaretCharacterOffsetWithin(element) {
-                var caretOffset = 0;
-                var doc = element.ownerDocument || element.document;
-                var win = doc.defaultView || doc.parentWindow;
-                var sel;
-                if (typeof win.getSelection != "undefined") {
-                    var range = win.getSelection().getRangeAt(0);
-                    var preCaretRange = range.cloneRange();
-                    preCaretRange.selectNodeContents(element);
-                    preCaretRange.setEnd(range.endContainer, range.endOffset);
-                    caretOffset = preCaretRange.toString();//
-                } else if ( (sel = doc.selection) && sel.type != "Control") {
-                    var textRange = sel.createRange();
-                    var preCaretTextRange = doc.body.createTextRange();
-                    preCaretTextRange.moveToElementText(element);
-                    preCaretTextRange.setEndPoint("EndToEnd", textRange);
-                    caretOffset = preCaretTextRange.text;//
-                }
-                return caretOffset.charAt(caretOffset.length-1);
-            }
+function getCaretCharacterOffset(element) {
+    var caretOffset = 0;
+    var doc = element.ownerDocument || element.document;
+    var win = doc.defaultView || doc.parentWindow;
+    var sel;
+    if (typeof win.getSelection != "undefined") {
+        var range = win.getSelection().getRangeAt(0);
+        var preCaretRange = range.cloneRange();
+        preCaretRange.selectNodeContents(element);
+        preCaretRange.setEnd(range.endContainer, range.endOffset);
+        caretOffset = preCaretRange.toString().length;//
+    } else if ( (sel = doc.selection) && sel.type != "Control") {
+        var textRange = sel.createRange();
+        var preCaretTextRange = doc.body.createTextRange();
+        preCaretTextRange.moveToElementText(element);
+        preCaretTextRange.setEndPoint("EndToEnd", textRange);
+        caretOffset = preCaretTextRange.text.length;//
+    }
+    return caretOffset;
+}
 
 
-
-            function showCaretPos() {
-                var KeyID = event.keyCode;
-                switch(KeyID)
-                {
-                    case 8:
-                        //alert("backspace");
-                        getSelectionHtml();
-                        return false;
-                        break; 
-                    case 46: 
-                        getSelectionHtmlDel();    
-                        return false;
-                        break;
-                    default:
-                        break;
-                }
-                var el = document.getElementById("edValue");
-                var caretPosEl = document.getElementById("caretPos");
-                caretPosEl.innerHTML = "Caret position: " + getCaretCharacterOffsetWithin(el);
-            }
+function getCaretCharacterOffsetWithin(element) {
+    var caretOffset = 0;
+    var doc = element.ownerDocument || element.document;
+    var win = doc.defaultView || doc.parentWindow;
+    var sel;
+    if (typeof win.getSelection != "undefined") {
+        var range = win.getSelection().getRangeAt(0);
+        var preCaretRange = range.cloneRange();
+        preCaretRange.selectNodeContents(element);
+        preCaretRange.setEnd(range.endContainer, range.endOffset);
+        caretOffset = preCaretRange.toString();//
+    } else if ( (sel = doc.selection) && sel.type != "Control") {
+        var textRange = sel.createRange();
+        var preCaretTextRange = doc.body.createTextRange();
+        preCaretTextRange.moveToElementText(element);
+        preCaretTextRange.setEndPoint("EndToEnd", textRange);
+        caretOffset = preCaretTextRange.text;//
+    }
+    return caretOffset.charAt(caretOffset.length-1);
+}
 
 
 
+function showCaretPos() {
+    var KeyID = event.keyCode;
+   switch(KeyID)
+   {
+      case 8:
+      //alert("backspace");
+      getSelectionHtml();
+      return false;
+      break; 
+      case 46: 
+      getSelectionHtmlDel();    
+      return false;
+      break;
+      default:
+      break;
+   }
+    var el = document.getElementById("edValue");
+    var caretPosEl = document.getElementById("caretPos");
+    caretPosEl.innerHTML = "Caret position: " + getCaretCharacterOffsetWithin(el);
+}
 
-        </script> 
+</script>
     </head>
     <body>
         <header>
@@ -362,13 +359,12 @@
                             if (!itr.isEmpty()) {
                                 Notes note = (Notes) itr.get(0);
                                 String s = new String(note.getNotes());
-                                out.println("<br/><br/><div style='width:100%; min-height:300px; border: 2px #999999 double;' id='edValue' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()'>" + s + " </div><br>");
+                                out.println("<br/><br/><div id='edValue' style='width:100%; min-height:300px; border: 2px #999999 double;' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()' onkeydown='showCaretPos()'>"+s+"</div><br>");
                             } else {
-                                out.println("<br/><br/><div style='width:100%; min-height:300px; border: 2px #999999 double;' id='edValue' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()'> </div><br>");
+                                out.println("<br/><br/><div id='edValue' style='width:100%; min-height:300px; border: 2px #999999 double;' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()' onkeydown='showCaretPos()'></div><br>");
                             }
                             out.print("<input type='button' class='button' onclick='getSelectionHtml();' value='Strike OFF'> <input type='hidden' value='' name='notes1' id='notes1'>");
                         %>              
-
                         <br><br>
                     </div> 
                     <div id="tab2">
