@@ -98,10 +98,6 @@ public class Userauth  implements java.io.Serializable {
     public void setProjects(Set projects) {
         this.projects = projects;
     }
-
-
-
-
 }
 
 
