@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,9 +19,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Avinash
+ * @author B.Revanth
  */
-public class Login extends HttpServlet {
+@WebServlet(name = "AdminReg", urlPatterns = {"/AdminReg"})
+public class AdminReg extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -38,25 +40,30 @@ public class Login extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
+            String email=request.getParameter("email");
             RegistrationHelper rh=new RegistrationHelper();
-            Userauth ua=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
-            if(ua!=null){
-                HttpSession session=request.getSession();
-                session.setAttribute("email", request.getParameter("email"));
-                session.setAttribute("name", ua.getName());
-                session.setAttribute("uid", ua.getId());
-                System.out.print("\n\nlogin"+ua.getId()+"\n\n");
-                UserLogHelper uh=new UserLogHelper();
-                uh.insertlog(session.getAttribute("uid").toString(),"Login");
-                if(ua.getUserrole().equals("mentor"))
-                    response.sendRedirect("adminhome.jsp");
-                else
-                    response.sendRedirect("Homepage.jsp");
+            if(rh.ValidateUser(email)!=null){
+                RequestDispatcher rd=request.getRequestDispatcher("signup.jsp");
+                request.setAttribute("error", "<span class='alert'>Email ID already Exists</span>");
+                rd.forward(request, response);
             }
             else{
-                request.setAttribute("error", "Invalid Email-ID or Password");
-                RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
-                rd.forward(request, response);
+                /* TODO output your page here. You may use following sample code. */
+                Userauth ua = new Userauth();
+
+                ua.setEmailId(request.getParameter("email"));
+                ua.setName(request.getParameter("fname"));
+                ua.setPassword(request.getParameter("pass"));
+                ua.setUserrole("mentor");
+                rh.insertUserauth(ua);
+                HttpSession session=request.getSession();
+                Userauth ua1=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
+                session.setAttribute("email", request.getParameter("email"));
+                session.setAttribute("uid", ua1.getId());
+                session.setAttribute("name", request.getParameter("fname"));
+                UserLogHelper uh=new UserLogHelper();
+                uh.insertlog(session.getAttribute("uid").toString(),"Registered");
+                response.sendRedirect("adminhome.jsp");
             }
         } finally {            
             out.close();

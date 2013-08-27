@@ -219,4 +219,25 @@ public class RegistrationHelper {
         }
         return null;
     }
+    public ArrayList<Userauth> getMentors()
+    {
+        ArrayList<Userauth> mentorinfo = new ArrayList<Userauth>();
+         Transaction tx = session.beginTransaction();             // load the connection for the given session
+        Query q = session.createQuery("from Userauth where userrole='mentor'");   //Query instance is obtained
+        mentorinfo = (ArrayList<Userauth>) q.list();
+        if(mentorinfo.size()!=0)
+            return mentorinfo;
+        return null;
+    }
+    public ArrayList<Userauth> getNames(int uid)
+    {
+        ArrayList<Userauth> names = new ArrayList<Userauth>();
+        Transaction tx = session.beginTransaction();             // load the connection for the given session
+        Query q = session.createQuery("from Userauth where mentoring="+uid);   //Query instance is obtained
+        names = (ArrayList<Userauth>) q.list();
+        if(names.size()!=0)
+            return names;
+        return null;
+        
+    }
 }
