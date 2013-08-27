@@ -102,8 +102,28 @@ public class EnbdescHelper {
             e.printStackTrace();
             return null;
         }
-    }    /**
-     * retrieves the enb details from enbdesc table
+
+    }    
+    
+    public ArrayList<Enbdesc> getEnbdesc2(int uid) {
+        // creates the Arraylist of Enbdesc reference type
+        ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();     // arraylist which stores instances of Enbdesc class
+        try {
+            // load the connection for the given session
+            org.hibernate.Transaction tx = session.beginTransaction();
+            // query for retrieving  the required enb details using pid
+            Query q = session.createQuery("from Enbdesc where UID='" + uid + "'");     //Query instance is obtained
+            userinfo = (ArrayList<Enbdesc>) q.list();                               //list of instances are stored in arraylist
+            return userinfo;
+        } // catches if any exception in retrieving the enb from the database or loading the connection for session
+        catch (Exception e) {
+            System.out.println("error " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+   /*  * retrieves the enb details from enbdesc table
      *
      * @param pid The project id
      * @return the Enbdesc instance otherwise null
@@ -130,6 +150,7 @@ public class EnbdescHelper {
             return null;
         }
     }
+
     
     /**
      * retrieves the enb details from enbdesc table
@@ -137,6 +158,7 @@ public class EnbdescHelper {
      * @param pid The project id
      * @return the Enbdesc instance otherwise null
      */
+
     public Enbdesc getEnbdescUID(int uid) {
         // creates the Arraylist of Enbdesc reference type
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
@@ -159,7 +181,7 @@ public class EnbdescHelper {
             return null;
         }
     }
-    
+
 
     /**
      *
@@ -219,4 +241,5 @@ public class EnbdescHelper {
         }
         return null;
     }
+    
 }

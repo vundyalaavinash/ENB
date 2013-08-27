@@ -187,6 +187,32 @@ public class ConstructString {
             return "";
         }
     }
+        public String getENBList2(int uid){        
+        EnbdescHelper edh=new EnbdescHelper();          
+        ArrayList<Enbdesc> alp=edh.getEnbdesc2(uid);
+        System.out.println("Got back");
+        String enbs="";
+        if(!alp.isEmpty()){
+            int j=1;
+            for(int i=0;i<alp.size();i++){
+                enbs=enbs+"<option value='"+alp.get(i).getId() +"'>"+alp.get(i).getEnbname() +"</option>";
+            }
+            return enbs;
+        }
+        else{
+            return "";
+        }
+    }
+        public String getENBList3(int uid){        
+        EnbdescHelper edh=new EnbdescHelper();          
+        Enbdesc alp=edh.getEnbdescUID(uid);
+        System.out.println("Got back");
+        String enbs="";
+        
+                enbs=enbs+"<option value='"+alp.getId() +"'>"+alp.getEnbname() +"</option>";
+         return enbs;
+        
+    }
     /**
      * 
      * @param uid
@@ -219,17 +245,17 @@ public class ConstructString {
             str=str+"<ul>";
             for(int i=0;i<names.size();i++)
             {
-                str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.6'><span><center><h2>"+names.get(i).getName()+"</h2><div style='width:80%'><a href='current.jsp?uid="+names.get(i).getId()+"' style='float:left;'>Current ENB</a><a href='allenb.jsp?uid="+names.get(i).getId()+"' style='float:right;'>View</a>" +"</center></span></li>";
+                str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.6'><span><center><h2>"+names.get(i).getName()+"</h2><div style='width:80%'><a href='current.jsp?uid="+names.get(i).getId()+"' style='float:left;'>Current ENB</a><a href='allenb.jsp?uid="+names.get(i).getId()+"' style='float:right;'>View All ENB</a>" +"</center></span></li>";
                 i++;
                 if(i<names.size())
                 {
-                    str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.6'><span><center><h2>"+names.get(i).getName()+"</h2><div style='width:80%'><a href='current.jsp?pid="+names.get(i).getId()+"' style='float:left;'>Current ENB</a><a href='allenb.jsp?pid="+names.get(i).getId()+"' style='float:right;'>View</a>" +"</h2></center></span></li>";
+                    str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.6'><span><center><h2>"+names.get(i).getName()+"</h2><div style='width:80%'><a href='current.jsp?uid="+names.get(i).getId()+"' style='float:left;'>Current ENB</a><a href='allenb.jsp?uid="+names.get(i).getId()+"' style='float:right;'>View All ENB</a>" +"</h2></center></span></li>";
                     //str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.5'><span><center><h2>"+names.get(i).getName() +"</h2></center></span></li>";
                 }
                 i++;
                 if(i<names.size())
                 {
-                    str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.6'><span><center><h2>"+names.get(i).getName()+"</h2><div style='width:80%'><a href='current.jsp?pid="+names.get(i).getId()+"' style='float:left;'>Current ENB</a><a href='allenb.jsp?pid="+names.get(i).getId()+"' style='float:right;'>View</a>" +"</h2></center></span></li>";
+                    str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.6'><span><center><h2>"+names.get(i).getName()+"</h2><div style='width:80%'><a href='current.jsp?uid="+names.get(i).getId()+"' style='float:left;'>Current ENB</a><a href='allenb.jsp?uid="+names.get(i).getId()+"' style='float:right;'>View All ENB</a>" +"</h2></center></span></li>";
                     //str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.5'><span><center><h2>"+names.get(i).getName() +"</h2></center></span></li>";
                 }
                 j++;
@@ -241,5 +267,11 @@ public class ConstructString {
         return "You are not assigned with any students";
         
         
+    }
+    public ArrayList<Userauth> getStudentDetails(int uid)
+    {
+        RegistrationHelper ua=new RegistrationHelper();
+        ArrayList<Userauth> names=ua.getNames(uid);
+        return names;
     }
 }

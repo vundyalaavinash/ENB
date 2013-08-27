@@ -40,8 +40,8 @@
                              %>                            
                         </h3>
 			<a href="adminhome.jsp">View Students</a>
-                        <a href="create.jsp">View All ENB</a>
-			<a href="account.jsp">Account</a>
+                        <a href="viewall.jsp">View All ENB</a>
+			<a href="adminaccount.jsp">Account</a>
 		</nav>
 		
 		<div id="main">

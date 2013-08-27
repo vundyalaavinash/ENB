@@ -240,4 +240,14 @@ public class RegistrationHelper {
         return null;
         
     }
+    public Userauth getDetails(int uid)
+    {
+        ArrayList<Userauth> names = new ArrayList<Userauth>();
+        Transaction tx = session.beginTransaction();             // load the connection for the given session
+        Query q = session.createQuery("from Userauth where id="+uid);   //Query instance is obtained
+        names = (ArrayList<Userauth>) q.list();
+        if(names.size()!=0)
+            return names.get(0);
+        return null;
+    }
 }

@@ -27,10 +27,10 @@
 				<div id="headright">
 					<div id="login">						
 						<h2>Forgot Password.</h2>
-						<form id="loginForm" method="post" action='ForgotPassword'>
+						<form id="loginForm" method="post" action="ForgotPassword">
 							<fieldset>
 								<p><label for="email">E-mail address</label></p>
-								<p><input type="email" id="email" class="email required" placeholder="Enter Email ID"></p>
+								<p><input type="email" id="email" class="email required" placeholder="Enter Email ID" name="email"></p>
 								<p><input type="submit" value="Send Password" class="button"></p><!--onClick="location.href='HomePage.html'"--> 
 								<p>
 									<div class="floatl divf"><a href="signup.jsp" class="floatr">Sign Up</a></div>
