@@ -50,7 +50,7 @@
 
             }
         </style>
-        <script>
+        <script type="text/javascript">
      
             function edValueKeyPress(){
     
@@ -65,13 +65,16 @@
                     //alert(pastedText); // Process and handle text...
                     ref='';
                     while(ref==null||ref==''){
-                     ref =prompt("Please enter a Reference","");
-                  }
+                        ref =prompt("Please enter a Reference","");
+                    }
                     //alert(ref.length)
-                    if(ref!=null||ref!=''){                    
-                    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br></p> <p style="color:#46786">Reference: '+ref+'</p>')
-                    }  return false; // Prevent the default handler from running.
+                    if(ref!=null||ref!=''){
+      
+                        insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br> Reference: '+ref+'</p>')
+                    }
+                    return false; // Prevent the default handler from running.
                 };
+   
    
             }
     
@@ -102,9 +105,57 @@
                         html = document.selection.createRange().htmlText;
                     }
                 }
-                //alert(html);
-                replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-                lblValue.innerHTML = edValue.innerHTML;
+                var el=document.getElementById("edValue");
+                if(html.length==0 && el.innerText.length==getCaretCharacterOffset(el)){
+                    html=getCaretCharacterOffsetWithin(el)
+                    replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
+                }
+    
+                else if(html.length==0){
+        
+                    html=getCaretCharacterOffsetWithin(el)
+                    replaceSelectionWithHtml('<del>'+html+'</del>')
+        
+                }
+                else{
+                    replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
+                }
+                //  alert(document.getElementById("edValue").innerText)
+            }
+
+
+            function getSelectionHtmlDel() {
+                var html = "";
+    
+                if (typeof window.getSelection != "undefined") {
+                    var sel = window.getSelection();
+                    if (sel.rangeCount) {
+                        var container = document.createElement("div");
+                        for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+                            container.appendChild(sel.getRangeAt(i).cloneContents());
+                        }
+                        html = container.innerHTML;
+                    }
+                } else if (typeof document.selection != "undefined") {
+                    if (document.selection.type == "Text") {
+                        html = document.selection.createRange().htmlText;
+                    }
+                }
+    
+                var el=document.getElementById("edValue");
+    
+                if(html.length==0){
+        
+                    var x=getCaretCharacterOffset(el)
+                    html=el.innerText.charAt(x)
+                    // alert(html)
+                    replaceSelectionWithHtml('<del>'+html+'</del>')
+        
+                }
+                else{
+                    replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
+                }
+                // alert(document.getElementById("edValue").innerHTML)
             }
 
             function replaceSelectionWithHtml(html) {
@@ -125,7 +176,78 @@
                     range.pasteHTML(html);
                 }
             }
-        </script>        
+
+
+            function getCaretCharacterOffset(element) {
+                var caretOffset = 0;
+                var doc = element.ownerDocument || element.document;
+                var win = doc.defaultView || doc.parentWindow;
+                var sel;
+                if (typeof win.getSelection != "undefined") {
+                    var range = win.getSelection().getRangeAt(0);
+                    var preCaretRange = range.cloneRange();
+                    preCaretRange.selectNodeContents(element);
+                    preCaretRange.setEnd(range.endContainer, range.endOffset);
+                    caretOffset = preCaretRange.toString().length;//
+                } else if ( (sel = doc.selection) && sel.type != "Control") {
+                    var textRange = sel.createRange();
+                    var preCaretTextRange = doc.body.createTextRange();
+                    preCaretTextRange.moveToElementText(element);
+                    preCaretTextRange.setEndPoint("EndToEnd", textRange);
+                    caretOffset = preCaretTextRange.text.length;//
+                }
+                return caretOffset;
+            }
+
+
+            function getCaretCharacterOffsetWithin(element) {
+                var caretOffset = 0;
+                var doc = element.ownerDocument || element.document;
+                var win = doc.defaultView || doc.parentWindow;
+                var sel;
+                if (typeof win.getSelection != "undefined") {
+                    var range = win.getSelection().getRangeAt(0);
+                    var preCaretRange = range.cloneRange();
+                    preCaretRange.selectNodeContents(element);
+                    preCaretRange.setEnd(range.endContainer, range.endOffset);
+                    caretOffset = preCaretRange.toString();//
+                } else if ( (sel = doc.selection) && sel.type != "Control") {
+                    var textRange = sel.createRange();
+                    var preCaretTextRange = doc.body.createTextRange();
+                    preCaretTextRange.moveToElementText(element);
+                    preCaretTextRange.setEndPoint("EndToEnd", textRange);
+                    caretOffset = preCaretTextRange.text;//
+                }
+                return caretOffset.charAt(caretOffset.length-1);
+            }
+
+
+
+            function showCaretPos() {
+                var KeyID = event.keyCode;
+                switch(KeyID)
+                {
+                    case 8:
+                        //alert("backspace");
+                        getSelectionHtml();
+                        return false;
+                        break; 
+                    case 46: 
+                        getSelectionHtmlDel();    
+                        return false;
+                        break;
+                    default:
+                        break;
+                }
+                var el = document.getElementById("edValue");
+                var caretPosEl = document.getElementById("caretPos");
+                caretPosEl.innerHTML = "Caret position: " + getCaretCharacterOffsetWithin(el);
+            }
+
+
+
+
+        </script>
     </head>
     <body>
         <header>
