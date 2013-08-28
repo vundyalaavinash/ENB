@@ -101,7 +101,21 @@ public class NotesHelper {
             e.printStackTrace();
             return null;
         }
-    }        
+    }
+    
+    public ArrayList<Notes> getNote(int eid){
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        ArrayList<Notes> userinfo = new ArrayList<Notes>();
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();
+            Query q = session.createQuery ("from Notes where ENBID="+eid);
+            userinfo = (ArrayList<Notes>) q.list();
+            return userinfo;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
     /**
      * class which does nothing

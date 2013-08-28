@@ -355,7 +355,7 @@ function showCaretPos() {
                             EnbdescHelper eh1 = new EnbdescHelper();
                             Enbdesc enb = eh1.getEnbid(enbname, uid);
 
-                            ArrayList<Notes> itr = nh.getNotes(ed.getId());
+                            ArrayList<Notes> itr = nh.getNote(ed.getId());
                             if (!itr.isEmpty()) {
                                 Notes note = (Notes) itr.get(0);
                                 String s = new String(note.getNotes());
