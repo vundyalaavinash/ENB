@@ -18,9 +18,15 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
 /**
- *
+ *<p>
+ * Title: ValidateProject class - A component of the ENB Tool
+ * </p>
+ * <p>
+ * Description: It is an entity class which is used to validate the project
+ * </p>
  * @author Avinash
  */
+// HTTP servlets enable you to send and receive data using an HTML form.
 public class ValidateProject extends HttpServlet {
 
     /**
@@ -43,10 +49,10 @@ public class ValidateProject extends HttpServlet {
             ProjectHelper ph=new ProjectHelper();
             HttpSession session=request.getSession();
             if(ph.getProject(Integer.parseInt(session.getAttribute("uid").toString()),email)!=null){
-                out.print("Yes");
+                out.print("Yes");   // if project doesn't exist 
             }
             else{
-                out.print("No");
+                out.print("No"); // if project already exists
             }
         } finally {            
             out.close();

@@ -17,9 +17,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * <p>
+ * Title: Login class- component of the ENB tool
+ * </p>
+ * <p>
+ * Description- It is an entity class which is used to authenticate user and create a session 
+ * </p>
  * @author Avinash
  */
+// HTTP servlets enable you to send and receive data using an HTML form.
 public class Login extends HttpServlet {
 
     /**
@@ -39,22 +45,20 @@ public class Login extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
             RegistrationHelper rh=new RegistrationHelper();
-            Userauth ua=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
+            Userauth ua=rh.getUserauth(request.getParameter("email"), request.getParameter("pass")); //checks valid details are entered
             if(ua!=null){
-                HttpSession session=request.getSession();
+                HttpSession session=request.getSession(); //creates a session for a valid user
                 session.setAttribute("email", request.getParameter("email"));
                 session.setAttribute("name", ua.getName());
                 session.setAttribute("uid", ua.getId());
-                System.out.print("\n\nlogin"+ua.getId()+"\n\n");
+                System.out.print("\n\nlogin"+ua.getId()+"\n\n");   // gets the id of the user logged in 
                 UserLogHelper uh=new UserLogHelper();
-                uh.insertlog(session.getAttribute("uid").toString(),"Login");
-                if(ua.getUserrole().equals("mentor"))
-                    response.sendRedirect("adminhome.jsp");
-                else
-                    response.sendRedirect("Homepage.jsp");
+                uh.insertlog(session.getAttribute("uid").toString(),"Login");    //creates log for the user
+                response.sendRedirect("Homepage.jsp");     // opens home page in the ENB tool
             }
+            // redirects to the same page if the user enters invalid email-id or password
             else{
-                request.setAttribute("error", "Invalid Email-ID or Password");
+                request.setAttribute("error", "Invalid Email-ID or Password"); // displays error message
                 RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
                 rd.forward(request, response);
             }

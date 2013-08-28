@@ -15,15 +15,21 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 /**
- *
+ *<p>
+ * Title: ForgotPassword class - A component of the ENB Tool
+ * </p>
+ * <p>
+ * Description: It is an entity class which is used to recover the password
+ * </p>
  * @author Avinash
  */
+// HTTP servlets enable you to send and receive data using an HTML form.
 public class ForgotPassword extends HttpServlet {
 
     /**
@@ -41,19 +47,18 @@ public class ForgotPassword extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            String email=request.getParameter("email");
-            out.println(email);
-            RegistrationHelper rh=new RegistrationHelper();
-               // String pass=rh.getPassword(email);
-                final String username = "rajasekharizcool91@gmail.com";
-		final String password = "man@mandarin";
+                String email=request.getParameter("email");
+                RegistrationHelper rh=new RegistrationHelper();
+                String pass=rh.getPassword(email);
+                final String username = "enbtool@gmail.com";
+		final String password = "enbarm007";
  
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
- 
+                
 		Session session = Session.getInstance(props,
 		  new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -63,20 +68,24 @@ public class ForgotPassword extends HttpServlet {
  
 		try {
  
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("lynnrobertcarter@gmail.com"));
+			Message message = new MimeMessage(session); 
+			message.setFrom(new InternetAddress("enbtool@gmail.com"));   // password is sent from the server system email
 			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("vundyala.avinash@gmail.com"));
-			message.setSubject("Forgot->Password");
+				InternetAddress.parse(email));           // password sent to the destination address
+			message.setSubject("Forgot->Password");          // setting subject to the mail
 			message.setText("Dear User,\n\n"+"\t\tUserName: "+email+"\n"
-				+ "\n\t\t Your PassWord is: pass");
+				+ "\n\t\t Your PassWord is: "+pass);
  
-			Transport.send(message);
+			Transport.send(message);    //sends the password to mail
  
-			System.out.println("Done");
+			System.out.println("Done"); //print success message
+                        response.sendRedirect("index.jsp"); // redirects to the login page
  
 		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+                        RequestDispatcher rd=request.getRequestDispatcher("forgot.jsp");   // displays the same page if error occurs in sending 
+                        request.setAttribute("error", "<div id='projalert'><span class='alert'>Error in sending email. Try Later!</span></div>");
+                        rd.forward(request, response);
+                        
 		}
             
         } finally {            

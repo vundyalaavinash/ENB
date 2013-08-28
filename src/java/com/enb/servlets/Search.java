@@ -13,11 +13,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 /**
- *
+ *<p>
+ * Title: Search class - A component of the ENB Tool
+ * </p>
+ * <p>
+ * Description: It is an entity class which is used to perform search operation on the ENB tool
+ * </p>
  * @author Avinash
  */
+// HTTP servlets enable you to send and receive data using an HTML form.
 public class Search extends HttpServlet {
 
     /**
@@ -43,11 +48,9 @@ public class Search extends HttpServlet {
             else{
                 int uid=Integer.parseInt(session.getAttribute("uid").toString());
                 SearchHelper sh=new SearchHelper();
-                String search=sh.Searching(request.getParameter("keywords"), uid);
-                
+                String search=sh.Searching(request.getParameter("keywords"), uid);// search based on the keywords 
                 UserLogHelper uh=new UserLogHelper();
-                uh.insertlog(session.getAttribute("uid").toString(),"Search - "+request.getParameter("keywords"));
-                out.print(""+search);
+                uh.insertlog(session.getAttribute("uid").toString(),"Search - "+request.getParameter("keywords")); //store search activity in the user log 
             }
         } finally {            
             out.close();

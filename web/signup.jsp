@@ -4,25 +4,22 @@
     Author     : Avinash
 --%>
 
-<%@page import="com.enb.POJO.Userauth"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.enb.Helper.RegistrationHelper"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <title>ENB | ARM Technologies</title>
         <link rel="stylesheet"  href="Styles/HomeOthers.css">		
-        <link href="Styles/alertify.bootstrap.css" rel="stylesheet" type="text/css" />
+         <link href="Styles/alertify.bootstrap.css" rel="stylesheet" type="text/css" />
         <link href="Styles/alertify.core.css" rel="stylesheet" type="text/css" />
         <link href="Styles/alertify.default.css" rel="stylesheet" type="text/css" />
-
+        
         <script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>
         <script src="Scripts/jquery.validate.min.js" type="text/javascript"></script>
         <script src="Scripts/additional-methods.js" type="text/javascript"></script>
         <script src="Scripts/alertify.min.js" type="text/javascript"></script>
-
+        
         <script src="CusScripts/Home.js" type="text/javascript"></script>
 
     </head>
@@ -39,9 +36,9 @@
                         <h2>Sign UP</h2>
                         <form id="loginForm" method="post" action="Registration">
                             <fieldset>
-                                <% if (request.getAttribute("error") != null) {
-                                        out.println("<p class='alert' style='color:white;'>" + request.getAttribute("error") + "</p>");
-                                    }%>
+                                <% if(request.getAttribute("error")!=null){
+                                    out.println("<p class='alert' style='color:white;'>"+request.getAttribute("error")+"</p>");
+                                                                   }%>
                                 <p><label for="password2">Full Name</label></p>
                                 <p><input type="text" id="fname" name="fname" class="required"  placeholder="Enter Your Name"></p>
                                 <p><label for="email">E-mail address</label></p>
@@ -52,19 +49,6 @@
 
                                 <p><label for="password2">Re-Type Password</label></p>
                                 <p><input type="password" id="password2" name="repass" class="required passmatch"  placeholder="re-Enter Password"></p>
-                                <p><label for="mentor">Select Mentor</label></p>
-                                <p><select style="width: 290px" name="mentor" class="notPlayDefault">
-                                        <option value="Default">---Select Mentor---</option>
-                                        <%
-                                        RegistrationHelper rh=new RegistrationHelper();
-                                        ArrayList<Userauth> mentorinfo=rh.getMentors();
-                                        
-                                        for(int i=0;i<mentorinfo.size();i++)
-                                                                                       {
-                                            out.println("<option value='"+mentorinfo.get(i).getId()+"'>"+mentorinfo.get(i).getName()+"</option>");
-                                        }
-                                        %>
-                                    </select></p>
                                 <div class="floatl divf"><input type="submit" value="Sign UP" class="button" id="submit"></div>
                                 <div class="floatr divf"><a href="index.jsp" style="padding:5px;">Log IN</a></div>
                                 </p>

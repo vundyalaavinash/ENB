@@ -21,11 +21,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 /**
- *
+ *<p>
+ * Title: enb class - A component of the ENB Tool
+ * </p>
+ * <p>
+ * Description: It is an entity class which is used to perform operations on the ENB tool
+ * </p>
  * @author Avinash
  */
+// HTTP servlets enable you to send and receive data using an HTML form.
 public class enb extends HttpServlet {
 
     /**
@@ -42,17 +47,15 @@ public class enb extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        int maxpl=0;
-        int maxds=0;
-        int maxln=0;
+        int maxpl=0;  // initialize plan to zero
+        int maxds=0;  // initialize deliverablestatus to zero
+        int maxln=0;  // initialize lessons to zero
         try {           
             
             ArrayList<String> al=new ArrayList<String>();
             Enumeration enu=request.getParameterNames();
             HashMap<String,String> map=new HashMap<String,String>();
-            
             HttpSession session=request.getSession();
-            
             String notes=request.getParameter("notes1").toString();
             int eid=0;
             if(request.getParameter("eid")==null){
@@ -96,19 +99,23 @@ public class enb extends HttpServlet {
             n.setNotes(notes.getBytes());
             n.setEnbdesc(e);
             n.setEnbid(eid);
-            
+            /*
+             * creating reference for helper classes
+             */
             PlanHelper ph=new PlanHelper();
             LessonsHelper lh=new LessonsHelper();
             DeliverablesHelper dh=new DeliverablesHelper();
             NotesHelper nh=new NotesHelper();
+            nh.removeNotes(eid);  // removing notes from enb based on enb id
+            ph.removePlan(eid);   // removing plan from enb based on enb id
+            lh.deleteLessons(eid);// removing lessons from enb based on enb id
+            dh.removeDeliverablestatus(eid);// removing dedliverablestatus from enb based on enb id
             
+            nh.insertNotes(n);   // insert notes into enb
+            /**
+             * add plan to a list and increment the list as plans increases 
+             */
             
-            nh.removeNotes(eid);
-            ph.removePlan(eid);
-            lh.deleteLessons(eid);
-            dh.removeDeliverablestatus(eid);
-            
-            nh.insertNotes(n);
             for(int i=0;i<maxpl;i++){
                 p[i]=new Plan();
                 
@@ -122,7 +129,9 @@ public class enb extends HttpServlet {
                 p[i].setEnbdesc(e);
                 ph.insertPlan(p[i]);
             }           
-            
+            /**
+             * add lessons to a list and increment the list as lessons learned increases 
+             */
             for(int i=0;i<maxln;i++){
                 
                 l[i]=new Lessons();    
@@ -137,7 +146,9 @@ public class enb extends HttpServlet {
                 l[i].setEnbdesc(e);
                 lh.insertLessons(l[i]);
             }      
-            
+            /**
+             * add deliverablestatus to a list and increment the list as deliverablestatus increases 
+             */
             for(int i=0;i<maxds;i++){
                 d[i]=new Deliverablestatus();
                 

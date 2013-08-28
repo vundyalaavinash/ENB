@@ -18,11 +18,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 /**
  *
+ * <p>
+ * Title: Registration class - A component of the ENB Tool
+ * </p>
+ * <p>
+ * Description: It is an entity class which is used to register user details
+ * </p>
+ * 
  * @author Avinash
  */
+// HTTP servlets enable you to send and receive data using an HTML form.
+
 public class Registration extends HttpServlet {
 
     /**
@@ -42,29 +50,28 @@ public class Registration extends HttpServlet {
         try {
             String email=request.getParameter("email");
             RegistrationHelper rh=new RegistrationHelper();
-            if(rh.ValidateUser(email)!=null){
-                RequestDispatcher rd=request.getRequestDispatcher("signup.jsp");
-                request.setAttribute("error", "<span class='alert'>Email ID already Exists</span>");
+            if(rh.ValidateUser(email)!=null){    //checks the existence of email id
+                RequestDispatcher rd=request.getRequestDispatcher("signup.jsp"); //redirects to the same page if invalid
+                request.setAttribute("error", "<span class='alert'>Email ID already Exists</span>"); //displays error message
                 rd.forward(request, response);
             }
             else{
                 /* TODO output your page here. You may use following sample code. */
                 Userauth ua = new Userauth();
-
+                // add details to the userauthentication
                 ua.setEmailId(request.getParameter("email"));
                 ua.setName(request.getParameter("fname"));
                 ua.setPassword(request.getParameter("pass"));
-                ua.setUserrole("student");
-                ua.setMentoring(Integer.parseInt(request.getParameter("mentor")));
+                //inserts the user details into database
                 rh.insertUserauth(ua);
-                HttpSession session=request.getSession();
+                HttpSession session=request.getSession(); // creates a session for the user
                 Userauth ua1=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
                 session.setAttribute("email", request.getParameter("email"));
                 session.setAttribute("uid", ua1.getId());
                 session.setAttribute("name", request.getParameter("fname"));
-                UserLogHelper uh=new UserLogHelper();
-                uh.insertlog(session.getAttribute("uid").toString(),"Registered");
-                response.sendRedirect("Homepage.jsp");
+                UserLogHelper uh=new UserLogHelper();    // inserts into the user log
+                uh.insertlog(session.getAttribute("uid").toString(),"Registered");   
+                response.sendRedirect("Homepage.jsp"); // redirects to the home page of ENB if valid details are entered
             }
         } finally {            
             out.close();

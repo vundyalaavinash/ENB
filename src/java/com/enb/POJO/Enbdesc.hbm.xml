@@ -1,19 +1,22 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 27, 2013 12:09:45 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Aug 23, 2013 11:31:00 PM by Hibernate Tools 3.2.1.GA 
+     Description- used to map java objects in deliverablestatus to the deliverablestatus table columns in the database -->
 <hibernate-mapping>
     <class name="com.enb.POJO.Enbdesc" table="enbdesc" catalog="enb">
-        <id name="id" type="java.lang.Integer">
+        <id name="id" type="java.lang.Integer">      <!-- eliminate any duplicate entries. -->
             <column name="ID" />
-            <generator class="identity" />
+            <generator class="identity" />    <!-- used to generate a unique id every time an object is 
+                                                            persisted to the database -->
         </id>
-        <many-to-one name="userauth" class="com.enb.POJO.Userauth" fetch="select">
+        <many-to-one name="userauth" class="com.enb.POJO.Userauth" fetch="select">     <!-- define other class in the many-to-one relationship. -->
             <column name="UID" />
         </many-to-one>
         <many-to-one name="project" class="com.enb.POJO.Project" fetch="select">
             <column name="Pid" />
         </many-to-one>
+        <!-- To make every attribute in your Java class persisted -->
         <property name="fromdate" type="date">
             <column name="Fromdate" length="10" />
         </property>
@@ -30,7 +33,7 @@
             <one-to-many class="com.enb.POJO.Notes" />
         </set>
         <set name="plans" inverse="true">
-            <key>
+            <key>    <!-- used to indicate property of the class -->
                 <column name="ENBID" not-null="true" />
             </key>
             <one-to-many class="com.enb.POJO.Plan" />

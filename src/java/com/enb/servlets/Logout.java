@@ -13,9 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ *<p>
+ * Title: Logout class - A component of the ENB Tool
+ * </p>
+ * <p>
+ * Description: It is an entity class which is used to close the user session
+ * </p>
  * @author Avinash
  */
+// HTTP servlets enable you to send and receive data using an HTML form.
 public class Logout extends HttpServlet {
 
     /**
@@ -33,11 +39,11 @@ public class Logout extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            HttpSession session =request.getSession();
-            session.invalidate();
-            response.sendRedirect("index.jsp");
+            HttpSession session =request.getSession(); 
+            session.invalidate();                   // close the session
+            response.sendRedirect("index.jsp");    // redirect to the login page 
         } finally {            
-            out.close();
+            out.close();    
         }
     }
 

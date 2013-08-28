@@ -37,17 +37,17 @@ $(document).ready(function(){
 	
 	$("#lnar").click(function(){
 		lncount+=1;
-		$("#lntable").append("<tr><td>"+lncount+".</td><td><input type='text' name='lnc"+lncount+"' ></td><td><input type='text' name='lnl"+lncount+"' ></td></tr>");
+		$("#lntable").append("<tr><td>"+lncount+".</td><td><center><textarea onkeyup='textAreaAdjust(this)' name='lnc"+lncount+"' ></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='lnl"+lncount+"' ></textarea></center></td></tr>");
 	});
 	
 	$("#planr").click(function(){
 		plancount+=1;
-		$("#plantable").append("<tr><td>"+plancount+".</td><td><input type='text' name='pld"+plancount+"' ></td><td><input type='text' name='plw"+plancount+"' ></td></tr>");
+		$("#plantable").append("<tr><td>"+plancount+".</td><td><center><textarea onkeyup='textAreaAdjust(this)' name='pld"+plancount+"' ></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='plw"+plancount+"' ></textarea></center></td></tr>");
 	});
 	
 	$("#dsr").click(function(){
 		dscount+=1;
-		$("#dstable").append("<tr><td>"+dscount+".</td><td><input type='text' name='dsd"+dscount+"'></td><td><input type='text' name='dsp"+dscount+"'></td><td><input type='text' name='dsa"+dscount+"'></td><td><input type='text' name='dss"+dscount+"'></td><td><input type='text' name='dse"+dscount+"'></td></tr>");
+		$("#dstable").append("<tr><td>"+dscount+".</td><td><center><textarea onkeyup='textAreaAdjust(this)' name='dsd"+dscount+"'></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='dsp"+dscount+"'></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='dsa"+dscount+"'></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='dss"+dscount+"'></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='dse"+dscount+"'></textarea></center></td></tr>");
 	});	        
         
         $("#savebtn").click(function(){
@@ -61,7 +61,7 @@ $(document).ready(function(){
                 + currentdate.getHours() + ":"  
                 + currentdate.getMinutes() + ":" 
                 + currentdate.getSeconds();
-            var datetime = "Last Saved: " + currentdate.getDate() + "/"
+            var datetime = "Last Sync: " + currentdate.getDate() + "/"
                 + (currentdate.getMonth()+1)  + "/" 
                 + currentdate.getFullYear() + " @ "  
                 + currentdate.getHours() + ":"  
@@ -83,9 +83,9 @@ $(document).ready(function(){
             return false;
         });
         
-        /*$(document).keydown(function(e) {
+        $(document).keydown(function(e) {
             var doPrevent;
-            if ( e.keyCode == 46) {
+            if (e.keyCode == 8 || e.keyCode == 46) {
                 var d = e.srcElement || e.target;
                 if (d.tagName.toUpperCase() == 'INPUT' || d.tagName.toUpperCase() == 'TEXTAREA') {
                     doPrevent = d.readOnly || d.disabled;
@@ -98,5 +98,5 @@ $(document).ready(function(){
 
             if (doPrevent)
                 e.preventDefault();
-        });*/
-});
+        });
+    });

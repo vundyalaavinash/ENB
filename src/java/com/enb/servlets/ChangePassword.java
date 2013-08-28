@@ -16,11 +16,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ * <p>
+ * Title: Change password class- component of the ENB tool
+ * </p>
+ * <p>
+ * Description- It is an entity class which is used to retrieve password using email
+ * </p>
+ * 
  * @author B.Revanth
  */
 @WebServlet(name = "ChangePassword", urlPatterns = {"/ChangePassword"})
-public class ChangePassword extends HttpServlet {
+// HTTP servlets enable you to send and receive data using an HTML form.
+public class ChangePassword extends HttpServlet { 
 
     /**
      * Processes requests for both HTTP

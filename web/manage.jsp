@@ -4,8 +4,7 @@
     Author     : B.Revanth
 --%>
 
-<%@page import="java.util.ArrayList"%>
-<%@page import="org.hibernate.Hibernate"%>
+<%@page import="javax.print.attribute.standard.MediaSize.Other"%>
 <%@page import="com.enb.Helper.ProjectHelper"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="com.enb.POJO.*"%>
@@ -30,201 +29,91 @@
 
         <script src="CusScripts/manage.js" type="text/javascript"></script>
         <script src="CusScripts/manageenb.js" type="text/javascript"></script>
-        <script type="text/javascript">
+        <script>
+        function textAreaAdjust(o) {
+            o.style.fontFamily = "Times New Roman";
+            o.style.fontSize= "12pt";
+            o.style.height = "1px";
+            o.style.height = (25+o.scrollHeight)+"px";
+            //o.style.border="none";
+        }
+        </script>
+        <script>
      
-function edValueKeyPress(){
+            function edValueKeyPress(){
     
-    var myElement = document.getElementById('edValue');
-myElement.onpaste = function(e) {
-  var pastedText = undefined;
-  if (window.clipboardData && window.clipboardData.getData) { // IE
-    pastedText = window.clipboardData.getData('Text');
-  } else if (e.clipboardData && e.clipboardData.getData) {
-    pastedText = e.clipboardData.getData('text/plain');
-  }
-  //alert(pastedText); // Process and handle text...
-  ref='';
-  while(ref==null||ref==''){
-   ref =prompt("Please enter a Reference","");
-}
-  //alert(ref.length)
-  if(ref!=null||ref!=''){
-      
-    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br> Reference: '+ref+'</p>')
-  }
-  return false; // Prevent the default handler from running.
-};
+                var myElement = document.getElementById('edValue');
+                myElement.onpaste = function(e) {
+                    var pastedText = undefined;
+                    if (window.clipboardData && window.clipboardData.getData) { // IE
+                        pastedText = window.clipboardData.getData('Text');
+                    } else if (e.clipboardData && e.clipboardData.getData) {
+                        pastedText = e.clipboardData.getData('text/plain');
+                    }
+                    //alert(pastedText); // Process and handle text...
+                    ref='';
+                    while(ref==null||ref==''){
+                     ref =prompt("Please enter a Reference","");
+                    }
+                    //alert(ref.length)
+                    if(ref!=null||ref!=''){                    
+                    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br></p> <p style="color:#46786">Reference: '+ref+'</p>')
+                    }  return false; // Prevent the default handler from running.
+                };
    
-   
-}
+            }
     
-    function insertHtmlAtCursor(html) {
-    var range, node;
-    if (window.getSelection && window.getSelection().getRangeAt) {
-        range = window.getSelection().getRangeAt(0);
-        node = range.createContextualFragment(html);
-        range.insertNode(node);
-    } else if (document.selection && document.selection.createRange) {
-        document.selection.createRange().pasteHTML(html);
-    }
-}
+            function insertHtmlAtCursor(html) {
+                var range, node;
+                if (window.getSelection && window.getSelection().getRangeAt) {
+                    range = window.getSelection().getRangeAt(0);
+                    node = range.createContextualFragment(html);
+                    range.insertNode(node);
+                } else if (document.selection && document.selection.createRange) {
+                    document.selection.createRange().pasteHTML(html);
+                }
+            }
   
-function getSelectionHtml() {
-    var html = "";
-    if (typeof window.getSelection != "undefined") {
-        var sel = window.getSelection();
-        if (sel.rangeCount) {
-            var container = document.createElement("div");
-            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                container.appendChild(sel.getRangeAt(i).cloneContents());
+            function getSelectionHtml() {
+                var html = "";
+                if (typeof window.getSelection != "undefined") {
+                    var sel = window.getSelection();
+                    if (sel.rangeCount) {
+                        var container = document.createElement("div");
+                        for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+                            container.appendChild(sel.getRangeAt(i).cloneContents());
+                        }
+                        html = container.innerHTML;
+                    }
+                } else if (typeof document.selection != "undefined") {
+                    if (document.selection.type == "Text") {
+                        html = document.selection.createRange().htmlText;
+                    }
+                }
+                //alert(html);
+                replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
+                lblValue.innerHTML = edValue.innerHTML;
             }
-            html = container.innerHTML;
-        }
-    } else if (typeof document.selection != "undefined") {
-        if (document.selection.type == "Text") {
-            html = document.selection.createRange().htmlText;
-        }
-    }
-    var el=document.getElementById("edValue");
-    if(html.length==0 && el.innerText.length==getCaretCharacterOffset(el)){
-        html=getCaretCharacterOffsetWithin(el)
-        replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-    }
-    
-    else if(html.length==0){
-        
-        html=getCaretCharacterOffsetWithin(el)
-        replaceSelectionWithHtml('<del>'+html+'</del>')
-        
-    }
-    else{
-        replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-    }
-      //  alert(document.getElementById("edValue").innerText)
-}
 
-
-function getSelectionHtmlDel() {
-    var html = "";
-    
-    if (typeof window.getSelection != "undefined") {
-        var sel = window.getSelection();
-        if (sel.rangeCount) {
-            var container = document.createElement("div");
-            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                container.appendChild(sel.getRangeAt(i).cloneContents());
+            function replaceSelectionWithHtml(html) {
+                var range, html;
+                if (window.getSelection && window.getSelection().getRangeAt) {
+                    range = window.getSelection().getRangeAt(0);
+                    range.deleteContents();
+                    var div = document.createElement("div");
+                    div.innerHTML = html;
+                    var frag = document.createDocumentFragment(), child;
+                    while ( (child = div.firstChild) ) {
+                        frag.appendChild(child);
+                    }
+                    range.insertNode(frag);
+                } else if (document.selection && document.selection.createRange) {
+                    range = document.selection.createRange();
+                    html = (node.nodeType == 3) ? node.data : node.outerHTML;
+                    range.pasteHTML(html);
+                }
             }
-            html = container.innerHTML;
-        }
-    } else if (typeof document.selection != "undefined") {
-        if (document.selection.type == "Text") {
-            html = document.selection.createRange().htmlText;
-        }
-    }
-    
-    var el=document.getElementById("edValue");
-    
-    if(html.length==0){
-        
-        var x=getCaretCharacterOffset(el)
-        html=el.innerText.charAt(x)
-       // alert(html)
-        replaceSelectionWithHtml('<del>'+html+'</del>')
-        
-    }
-    else{
-        replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-    }
-       // alert(document.getElementById("edValue").innerHTML)
-}
-
-function replaceSelectionWithHtml(html) {
-    var range, html;
-    if (window.getSelection && window.getSelection().getRangeAt) {
-        range = window.getSelection().getRangeAt(0);
-        range.deleteContents();
-        var div = document.createElement("div");
-        div.innerHTML = html;
-        var frag = document.createDocumentFragment(), child;
-        while ( (child = div.firstChild) ) {
-            frag.appendChild(child);
-        }
-        range.insertNode(frag);
-    } else if (document.selection && document.selection.createRange) {
-        range = document.selection.createRange();
-        html = (node.nodeType == 3) ? node.data : node.outerHTML;
-        range.pasteHTML(html);
-    }
-}
-
-
-function getCaretCharacterOffset(element) {
-    var caretOffset = 0;
-    var doc = element.ownerDocument || element.document;
-    var win = doc.defaultView || doc.parentWindow;
-    var sel;
-    if (typeof win.getSelection != "undefined") {
-        var range = win.getSelection().getRangeAt(0);
-        var preCaretRange = range.cloneRange();
-        preCaretRange.selectNodeContents(element);
-        preCaretRange.setEnd(range.endContainer, range.endOffset);
-        caretOffset = preCaretRange.toString().length;//
-    } else if ( (sel = doc.selection) && sel.type != "Control") {
-        var textRange = sel.createRange();
-        var preCaretTextRange = doc.body.createTextRange();
-        preCaretTextRange.moveToElementText(element);
-        preCaretTextRange.setEndPoint("EndToEnd", textRange);
-        caretOffset = preCaretTextRange.text.length;//
-    }
-    return caretOffset;
-}
-
-
-function getCaretCharacterOffsetWithin(element) {
-    var caretOffset = 0;
-    var doc = element.ownerDocument || element.document;
-    var win = doc.defaultView || doc.parentWindow;
-    var sel;
-    if (typeof win.getSelection != "undefined") {
-        var range = win.getSelection().getRangeAt(0);
-        var preCaretRange = range.cloneRange();
-        preCaretRange.selectNodeContents(element);
-        preCaretRange.setEnd(range.endContainer, range.endOffset);
-        caretOffset = preCaretRange.toString();//
-    } else if ( (sel = doc.selection) && sel.type != "Control") {
-        var textRange = sel.createRange();
-        var preCaretTextRange = doc.body.createTextRange();
-        preCaretTextRange.moveToElementText(element);
-        preCaretTextRange.setEndPoint("EndToEnd", textRange);
-        caretOffset = preCaretTextRange.text;//
-    }
-    return caretOffset.charAt(caretOffset.length-1);
-}
-
-
-
-function showCaretPos() {
-    var KeyID = event.keyCode;
-   switch(KeyID)
-   {
-      case 8:
-      //alert("backspace");
-      getSelectionHtml();
-      return false;
-      break; 
-      case 46: 
-      getSelectionHtmlDel();    
-      return false;
-      break;
-      default:
-      break;
-   }
-    var el = document.getElementById("edValue");
-    var caretPosEl = document.getElementById("caretPos");
-    caretPosEl.innerHTML = "Caret position: " + getCaretCharacterOffsetWithin(el);
-}
-
-</script>
+        </script>   
     </head>
     <body>
         <header>
@@ -246,75 +135,76 @@ function showCaretPos() {
                 %>
             </h3>
             <a href="Homepage.jsp">Home</a>
-            <a href="create.jsp">Create ENB</a>
-            <a href="search.jsp">Search</a>
-            <a href="manageselect.jsp">Manage ENB</a>
-            <a href="viewselect.jsp">View ENB</a>
-            <a href="logs.jsp">Logs</a>
-            <a href="account.jsp">Account</a>
+			<a href="create.jsp">Create ENB</a>
+                        <a href="search.jsp">Search</a>
+			<a href="manageselect.jsp">Manage ENB</a>
+			<a href="viewselect.jsp">View ENB</a>
+			<a href="logs.jsp">Logs</a>
+			<a href="account.jsp">Account</a>
         </nav>
-        <%
+        <%            
             int pid = Integer.parseInt(request.getParameter("pid"));
-
-            ProjectHelper ph = new ProjectHelper();
+                       
+            ProjectHelper ph=new ProjectHelper();
             EnbdescHelper eh = new EnbdescHelper();
-            RegistrationHelper rh = new RegistrationHelper();
-            NotesHelper nh = new NotesHelper();
-            DeliverablesHelper dh = new DeliverablesHelper();
-            LessonsHelper lh = new LessonsHelper();
-            PlanHelper plh = new PlanHelper();
-
+            RegistrationHelper rh=new RegistrationHelper();
+            
             Enbdesc ed = eh.getEnbdescPID(pid);
-            Project p = ph.getProjectPID(pid);
-            System.out.print("" + ed);
-            int uid = Integer.parseInt(session.getAttribute("uid").toString());
-            if (ed == null) {
-                ed = new Enbdesc();
-                Userauth ua = rh.getUserId(session.getAttribute("email").toString());
-                Calendar now = Calendar.getInstance();
+            Project p=ph.getProjectPID(pid);
+            System.out.print(""+ed);  
+            int uid=Integer.parseInt(session.getAttribute("uid").toString());
+            if(ed==null){
+                ed=new Enbdesc();
+                Userauth ua=rh.getUserId(session.getAttribute("email").toString());
+                Calendar now = Calendar.getInstance();  
+            
+                if(p.getIsMonthly()=="No"){
+                    int weekday = now.get(Calendar.DAY_OF_WEEK);               
+                    int days = (Calendar.SATURDAY - weekday) % 7;  
+                    now.add(Calendar.DAY_OF_YEAR, days); 
 
-                if (p.getIsMonthly() == "No") {
-                    int weekday = now.get(Calendar.DAY_OF_WEEK);
-                    int days = (Calendar.SATURDAY - weekday) % 7;
-                    now.add(Calendar.DAY_OF_YEAR, days);
-
-                    Calendar projto = Calendar.getInstance();
+                    Calendar projto=Calendar.getInstance();
                     projto.setTime(p.getToDate());
-                    if (projto.compareTo(now) < 0) {
-                        now = projto;
+                    if(projto.compareTo(now)<0){
+                        now=projto;
                     }
-                } else {
-                    now.set(Calendar.DATE, now.getActualMaximum(Calendar.DATE));
+                }            
+                else{
+                    now.set(Calendar.DATE,now.getActualMaximum(Calendar.DATE)); 
 
-                    Calendar projto = Calendar.getInstance();
+                    Calendar projto=Calendar.getInstance();
                     projto.setTime(p.getToDate());
-                    if (projto.compareTo(now) < 0) {
-                        now = projto;
+                    if(projto.compareTo(now)<0){
+                        now=projto;
                     }
-                }
-                Calendar at = Calendar.getInstance();
-                ed.setEnbname(p.getProjectName() + " : " + at.get(Calendar.DATE) + "-" + (at.get(Calendar.MONTH) + 1) + "-" + at.get(Calendar.YEAR) + " to " + now.get(Calendar.DATE) + "-" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.YEAR));
+                }                 
+                Calendar at=Calendar.getInstance();
+                ed.setEnbname(p.getProjectName()+" : "+at.get(Calendar.DATE)+"-"+(at.get(Calendar.MONTH)+1)+"-"+at.get(Calendar.YEAR)+" to "+now.get(Calendar.DATE)+"-"+(now.get(Calendar.MONTH)+1)+"-"+now.get(Calendar.YEAR)); 
                 ed.setProject(p);
                 ed.setFromdate(at.getTime());
-                ed.setTodate(now.getTime());
-                ed.setUserauth(ua);
-                System.out.print("" + ed);
-                eh.insertEnbdesc(ed);
-                session.setAttribute("enbname", ed.getEnbname());
-
-                session.setAttribute("emid", eh.getEnbid(ed.getEnbname(), uid).getId());
-                System.out.println("" + session.getAttribute("emid"));
-            }
-
-            session.setAttribute("emid", eh.getEnbid(ed.getEnbname(), uid).getId());
-
+                ed.setTodate(now.getTime());         
+                ed.setUserauth(ua);          
+                System.out.print(""+ed);                       
+                eh.insertEnbdesc(ed);            
+                session.setAttribute("enbname", ed.getEnbname());    
+                
+                session.setAttribute("emid", eh.getEnbid(ed.getEnbname(),uid).getId());
+                System.out.println(""+session.getAttribute("emid"));
+            }            
+            
+            session.setAttribute("emid", eh.getEnbid(ed.getEnbname(),uid).getId());
+            
             Calendar from = Calendar.getInstance();
             from.setTime(ed.getFromdate());
 
             Calendar to = Calendar.getInstance();
             to.setTime(ed.getTodate());
 
-            String proj = p.getProjectName();
+            String proj = ed.getProject().getProjectName();
+            Set notes = ed.getNoteses();
+            Set ds =  ed.getDeliverablestatuses();
+            Set ln = ed.getLessonses();
+            Set pl = ed.getPlans();
         %>
         <div id="main">
             <div id="mydiv" class="hide">
@@ -322,14 +212,14 @@ function showCaretPos() {
                     <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading</h3>
                     <img src="Styles/images/loader.gif" />
                 </div>
-            </div>
+           </div>
             <form method="post" id="enbform">
                 <div id="content">
                     <table width="100%" border="0">
                         <tr>
                             <td width="80%">
-                                <h2><%=proj.toUpperCase()%></h2>
-                                <p><%=ed.getEnbname()%></p>
+                                <h2><%=proj.toUpperCase() %></h2>
+                                <p><%=ed.getEnbname() %></p>
                                 <br/>
                                 <br/>
                             </td >
@@ -353,18 +243,23 @@ function showCaretPos() {
                         <%
                             String enbname = ed.getEnbname();
                             EnbdescHelper eh1 = new EnbdescHelper();
-                            Enbdesc enb = eh1.getEnbid(enbname, uid);
+                            Enbdesc enb = eh1.getEnbid(enbname,uid);
+                            //int enbid = enb.getId();
+                            Set set = enb.getNoteses();
+                            Iterator itr = set.iterator();
 
-                            ArrayList<Notes> itr = nh.getNotes(ed.getId());
-                            if (!itr.isEmpty()) {
-                                Notes note = (Notes) itr.get(0);
-                                String s = new String(note.getNotes());
-                                out.println("<br/><br/><div id='edValue' style='width:100%; min-height:300px; border: 2px #999999 double;' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()' onkeydown='showCaretPos()'>"+s+"</div><br>");
-                            } else {
-                                out.println("<br/><br/><div id='edValue' style='width:100%; min-height:300px; border: 2px #999999 double;' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()' onkeydown='showCaretPos()'></div><br>");
+                            if (itr.hasNext()) {
+                                Notes note = (Notes) itr.next();
+                                String s=new String(note.getNotes());
+                                
+                                out.println("<br/><br/><div style='width:100%; min-height:300px; border: 2px #999999 double;' id='edValue' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()'>"+s+" </div><br>");
+                            }
+                            else{
+                                out.println("<br/><br/><div style='width:100%; min-height:300px; border: 2px #999999 double;' id='edValue' contenteditable='true' onKeyPress='edValueKeyPress()' onKeyUp='edValueKeyPress()'> </div><br>");
                             }
                             out.print("<input type='button' class='button' onclick='getSelectionHtml();' value='Strike OFF'> <input type='hidden' value='' name='notes1' id='notes1'>");
                         %>              
+                        
                         <br><br>
                     </div> 
                     <div id="tab2">
@@ -374,80 +269,85 @@ function showCaretPos() {
                             <tr>
                                 <td width="5%">SNO</td>
                                 <td width="16%"><center>Deliverable</center></td>
-                            <td width="27%"><center>What did you plan to accomplish?</center></td>
-                            <td width="27%"><center>What did you actually accomplish?</center></td>
-                            <td width="10%"><center>Size</center></td>
-                            <td width="10%"><center>Effort</center></td>
+                                <td width="27%"><center>What did you plan to accomplish?</center></td>
+                                <td width="27%"><center>What did you actually accomplish?</center></td>
+                                <td width="10%"><center>Size</center></td>
+                                <td width="10%"><center>Effort</center></td>
                             </tr>
                             <%
                                 //Deliverable Status
-                                ArrayList<Deliverablestatus> dsi = dh.getDeliverablestatus(ed.getId());
-                                int i = 0;
-                                for (i = 0; i < dsi.size(); i++) {
-                                    Deliverablestatus dso = dsi.get(i);
-                                    out.print("<tr><td>" + (i + 1) + ".</td>");
-                                    out.print("<td><input type='text' name='dsd" + (i + 1) + "' class='required' value='" + dso.getDeliverables() + "'></td>");
-                                    out.print("<td><input type='text' name='dsp" + (i + 1) + "' class='required' value='" + dso.getPlanToAccomplish() + "'></td>");
-                                    out.print("<td><input type='text' name='dsa" + (i + 1) + "' class='required' value='" + dso.getActualAccomplished() + "'></td>");
-                                    out.print("<td><input type='text' name='dss" + (i + 1) + "' class='required' value='" + dso.getSize() + "'></td>");
-                                    out.print("<td><input type='text' name='dse" + (i + 1) + "' class='required' value='" + dso.getEffort() + "'></td></tr>");
+                                Iterator<Deliverablestatus> dsi=ds.iterator();                               
+                                int i=0;
+                                while(dsi.hasNext()){
+                                    i++;
+                                    Deliverablestatus dso=dsi.next();                                    
+                                    out.print("<tr><td>"+i+".</td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='dsd"+i+"' class='test' value='"+dso.getDeliverables()+"'></textarea></center></td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' class='test' name='dsp"+i+"' value='"+dso.getPlanToAccomplish()+"'></textarea></center></td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name=dsa"+i+"' class='test' value='"+dso.getActualAccomplished()+"'></textarea></center></td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' class='test' name='dss"+i+"' value='"+dso.getSize()+"'></textarea></center></td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' class='test' name='dse"+i+"'value='"+dso.getEffort()+"'></textarea></center></td>");
+                                    
                                 }
-                                out.print("</table><input type='hidden' id='idscount' name='idscount' value='" + i + "'>");
-                            %>                             
-
-                            <br/>
-                            <input type="button" class="button" value="Add Row" id="dsr">
-                            </div>    
-                            <div id="tab3">
-                                <br>
-                                <br>
-                                <table width="100%" border="0" id="lntable" cellspacing="10">
-                                    <tr>
-                                        <td width="10%">S.NO.</td>
-                                        <td width="25%"><center>Context</center></td>
-                                    <td width="65%"><center>Lesson</center></td>
-                                    </tr>
-                                    <%
-                                        //Lessons Learned  
-                                        ArrayList<Lessons> lni = lh.getLessons(ed.getId());
-                                        for (i = 0; i < lni.size(); i++) {
-                                            Lessons lno = lni.get(i);
-                                            out.print("<tr><td>" + (i + 1) + ".</td>");
-                                            out.print("<td><input type='text' name='lnc" + (i + 1) + "' class='required' value='" + lno.getContext() + "'></td>");
-                                            out.print("<td><input type='text' name='lnl" + (i + 1) + "' class='required' value='" + lno.getLessons() + "'></td></tr>");
-                                        }
-                                        out.print("</table><input type='hidden' id='ilncount' name='ilncount' value='" + i + "'>");
-                                    %>
-                                    <br/>
-                                    <input type="button" class="button" value="Add Row" id="lnar" name="lnar"/>
-                            </div>
-                            <div id="tab4">
-                                <br/>
-                                <br/>
-                                <table width="100%" border="0" id="plantable" cellspacing="10">
-                                    <tr>
-                                        <td width="10%">S.NO.</td>
-                                        <td width="25%"><center>Deliverable</center></td>
-                                    <td width="65%"><center>What do you intend to accomplish and why</center></td>
-                                    </tr>
-                                    <%
-                                        //plans
-                                        ArrayList<Plan> pli = plh.getPlan(ed.getId());
-                                        i = 0;
-                                        for (i = 0; i < pli.size(); i++) {
-                                            Plan plo = pli.get(i);
-                                            out.print("<tr><td>" + (i + 1) + ".</td>");
-                                            out.print("<td><input type='text' name='pld" + (i + 1) + "' class='required' value='" + plo.getDeliverable() + "'></td>");
-                                            out.print("<td><input type='text' name='plw" + (i + 1) + "' class='required' value='" + plo.getIntendToAccomplish() + "'></td></tr>");
-                                        }
-                                        out.print("</table><input type='hidden' id='iplancount' name='iplancount' value='" + i + "'>");
-                                    %>
-                                    <br/>
-                                    <input type="button" class="button" value="Add Row" id="planr">
-                                    </div>
-                                    </div>
-                                    </div>
-                                    </form>
-                                    </div>
-                                    </body>
-                                    </html>
+                                out.print("</table><input type='hidden' id='idscount' name='idscount' value='"+i+"'>");                            					  
+                             %>                             
+                        
+                        <br/>
+                        <input type="button" class="button" value="Add Row" id="dsr">
+                    </div>    
+                   <div id="tab3">
+                        <br>
+                        <br>
+                        <table width="100%" border="0" id="lntable" cellspacing="10">
+                            <tr>
+                                <td width="10%">S.NO.</td>
+                                <td width="25%"><center>Context</center></td>
+                            <td width="65%"><center>Lesson</center></td>
+                            </tr>
+                            <%
+                                //Lessons Learned  
+                                Iterator<Lessons> lni=ln.iterator();
+                                i=0;
+                                while(lni.hasNext()){
+                                    i++;
+                                    Lessons lno=lni.next();
+                                    out.print("<tr><td>"+i+".</td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='lnc"+i+"' class='required' value='"+lno.getContext()+"'></textarea></center></td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='lnl"+i+"' class='required' value='"+lno.getLessons()+"'></textarea></center></td></tr>");                                    
+                                }
+                                out.print("</table><input type='hidden' id='ilncount' name='ilncount' value='"+i+"'>");                            					  
+                            %>
+                        <br/>
+                        <input type="button" class="button" value="Add Row" id="lnar" name="lnar">
+                    </div>
+                    <div id="tab4">
+                        <br/>
+                        <br/>
+                        <table width="100%" border="0" id="plantable" cellspacing="10">
+                            <tr>
+                                <td width="10%">S.NO.</td>
+                                <td width="25%"><center>Deliverable</center></td>
+                                <td width="65%"><center>What do you intend to accomplish and why</center></td>
+                            </tr>
+                            <%
+                                //plans
+                                Iterator<Plan> pli=pl.iterator();                                
+                                i=0;
+                                while(pli.hasNext()){
+                                    i++;
+                                    Plan plo=pli.next();                                    
+                                    out.print("<tr><td>"+i+".</td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='pld"+i+"' class='test' value='"+plo.getDeliverable()+"'></textarea></center></td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='plw"+i+"' class='test' value='"+plo.getIntendToAccomplish()+"'></textarea></center></td></tr>");
+                                }
+                                out.print("</table><input type='hidden' id='iplancount' name='iplancount' value='"+i+"'>");
+                            %>
+                        <br/>
+                        <input type="button" class="button" value="Add Row" id="planr">
+                    </div>
+                </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

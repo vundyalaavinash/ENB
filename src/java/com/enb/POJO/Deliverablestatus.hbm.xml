@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 27, 2013 12:09:45 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Aug 23, 2013 11:31:00 PM by Hibernate Tools 3.2.1.GA 
+     Description- used to map java objects in deliverablestatus to the deliverablestatus table columns in the database -->
 <hibernate-mapping>
     <class name="com.enb.POJO.Deliverablestatus" table="deliverablestatus" catalog="enb">
-        <composite-id name="id" class="com.enb.POJO.DeliverablestatusId">
+        <!-- this mapping is required to eliminate duplicates -->
+        <composite-id name="id" class="com.enb.POJO.DeliverablestatusId">    
             <key-property name="enbid" type="int">
                 <column name="ENBID" />
             </key-property>
@@ -12,7 +14,8 @@
                 <column name="sno" />
             </key-property>
         </composite-id>
-        <many-to-one name="enbdesc" class="com.enb.POJO.Enbdesc" update="false" insert="false" fetch="select">
+        <!-- define other class in the many-to-one relationship. -->
+        <many-to-one name="enbdesc" class="com.enb.POJO.Enbdesc" update="false" insert="false" fetch="select"> 
             <column name="ENBID" not-null="true" />
         </many-to-one>
         <property name="deliverables" type="string">

@@ -17,7 +17,7 @@ $(document).ready(function(){
 		$.validator.addMethod('notPlayDefault',function(value,event){
 			if(value!="Default") return true;
 			else return false;
-		},"<span class='alert'>Select a Mentor</span>");
+		},"<span class='alert'>Select Maximum no of Players</span>");
                 
                 $.validator.addMethod('passmatch',function(value,event){
 			if(value==$('#password').val()) return true;
