@@ -32,6 +32,7 @@ public class ConstructString {
             // code for the arraylist is not empty i.e., projects are available for the given user
             int j=1;
             projects=projects+"<ul>";
+            System.out.println(""+alp.size());
             // code for retrieving all the projects and duration of the project and it is appended to the string with html tags
             for(int i=0;i<alp.size();i++){
                 Calendar from=Calendar.getInstance();

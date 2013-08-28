@@ -26,7 +26,7 @@ import org.hibernate.Transaction;
  * @author Avinash
  */
 public class ProjectHelper {
-    Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
+    Session session = null;
         
     /**
      * retrieves projects from database for a given user id
@@ -35,7 +35,7 @@ public class ProjectHelper {
      * @return the project instances in an Arraylist
      */
     public ArrayList<Project> getProject(int uid) {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();           // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        session = HibernateUtil.getSessionFactory().openSession();           // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         ArrayList<Project> userinfo = new ArrayList<Project>();             // arraylist which stores instances of project class
         try {
             org.hibernate.Transaction tx = session.beginTransaction();      // load the connection for the given session
@@ -48,6 +48,9 @@ public class ProjectHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
     }
        
     /**
@@ -58,7 +61,7 @@ public class ProjectHelper {
      * @return instance of project
      */
     public Project getProject(int uid, String ProjectName) {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();       // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        session = HibernateUtil.getSessionFactory().openSession();       // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         ArrayList<Project> userinfo = new ArrayList<Project>();             // arraylist which stores instances of project class
         try {
             org.hibernate.Transaction tx = session.beginTransaction();      // load the connection for the given session
@@ -72,6 +75,9 @@ public class ProjectHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
         return null;
     }
 
@@ -82,10 +88,9 @@ public class ProjectHelper {
      * @return the project instances
      */
     public Project getProjectID(int uid) {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();       // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        session = HibernateUtil.getSessionFactory().openSession();       // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         ArrayList<Project> userinfo = new ArrayList<Project>();                 // arraylist which stores instances of project class
         try {
-
             org.hibernate.Transaction tx = session.beginTransaction(); 
             Query q = session.createQuery ("from Project where UID='"+uid+"' ORDER BY Id DESC");
             userinfo = (ArrayList<Project>) q.list();
@@ -99,6 +104,9 @@ public class ProjectHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
     }
 
     /**
@@ -108,7 +116,7 @@ public class ProjectHelper {
      * @return the project instances
      */
     public Project getProjectPID(int pid) {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();       // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        session = HibernateUtil.getSessionFactory().openSession();       // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         ArrayList<Project> userinfo = new ArrayList<Project>();         // arraylist which stores instances of project class
         try {
             org.hibernate.Transaction tx = session.beginTransaction();      // load the connection for the given session
@@ -124,6 +132,9 @@ public class ProjectHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
     }      
     /**
      * inserting the project details
@@ -133,17 +144,18 @@ public class ProjectHelper {
      */
     public boolean insertProject(Project project) {
         try {
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             Transaction trans = session.beginTransaction();       // load the connection for the given session
             session.save(project);              //code for inserting the details in 
-            session.flush();
-            trans.commit();                 // database is updated
-            
+            trans.commit();                 // database is updated            
             return true;
         }// catches if any exception in inserting the projects into the database or loading the connection for session 
         catch (Exception ex) {
             ex.printStackTrace();
             return false;
+        }
+        finally{
+            session.close();
         }
     }
 

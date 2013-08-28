@@ -25,7 +25,7 @@ import org.hibernate.Transaction;
  */
 public class LessonsHelper {
 
-    Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
+    Session session = null;
         
     /**
      * inserts the enb lessons in the database
@@ -36,18 +36,20 @@ public class LessonsHelper {
     public boolean insertLessons(Lessons lessons) {
         try {
             // Create the SessionFactory from standard (hibernate.cfg.xml) config file
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+            this.session = HibernateUtil.getSessionFactory().openSession();
             // load the connection for the given session
             Transaction trans = session.beginTransaction();
             // code for inserting or updating the lessons
             session.saveOrUpdate(lessons);
             trans.commit();                 // database is updated
-            session.flush();
             return true;
         } // catches if any exception in updating the enb lessons in the database or loading the connection for session
         catch (Exception ex) {
             ex.printStackTrace();
             return false;
+        }
+        finally{
+            session.close();
         }
     }
 
@@ -60,13 +62,12 @@ public class LessonsHelper {
      */
     public boolean deleteLessons(int eid) {
         // Create the SessionFactory from standard (hibernate.cfg.xml) config file
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+        this.session = HibernateUtil.getSessionFactory().openSession();
         try {
             // load the connection for the given session
             Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("delete from Lessons where ENBID="+eid+"");
             int result = q.executeUpdate();           
-            session.flush();
             return true;                  //returns true if deletes successfully
         } // catches if any exception in deleting the enb lessons in the database or loading the connection for session
         catch (Exception e) {
@@ -78,7 +79,7 @@ public class LessonsHelper {
     }
     
     public ArrayList<Lessons> getLessons(int eid){
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         ArrayList<Lessons> userinfo = new ArrayList<Lessons>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
@@ -88,6 +89,9 @@ public class LessonsHelper {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+        finally{
+            session.close();
         }
     } 
     

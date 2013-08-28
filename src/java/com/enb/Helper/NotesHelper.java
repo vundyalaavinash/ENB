@@ -24,7 +24,7 @@ import org.hibernate.Transaction;
  * @version 1.00
  */
 public class NotesHelper {
-    Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
+    Session session = null;
     /**
      * inserts the enb notes in the database
      *
@@ -33,7 +33,7 @@ public class NotesHelper {
      */
     public boolean insertNotes(Notes notes) {
         try {
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             Transaction trans = session.beginTransaction();                   // load the connection for the given session
             session.saveOrUpdate(notes);                // code for inserting or updating the notes
             System.out.println("this is query : \t" + trans.toString());
@@ -43,6 +43,9 @@ public class NotesHelper {
         catch (Exception ex) {
             ex.printStackTrace();
             return false;
+        }
+        finally{
+            session.close();
         }
     }
 
@@ -65,17 +68,19 @@ public class NotesHelper {
      */
     public boolean removeNotes(int eid) {
         // Create the SessionFactory from standard (hibernate.cfg.xml) config file
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+        this.session = HibernateUtil.getSessionFactory().openSession();
         try {
             Transaction tx = session.beginTransaction();                // load the connection for the given session
             Query q = session.createQuery("delete from Notes where ENBID=" + eid + "");    // query for deleting the required notes details using eid
             int result = q.executeUpdate();         // database is updated
-            session.flush();
             return true;
         }// catches if any exception in deleting the enb notes in the database or loading the connection for session
         catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+        finally{
+            session.close();
         }
     }
     
@@ -86,7 +91,7 @@ public class NotesHelper {
      * @return
      */
     public String getNotes(int eid){
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         ArrayList<Notes> userinfo = new ArrayList<Notes>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
@@ -102,10 +107,13 @@ public class NotesHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
     }
     
     public ArrayList<Notes> getNote(int eid){
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         ArrayList<Notes> userinfo = new ArrayList<Notes>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
@@ -115,6 +123,9 @@ public class NotesHelper {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+        finally{
+            session.close();
         }
     }
     

@@ -19,9 +19,6 @@ import org.hibernate.Transaction;
  */
 public class UserLogHelper {
     Session session = null;
-    public UserLogHelper() {
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-    }
     
     public void insertlog(String uid,String Description){
         Userlog log=new Userlog();      
@@ -33,29 +30,31 @@ public class UserLogHelper {
     }
     
     public boolean insertUserlog(Userlog log){        
+        this.session = HibernateUtil.getSessionFactory().openSession();
         try{
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+            
             Transaction trans=session.beginTransaction();
             session.save(log);
             trans.commit();
-            session.flush();
             return true;
         }
         catch(Exception ex){
             ex.printStackTrace();
             return false;
         } 
+        finally{
+            session.close();
+        }
     }     
     
     public ArrayList<Userlog> getUserlogs (int uid,String cal){
+        this.session = HibernateUtil.getSessionFactory().openSession();
         ArrayList<Userlog> userinfo = new ArrayList<Userlog>();
         try {
             
             String h[]=cal.split("/");
             String a1=h[2]+"-"+h[1]+"-"+h[0]+" 00:00:00";
             String a2=h[2]+"-"+h[1]+"-"+h[0]+" 23:59:59";
-            System.out.print("\n"+a1);
-            System.out.print("\n"+a2);
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from Userlog where uid='"+uid+"' and LogDT>='"+a1+"' and LogDt<='"+a2+"'");
             userinfo = (ArrayList<Userlog>) q.list();
@@ -64,6 +63,9 @@ public class UserLogHelper {
             e.printStackTrace();
             return null;
         }        
+        finally{
+            session.close();
+        }
     } 
     
 }

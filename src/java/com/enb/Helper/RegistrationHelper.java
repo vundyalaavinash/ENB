@@ -37,7 +37,6 @@ public class RegistrationHelper {
      */
     public RegistrationHelper() {
         // Create the SessionFactory from standard (hibernate.cfg.xml) config file
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
 
     /**
@@ -47,7 +46,7 @@ public class RegistrationHelper {
      * @return instance of userauth
      */
     public Userauth ValidateUser(String email) {
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         ArrayList<Userauth> userinfo = new ArrayList<Userauth>();               // arraylist which stores instances of Userauth class
         try {
             org.hibernate.Transaction tx = session.beginTransaction();      // load the connection for the given session
@@ -63,6 +62,9 @@ public class RegistrationHelper {
         catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+        finally{
+            session.close();
         }
     }
 
@@ -85,12 +87,11 @@ public class RegistrationHelper {
     public boolean insertUserauth(Userauth uauth) {
         try {
             String path="C:\\Users\\Avinash\\Documents\\NetBeansProjects\\ENB\\web\\pdfs\\";           
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             Transaction trans = session.beginTransaction();       // load the connection for the given session
             session.save(uauth);                //code for inserting the details in database
             
             trans.commit();         // database is updated
-            session.flush();
             File f=new File(path+uauth.getEmailId());
             f.mkdir();
             return true;
@@ -98,6 +99,9 @@ public class RegistrationHelper {
         catch (Exception ex) {
             ex.printStackTrace();
             return false;
+        }
+        finally{
+            session.close();
         }
     }
     
@@ -108,12 +112,14 @@ public class RegistrationHelper {
             Transaction trans = session.beginTransaction();           // load the connection for the given session
             session.update(uauth);          //code for updating the details in database            
             trans.commit();         // database is updated
-            session.flush();
             return true;
         }// catches if any exception in updating the user details into the database or loading the connection for session
         catch (Exception ex) {
             ex.printStackTrace();
             return false;
+        }
+        finally{
+            session.close();
         }
     }
 
@@ -125,7 +131,7 @@ public class RegistrationHelper {
      */
     public boolean updateUserauth(Userauth uauth) {
         try {
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             Transaction trans = session.beginTransaction();           // load the connection for the given session
             session.update(uauth);              //code for updating the details in database
             trans.commit();             // database is updated
@@ -135,6 +141,9 @@ public class RegistrationHelper {
         catch (Exception ex) {
             ex.printStackTrace();
             return false;
+        }
+        finally{
+            session.close();
         }
     }
 
@@ -146,16 +155,18 @@ public class RegistrationHelper {
      */
     public boolean changePassword(Userauth uauth) {
         try {
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();  // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            this.session = HibernateUtil.getSessionFactory().openSession();  // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             Transaction trans = session.beginTransaction();           // load the connection for the given session
             session.update(uauth);          //code for updating the details in database
-            System.out.println("this is query : \t" + trans.toString());
             trans.commit();         // database is updated
             return true;
         }// catches if any exception in updating the user details into the database or loading the connection for session
         catch (Exception ex) {
             ex.printStackTrace();
             return false;
+        }
+        finally{
+            session.close();
         }
     }
 
@@ -180,7 +191,7 @@ public class RegistrationHelper {
      * @return the userauth instance for given email and password
      */
     public Userauth getUserauth(String email, String Password) {
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         ArrayList<Userauth> userinfo = new ArrayList<Userauth>();               // arraylist which stores instances of Userauth class
         try {
             org.hibernate.Transaction tx = session.beginTransaction();          // load the connection for the given session
@@ -195,6 +206,9 @@ public class RegistrationHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
         return null;
     }
 
@@ -205,14 +219,23 @@ public class RegistrationHelper {
      * @return the userauth instance for a given email
      */
     public Userauth getUserId(String email) {
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();            // arraylist which stores instances of Userauth class
-        Transaction tx = session.beginTransaction();             // load the connection for the given session
-        Query q = session.createQuery("from Userauth where emailId='" + email + "'");   //Query instance is obtained
-        userinfo = (ArrayList<Userauth>) q.list();       //list of instances are stored in arraylist
-        // checks the size of arraylist whether the user details are available for the given email or not.
-        if (userinfo.size() != 0) {
-            return userinfo.get(0);
+        try{
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            ArrayList<Userauth> userinfo = new ArrayList<Userauth>();            // arraylist which stores instances of Userauth class
+            Transaction tx = session.beginTransaction();             // load the connection for the given session
+            Query q = session.createQuery("from Userauth where emailId='" + email + "'");   //Query instance is obtained
+            userinfo = (ArrayList<Userauth>) q.list();       //list of instances are stored in arraylist
+            // checks the size of arraylist whether the user details are available for the given email or not.
+            if (userinfo.size() != 0) {
+                return userinfo.get(0);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally{
+            session.close();
         }
         return null;
     }
@@ -224,7 +247,7 @@ public class RegistrationHelper {
      * @return the password for the given email
      */
     public String getPassword(String email) {
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
+        this.session = HibernateUtil.getSessionFactory().openSession();
         ArrayList<Userauth> userinfo = new ArrayList<Userauth>();           // arraylist which stores instances of Userauth class
         try {
             org.hibernate.Transaction tx = session.beginTransaction();          // load the connection for the given session
@@ -239,38 +262,68 @@ public class RegistrationHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
         return null;
     }
     public ArrayList<Userauth> getMentors()
     {
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-        ArrayList<Userauth> mentorinfo = new ArrayList<Userauth>();
-         Transaction tx = session.beginTransaction();             // load the connection for the given session
-        Query q = session.createQuery("from Userauth where userrole='mentor'");   //Query instance is obtained
-        mentorinfo = (ArrayList<Userauth>) q.list();
-        if(mentorinfo.size()!=0)
-            return mentorinfo;
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            ArrayList<Userauth> mentorinfo = new ArrayList<Userauth>();
+            Transaction tx = session.beginTransaction();             // load the connection for the given session
+            Query q = session.createQuery("from Userauth where userrole='mentor'");   //Query instance is obtained
+            mentorinfo = (ArrayList<Userauth>) q.list();
+            if(mentorinfo.size()!=0)
+                return mentorinfo;
+        }// catches if any exception in retrieving the user details from the database or loading the connection for session 
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally{
+            session.close();
+        }
         return null;
     }
     public ArrayList<Userauth> getNames(int uid)
     {
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-        ArrayList<Userauth> names = new ArrayList<Userauth>();
-        Transaction tx = session.beginTransaction();             // load the connection for the given session
-        Query q = session.createQuery("from Userauth where mentoring="+uid);   //Query instance is obtained
-        names = (ArrayList<Userauth>) q.list();
-        return names;
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            ArrayList<Userauth> names = new ArrayList<Userauth>();
+            Transaction tx = session.beginTransaction();             // load the connection for the given session
+            Query q = session.createQuery("from Userauth where mentoring="+uid);   //Query instance is obtained
+            names = (ArrayList<Userauth>) q.list();
+            return names;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally{
+            session.close();
+        }
         
     }
     public Userauth getDetails(int uid)
     {
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
-        ArrayList<Userauth> names = new ArrayList<Userauth>();
-        Transaction tx = session.beginTransaction();             // load the connection for the given session
-        Query q = session.createQuery("from Userauth where id="+uid);   //Query instance is obtained
-        names = (ArrayList<Userauth>) q.list();
-        if(names.size()!=0)
-            return names.get(0);
+        this.session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            ArrayList<Userauth> names = new ArrayList<Userauth>();
+            Transaction tx = session.beginTransaction();             // load the connection for the given session
+            Query q = session.createQuery("from Userauth where id="+uid);   //Query instance is obtained
+            names = (ArrayList<Userauth>) q.list();
+            if(names.size()!=0)
+                return names.get(0);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally{
+            session.close();
+        }
         return null;
     }
 }

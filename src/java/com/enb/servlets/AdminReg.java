@@ -65,7 +65,13 @@ public class AdminReg extends HttpServlet {
                 uh.insertlog(session.getAttribute("uid").toString(),"Registered");
                 response.sendRedirect("adminhome.jsp");
             }
-        } finally {            
+        }
+        catch(Exception ex){
+            RequestDispatcher rd=request.getRequestDispatcher("signup.jsp");
+            request.setAttribute("error", "<span class='alert'>"+ex.getMessage()+"</span>");
+            rd.forward(request, response);
+        }
+        finally {            
             out.close();
         }
     }

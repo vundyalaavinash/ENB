@@ -25,7 +25,7 @@ import org.hibernate.Transaction;
  */
 public class EnbdescHelper {
     
-    Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
+    Session session =  null;
        
     /**
      * inserts the new enb details in enbdesc table in database
@@ -40,19 +40,21 @@ public class EnbdescHelper {
      * (hibernate.cfg.xml) config file
      */
         // Create the SessionFactory from standard (hibernate.cfg.xml) config file
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         try {
             // load the connection for the given session
             Transaction trans = session.beginTransaction();
             // code for inserting the enb details
             session.save(enbdes);
             trans.commit();
-            session.flush();
             return true;
         } // catches if any exception in updating the enb in the database or loading the connection for session
         catch (Exception ex) {
             ex.printStackTrace();
             return false;
+        }
+        finally{
+            session.close();
         }
     }
 
@@ -85,7 +87,7 @@ public class EnbdescHelper {
      * @return the list of Enbdesc references otherwise null
      */
     public ArrayList<Enbdesc> getEnbdesc(int pid) {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         // creates the Arraylist of Enbdesc reference type
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();     // arraylist which stores instances of Enbdesc class
         try {
@@ -101,11 +103,14 @@ public class EnbdescHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
 
     }    
     
     public ArrayList<Enbdesc> getEnbdesc2(int uid) {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         // creates the Arraylist of Enbdesc reference type
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();     // arraylist which stores instances of Enbdesc class
         try {
@@ -121,6 +126,9 @@ public class EnbdescHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
     }
 
    /*  * retrieves the enb details from enbdesc table
@@ -129,7 +137,7 @@ public class EnbdescHelper {
      * @return the Enbdesc instance otherwise null
      */
     public Enbdesc getEnbdescPID(int pid) {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         // creates the Arraylist of Enbdesc reference type
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
         try {
@@ -150,6 +158,9 @@ public class EnbdescHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
     }
 
     
@@ -161,7 +172,7 @@ public class EnbdescHelper {
      */
 
     public Enbdesc getEnbdescUID(int uid) {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         // creates the Arraylist of Enbdesc reference type
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
         try {
@@ -182,6 +193,9 @@ public class EnbdescHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
     }
 
 
@@ -191,7 +205,7 @@ public class EnbdescHelper {
      * @return the Enbdesc instance otherwise null
      */
     public Enbdesc getEnbdescID(int eid) {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         ArrayList<Enbdesc> enbinfo = new ArrayList<Enbdesc>();
         try {
             Transaction tx = session.beginTransaction();
@@ -204,6 +218,9 @@ public class EnbdescHelper {
         catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+        finally{
+            session.close();
         }
         return null;
     }
@@ -227,7 +244,7 @@ public class EnbdescHelper {
      * @return the Enbdesc instance otherwise null
      */
     public Enbdesc getEnbid(String enbname, int uid) {
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         ArrayList<Enbdesc> enbinfo = new ArrayList<Enbdesc>();
         try {
             Transaction tx = session.beginTransaction();
@@ -240,6 +257,9 @@ public class EnbdescHelper {
         catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+        finally{
+            session.close();
         }
         return null;
     }

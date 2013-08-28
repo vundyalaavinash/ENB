@@ -31,7 +31,6 @@ public class SearchHelper {
      */
     public SearchHelper() {
         // Create the SessionFactory from standard (hibernate.cfg.xml) config file
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
     }
 
     /**
@@ -49,7 +48,7 @@ public class SearchHelper {
      * @return the notes instances in an arraylist
      */
     public ArrayList<Notes> getAllNotes() {
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();       // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        this.session = HibernateUtil.getSessionFactory().openSession();       // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         ArrayList<Notes> userinfo = new ArrayList<Notes>();         // arraylist which stores instances of Notes class
         try {
             org.hibernate.Transaction tx = session.beginTransaction();       // load the connection for the given session
@@ -60,6 +59,9 @@ public class SearchHelper {
         catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+        finally{
+            session.close();
         }
     }
 

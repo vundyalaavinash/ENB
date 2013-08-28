@@ -9,6 +9,7 @@ import com.enb.Helper.UserLogHelper;
 import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,17 +44,21 @@ public class ChangeMentor extends HttpServlet {
             RegistrationHelper rh=new RegistrationHelper();
             HttpSession session=request.getSession();
             Userauth id=rh.getUserId((String)session.getAttribute("email"));
-                    ua.setId(id.getId());
-                    ua.setEmailId((String)session.getAttribute("email"));
-                    ua.setPassword(id.getPassword());
-                    ua.setName((String)session.getAttribute("name"));
-                    ua.setUserrole("student");
-                    ua.setMentoring(Integer.parseInt(request.getParameter("mentor")));
-                    rh.changeMentor(ua);
-                    UserLogHelper uh=new UserLogHelper();
-                    uh.insertlog(session.getAttribute("uid").toString(),"Change Mentor");
-                    out.print("done");
-        } finally {            
+            ua.setId(id.getId());
+            ua.setEmailId((String)session.getAttribute("email"));
+            ua.setPassword(id.getPassword());
+            ua.setName((String)session.getAttribute("name"));
+            ua.setUserrole("student");
+            ua.setMentoring(Integer.parseInt(request.getParameter("mentor")));
+            rh.changeMentor(ua);
+            UserLogHelper uh=new UserLogHelper();
+            uh.insertlog(session.getAttribute("uid").toString(),"Change Mentor");
+            out.print("done");
+        }
+        catch(Exception ex){
+            out.print(""+ex.getMessage());
+        }
+        finally {            
             out.close();
         }
     }

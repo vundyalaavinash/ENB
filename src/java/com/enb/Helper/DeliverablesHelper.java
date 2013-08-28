@@ -30,7 +30,7 @@ public class DeliverablesHelper {
      * This is the class attribute Create the SessionFactory from standard
      * (hibernate.cfg.xml) config file
      */
-    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    Session session = null;
 
     /**
      * class which does nothing
@@ -53,23 +53,26 @@ public class DeliverablesHelper {
      * any exception occurs
      */
     public boolean insertDeliverablestatus(Deliverablestatus ds) {
+        this.session = HibernateUtil.getSessionFactory().openSession();      // Create the SessionFactory from standard (hibernate.cfg.xml) config filethis.session = HibernateUtil.getSessionFactory().openSession();      // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         try {
-            this.session = HibernateUtil.getSessionFactory().getCurrentSession();       // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            
             Transaction trans = session.beginTransaction();                             // load the connection for the given session
             // code for inserting or updating the deliverables
             session.saveOrUpdate(ds);
             trans.commit();                                                             // database is updated
-            session.flush();
             return true;
         } // catches if any exception in updating the enb in the database or loading the connection for session
         catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
+        finally{
+            session.close();
+        }
     }
     
     public ArrayList<Deliverablestatus> getDeliverablestatus(int eid){
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session = HibernateUtil.getSessionFactory().openSession();
         ArrayList<Deliverablestatus> userinfo = new ArrayList<Deliverablestatus>();
         try {
             org.hibernate.Transaction tx = session.beginTransaction();
@@ -80,23 +83,28 @@ public class DeliverablesHelper {
             e.printStackTrace();
             return null;
         }
+        finally{
+            session.close();
+        }
     }
     
 
     public boolean removeDeliverablestatus(int eid) {
-        this.session = HibernateUtil.getSessionFactory().getCurrentSession();           // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        this.session = HibernateUtil.getSessionFactory().openSession();          // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         try {
             Transaction tx = session.beginTransaction();                                // load the connection for the given session
             // query for deleting the required enb deliverables
             // Query instance is obtained
             Query q = session.createQuery("delete from Deliverablestatus where ENBID=" + eid + "");
             int result = q.executeUpdate();                                             // changes updated in database
-            session.flush();
             return true;
         } // catches if any exception in deleting the enb in database or loading the connection for session
         catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+        finally{
+            session.close();
         }
     }
 
