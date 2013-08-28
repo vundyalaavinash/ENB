@@ -49,6 +49,22 @@
 
                                 <p><label for="password2">Re-Type Password</label></p>
                                 <p><input type="password" id="password2" name="repass" class="required passmatch"  placeholder="re-Enter Password"></p>
+<<<<<<< HEAD
+=======
+                                <p><label for="mentor">Select Mentor</label></p>
+                                <p><select style="width: 290px" name="mentor" class="notPlayDefault">
+                                        <option value="Default">---Select Mentor---</option>
+                                        <%
+                                            RegistrationHelper rh = new RegistrationHelper();
+                                            ArrayList<Userauth> mentorinfo = rh.getMentors();
+                                            if (mentorinfo != null) {
+                                                for (int i = 0; i < mentorinfo.size(); i++) {
+                                                    out.println("<option value='" + mentorinfo.get(i).getId() + "'>" + mentorinfo.get(i).getName() + "</option>");
+                                                }
+                                            }
+                                        %>
+                                    </select></p>
+>>>>>>> fa12f8528339e7fdbdd5f48ebd0eeab1ae97b5d5
                                 <div class="floatl divf"><input type="submit" value="Sign UP" class="button" id="submit"></div>
                                 <div class="floatr divf"><a href="index.jsp" style="padding:5px;">Log IN</a></div>
                                 </p>

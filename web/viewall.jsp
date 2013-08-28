@@ -54,8 +54,8 @@
                                 }
                              %>                            
                         </h3>
-			<a href="adminhome.jsp">View Students</a>
-                        <a href="viewall.jsp">View All ENB</a>
+			<a href="adminhome.jsp">Home</a>
+                        <a href="viewall.jsp">View Student ENBs</a>
 			<a href="adminaccount.jsp">Account</a>
 		</nav>
 		<div id="main">

@@ -177,4 +177,47 @@ public class ConstructString {
         }
         return "<tr><td>No Activity on that date</td><td></td></tr>";
     }
+<<<<<<< HEAD
+=======
+    public String getStudents(int uid)
+    {
+        RegistrationHelper ua=new RegistrationHelper();
+        String str="";
+        ArrayList<Userauth> names=ua.getNames(uid);
+        if(!names.isEmpty())
+        {
+            int j=1;
+            str=str+"<ul>";
+            for(int i=0;i<names.size();i++)
+            {
+                str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.6'><span><center><h2>"+names.get(i).getName()+"</h2><div style='width:80%'><a href='current.jsp?uid="+names.get(i).getId()+"' style='float:left;'>Current ENB</a><a href='allenb.jsp?uid="+names.get(i).getId()+"' style='float:right;'>View All ENB</a>" +"</center></span></li>";
+                i++;
+                if(i<names.size())
+                {
+                    str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.6'><span><center><h2>"+names.get(i).getName()+"</h2><div style='width:80%'><a href='current.jsp?uid="+names.get(i).getId()+"' style='float:left;'>Current ENB</a><a href='allenb.jsp?uid="+names.get(i).getId()+"' style='float:right;'>View All ENB</a>" +"</h2></center></span></li>";
+                    //str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.5'><span><center><h2>"+names.get(i).getName() +"</h2></center></span></li>";
+                }
+                i++;
+                if(i<names.size())
+                {
+                    str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.6'><span><center><h2>"+names.get(i).getName()+"</h2><div style='width:80%'><a href='current.jsp?uid="+names.get(i).getId()+"' style='float:left;'>Current ENB</a><a href='allenb.jsp?uid="+names.get(i).getId()+"' style='float:right;'>View All ENB</a>" +"</h2></center></span></li>";
+                    //str=str+"<li data-row='"+j+"' data-col='1' data-sizex='2' data-sizey='0.5'><span><center><h2>"+names.get(i).getName() +"</h2></center></span></li>";
+                }
+                j++;
+            }
+            str=str+"</ul>";
+            return str;
+        }
+        
+        return "No Students Registered under you!";
+        
+        
+    }
+    public ArrayList<Userauth> getStudentDetails(int uid)
+    {
+        RegistrationHelper ua=new RegistrationHelper();
+        ArrayList<Userauth> names=ua.getNames(uid);
+        return names;
+    }
+>>>>>>> fa12f8528339e7fdbdd5f48ebd0eeab1ae97b5d5
 }
