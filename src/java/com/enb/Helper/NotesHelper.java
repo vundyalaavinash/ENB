@@ -70,6 +70,7 @@ public class NotesHelper {
             Transaction tx = session.beginTransaction();                // load the connection for the given session
             Query q = session.createQuery("delete from Notes where ENBID=" + eid + "");    // query for deleting the required notes details using eid
             int result = q.executeUpdate();         // database is updated
+            session.flush();
             return true;
         }// catches if any exception in deleting the enb notes in the database or loading the connection for session
         catch (Exception e) {

@@ -46,7 +46,6 @@ public class EnbdescHelper {
             Transaction trans = session.beginTransaction();
             // code for inserting the enb details
             session.save(enbdes);
-            System.out.println("this is query : \t"+trans.toString());
             trans.commit();
             session.flush();
             return true;
@@ -106,6 +105,7 @@ public class EnbdescHelper {
     }    
     
     public ArrayList<Enbdesc> getEnbdesc2(int uid) {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
         // creates the Arraylist of Enbdesc reference type
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();     // arraylist which stores instances of Enbdesc class
         try {
@@ -129,6 +129,7 @@ public class EnbdescHelper {
      * @return the Enbdesc instance otherwise null
      */
     public Enbdesc getEnbdescPID(int pid) {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
         // creates the Arraylist of Enbdesc reference type
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
         try {
@@ -160,6 +161,7 @@ public class EnbdescHelper {
      */
 
     public Enbdesc getEnbdescUID(int uid) {
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
         // creates the Arraylist of Enbdesc reference type
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
         try {

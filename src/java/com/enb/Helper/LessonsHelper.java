@@ -42,6 +42,7 @@ public class LessonsHelper {
             // code for inserting or updating the lessons
             session.saveOrUpdate(lessons);
             trans.commit();                 // database is updated
+            session.flush();
             return true;
         } // catches if any exception in updating the enb lessons in the database or loading the connection for session
         catch (Exception ex) {

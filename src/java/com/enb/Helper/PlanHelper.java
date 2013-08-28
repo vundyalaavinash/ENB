@@ -51,6 +51,7 @@ public class PlanHelper {
             Transaction trans = session.beginTransaction();               // load the connection for the given session
             session.saveOrUpdate(plan);                // code for inserting or updating the plan
             trans.commit();                           // database is updated
+            session.flush();
             return true;
         }// catches if any exception in updating the enb plan in the database or loading the connection for session
         catch (Exception ex) {
@@ -81,6 +82,7 @@ public class PlanHelper {
             Transaction tx = session.beginTransaction();                // load the connection for the given session
             Query q = session.createQuery("delete from Plan where ENBID=" + eid + "");  // query for deleting the required plan details using eid
             int result = q.executeUpdate();
+            session.flush();
             return true;
         }// catches if any exception in deleting the enb plan in the database or loading the connection for session 
         catch (Exception e) {

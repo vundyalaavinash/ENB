@@ -4,6 +4,9 @@
     Author     : B.Revanth
 --%>
 
+<%@page import="com.enb.POJO.Userauth"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.enb.Helper.RegistrationHelper"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
@@ -55,7 +58,7 @@
             <a href="account.jsp">Account</a>
         </nav>
         <div id="main">
-             <div id="mydiv" class="hide">
+            <div id="mydiv" class="hide">
                 <div  class="ajax-loader">
                     <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading</h3>
                     <img src="Styles/images/loader.gif" />
@@ -97,6 +100,45 @@
                         </td>
                     </tr>
                 </table>
+            </form>
+            <br><br>
+
+            <form id="changementor" method="post" action="ChangeMentor">
+                <table width="50%">
+                    <tr>
+                        <td>
+                            Old Mentor :
+                            <br>
+                            <%
+                                RegistrationHelper rh = new RegistrationHelper();
+                                Userauth ua = rh.ValidateUser((String) session.getAttribute("email"));
+                                Userauth ua1 = rh.getDetails(ua.getMentoring());
+                            %>
+                            <input type="text" value="<%out.println(ua1.getName());%>" name="oldmentor">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Select Mentor:
+                            <br>
+                            <p><select style="width: 290px" name="mentor" class="notPlayDefault">
+                                    <option value="Default">---Select Mentor---</option>
+                                    <%
+
+                                        ArrayList<Userauth> mentorinfo = rh.getMentors();
+
+                                        for (int i = 0; i < mentorinfo.size(); i++) {
+                                            out.println("<option value='" + mentorinfo.get(i).getId() + "'>" + mentorinfo.get(i).getName() + "</option>");
+                                        }
+                                    %>
+                                </select></p></td></tr>
+                    <tr>
+                        <td><br><br>
+                            <input type="submit" value="Change Mentor" class="button" id="changemenbtn" >
+                        </td>
+                    </tr>
+                </table>    
+
             </form>
         </div>
     </body>

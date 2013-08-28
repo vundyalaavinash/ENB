@@ -135,8 +135,10 @@ public class ProjectHelper {
         try {
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             Transaction trans = session.beginTransaction();       // load the connection for the given session
-            session.save(project);              //code for inserting the details in database
+            session.save(project);              //code for inserting the details in 
+            session.flush();
             trans.commit();                 // database is updated
+            
             return true;
         }// catches if any exception in inserting the projects into the database or loading the connection for session 
         catch (Exception ex) {

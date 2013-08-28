@@ -51,7 +51,7 @@
                                 System.out.print(""+session.getAttribute("uid"));
                                 System.out.println(""+cs);
                                 //out.print(""+session.getAttribute("uid"));
-                                out.print(cs.getStudents(14));
+                                out.print(cs.getStudents(Integer.parseInt(session.getAttribute("uid").toString())));
                             %>
 			</div>
 		</div>

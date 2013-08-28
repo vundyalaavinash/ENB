@@ -5,6 +5,7 @@
 package com.enb.Helper;
 
 import com.enb.POJO.*;
+import java.io.File;
 import java.util.*;
 
 import org.hibernate.Query;
@@ -83,13 +84,33 @@ public class RegistrationHelper {
      */
     public boolean insertUserauth(Userauth uauth) {
         try {
+            String path="C:\\Users\\Avinash\\Documents\\NetBeansProjects\\ENB\\web\\pdfs\\";           
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             Transaction trans = session.beginTransaction();       // load the connection for the given session
             session.save(uauth);                //code for inserting the details in database
-            System.out.println("this is query : \t" + trans.toString());
+            
             trans.commit();         // database is updated
+            session.flush();
+            File f=new File(path+uauth.getEmailId());
+            f.mkdir();
             return true;
         }// catches if any exception in inserting the user details into the database or loading the connection for session
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean changeMentor(Userauth uauth) {
+        try {
+            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();  // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            session = sessionFactory.openSession();
+            Transaction trans = session.beginTransaction();           // load the connection for the given session
+            session.update(uauth);          //code for updating the details in database            
+            trans.commit();         // database is updated
+            session.flush();
+            return true;
+        }// catches if any exception in updating the user details into the database or loading the connection for session
         catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -107,8 +128,8 @@ public class RegistrationHelper {
             this.session = HibernateUtil.getSessionFactory().getCurrentSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             Transaction trans = session.beginTransaction();           // load the connection for the given session
             session.update(uauth);              //code for updating the details in database
-            System.out.println("this is query : \t" + trans.toString());
             trans.commit();             // database is updated
+            session.flush();
             return true;
         }// catches if any exception in updating the user details into the database or loading the connection for session
         catch (Exception ex) {
@@ -125,8 +146,7 @@ public class RegistrationHelper {
      */
     public boolean changePassword(Userauth uauth) {
         try {
-            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();  // Create the SessionFactory from standard (hibernate.cfg.xml) config file
-            session = sessionFactory.openSession();
+            this.session = HibernateUtil.getSessionFactory().getCurrentSession();  // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             Transaction trans = session.beginTransaction();           // load the connection for the given session
             session.update(uauth);          //code for updating the details in database
             System.out.println("this is query : \t" + trans.toString());
@@ -185,6 +205,7 @@ public class RegistrationHelper {
      * @return the userauth instance for a given email
      */
     public Userauth getUserId(String email) {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Userauth> userinfo = new ArrayList<Userauth>();            // arraylist which stores instances of Userauth class
         Transaction tx = session.beginTransaction();             // load the connection for the given session
         Query q = session.createQuery("from Userauth where emailId='" + email + "'");   //Query instance is obtained
@@ -203,6 +224,7 @@ public class RegistrationHelper {
      * @return the password for the given email
      */
     public String getPassword(String email) {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Userauth> userinfo = new ArrayList<Userauth>();           // arraylist which stores instances of Userauth class
         try {
             org.hibernate.Transaction tx = session.beginTransaction();          // load the connection for the given session
@@ -221,6 +243,7 @@ public class RegistrationHelper {
     }
     public ArrayList<Userauth> getMentors()
     {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Userauth> mentorinfo = new ArrayList<Userauth>();
          Transaction tx = session.beginTransaction();             // load the connection for the given session
         Query q = session.createQuery("from Userauth where userrole='mentor'");   //Query instance is obtained
@@ -231,6 +254,7 @@ public class RegistrationHelper {
     }
     public ArrayList<Userauth> getNames(int uid)
     {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Userauth> names = new ArrayList<Userauth>();
         Transaction tx = session.beginTransaction();             // load the connection for the given session
         Query q = session.createQuery("from Userauth where mentoring="+uid);   //Query instance is obtained
@@ -240,6 +264,7 @@ public class RegistrationHelper {
     }
     public Userauth getDetails(int uid)
     {
+        this.session = HibernateUtil.getSessionFactory().getCurrentSession();
         ArrayList<Userauth> names = new ArrayList<Userauth>();
         Transaction tx = session.beginTransaction();             // load the connection for the given session
         Query q = session.createQuery("from Userauth where id="+uid);   //Query instance is obtained

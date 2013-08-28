@@ -10,11 +10,13 @@ import com.enb.Helper.LessonsHelper;
 
 import com.enb.Helper.NotesHelper;
 import com.enb.Helper.PlanHelper;
+import com.enb.Helper.RegistrationHelper;
 import com.enb.Helper.UserLogHelper;
 import com.enb.POJO.Deliverablestatus;
 import com.enb.POJO.Enbdesc;
 import com.enb.POJO.Lessons;
 import com.enb.POJO.Plan;
+import com.enb.POJO.Userauth;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
@@ -86,8 +88,11 @@ public class DownloadPDF extends HttpServlet {
             //Client client = new Client("hemanth", "62ebd12b355aac3c0020b484bbc92ec9");
            
             UserLogHelper uh=new UserLogHelper();
+            RegistrationHelper rh=new RegistrationHelper();
+            String path="C:\\Users\\Avinash\\Documents\\NetBeansProjects\\ENB\\web\\pdfs\\";
             uh.insertlog(session.getAttribute("uid").toString(),"Download PDF-"+enbname);
-            file = new FileOutputStream(new File("E:\\" + session.getAttribute("uid").toString() +"-"+enbname + ".pdf"));
+            Userauth ua=rh.getDetails(Integer.parseInt(session.getAttribute("uid").toString()));
+            file = new FileOutputStream(new File(path +ua.getEmailId()+"\\"+enbname + ".pdf"));
             StringBuilder sb = new StringBuilder();
             //client.convertHtml(html, file);
             Document document = new Document(PageSize.LETTER);
@@ -177,8 +182,10 @@ public class DownloadPDF extends HttpServlet {
             document.close();
             
             file.close();
+            response.sendRedirect("pdfs\\"+ua.getEmailId()+"\\"+enbname + ".pdf");
         }
         catch(Exception ex){
+            ex.printStackTrace();
             file.close();
         }
         finally {            

@@ -24,32 +24,19 @@
         <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
         <script src="Scripts/jquery-ui.js" type="text/javascript"></script>
         <script src="Scripts/alertify.min.js" type="text/javascript"></script>
+        <script src="Scripts/jquery.autosize.min.js" type="text/javascript"></script>
+        
         <script src="CusScripts/writeenb.js" type="text/javascript"></script>
-        <%
-            HttpSession ses = request.getSession();
-            String enbname = (String) session.getAttribute("enbname");
-            EnbdescHelper eh1 = new EnbdescHelper();
-            Enbdesc enb = eh1.getEnbid(enbname, Integer.parseInt(session.getAttribute("uid").toString()));
-            //int enbid=enb.getId();
-            Set set = enb.getNoteses();
-            Iterator<Notes> itr = set.iterator();
-            String notes = "";
-            if (itr.hasNext()) {
-                notes = itr.next().getNotes().toString();
-            }
-        %>
-        <style>
-            .highlight-green 
-            {
-                color: #00FF00;
-            }
-            .test {
-                width: 600px;
-                height: 600px;
-                overflow: auto
-
-            }
-        </style>
+        
+        <script>
+        function textAreaAdjust(o) {
+            o.style.fontFamily = "Times New Roman";
+            o.style.fontSize= "12pt";
+            o.style.height = "1px";
+            o.style.height = (25+o.scrollHeight)+"px";
+            //o.style.border="none";
+        }
+        </script>
         <script type="text/javascript">
      
             function edValueKeyPress(){
@@ -306,22 +293,22 @@
                     <div id="tab2">
                         <br>
                         <br>
-                        <table width="100%" border="0" cellspacing="10" id="dstable">
+                        <table width="100%" border="0" cellspacing="5" id="dstable">
                             <tr>
-                                <td width="5%">SNO</td>
-                                <td width="16%"><center>Deliverable</center></td>
-                            <td width="27%"><center>What did you plan to accomplish?</center></td>
-                            <td width="27%"><center>What did you actually accomplish?</center></td>
-                            <td width="10%"><center>Size</center></td>
-                            <td width="10%"><center>Effort</center></td>
+                                <td width="3%">SNO</td>
+                                <td width="10%"><center>Deliverable</center></td>
+                            <td width="20%"><center>What did you plan to accomplish?</center></td>
+                            <td width="20%"><center>What did you actually accomplish?</center></td>
+                            <td width="6%"><center>Size</center></td>
+                            <td width="6%"><center>Effort</center></td>
                             </tr>
                             <tr>
                                 <td>1.</td>
-                                <td><input type='text' name='dsd1' class='required'></td>
-                                <td><input type='text' name='dsp1' class='required'></td>
-                                <td><input type='text' name='dsa1' class='required'></td>
-                                <td><input type='text' name='dss1' class='required'></td>
-                                <td><input type='text' name='dse1' class='required'></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="dsd" style="overflow:hidden" ></textarea></center></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="dsp" style="overflow:hidden" ></textarea></center></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="dsa" style="overflow:hidden" ></textarea></center></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="dss" style="overflow:hidden" ></textarea></center></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="dse" style="overflow:hidden" ></textarea></center></td>
                             </tr>					  
                         </table>
                         <br/>
@@ -338,8 +325,8 @@
                             </tr>
                             <tr>
                                 <td>1.</td>
-                                <td><input type='text' name='lnc1' class='required'></td>
-                                <td><input type='text' name='lnl1' class='required'></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="lnc" style="overflow:hidden" ></textarea></center></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="lnl" style="overflow:hidden" ></textarea></center></td>
                             </tr>
                         </table>
                         <br/>
@@ -356,8 +343,8 @@
                             </tr>
                             <tr>
                                 <td>1.</td>
-                                <td><input type='text' name='pld1' class='required' ></td>
-                                <td><input type='text' name='plw1' class='required' ></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="pld" style="overflow:hidden" ></textarea></center></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="plw" style="overflow:hidden" ></textarea></center></td>
                             </tr>					  
                         </table>
                         <br/>

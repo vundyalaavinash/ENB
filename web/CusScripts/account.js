@@ -4,6 +4,8 @@
  */
 $(document).ready(function(){
     $("#changepassword").validate();
+    $("#changementor").validate();
+    
     $.extend($.validator.messages, {
         required: "<span class='alert'>This field is required.</span>",		    
         email: "<span class='alert'>Please enter a valid email address.</span>",		    
@@ -54,4 +56,25 @@ $(document).ready(function(){
             return false;
         }
     });   
+    $('#changemenbtn').click(function(){
+        $("#changementor").validate();
+        $('#mydiv').show();
+            $.ajax({
+                type: "POST",
+                url: "ChangeMentor",
+                data: $("#changementor").serialize(),
+                success: function(msg) {                  
+                    $('#mydiv').hide();
+                    if(msg=="done"){
+                        alertify.success("Mentor Changed Succesfully!");
+                    }
+                    else{
+                        alertify.error(msg);
+                    }
+                },
+                async: false
+            });
+            return false;
+    });
+    
 });

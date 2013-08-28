@@ -27,204 +27,20 @@
         <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
         <script src="Scripts/jquery-ui.js" type="text/javascript"></script>
         <script src="Scripts/alertify.min.js" type="text/javascript"></script>
-
+        <script src="Scripts/jquery.autosize.min.js" type="text/javascript"></script>
+        
         <script src="CusScripts/manage.js" type="text/javascript"></script>
         <script src="CusScripts/manageenb.js" type="text/javascript"></script>
-        <script type="text/javascript">
-     
-function edValueKeyPress(){
-    
-    var myElement = document.getElementById('edValue');
-myElement.onpaste = function(e) {
-  var pastedText = undefined;
-  if (window.clipboardData && window.clipboardData.getData) { // IE
-    pastedText = window.clipboardData.getData('Text');
-  } else if (e.clipboardData && e.clipboardData.getData) {
-    pastedText = e.clipboardData.getData('text/plain');
-  }
-  //alert(pastedText); // Process and handle text...
-  ref='';
-  while(ref==null||ref==''){
-   ref =prompt("Please enter a Reference","");
-}
-  //alert(ref.length)
-  if(ref!=null||ref!=''){
-      
-    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br> Reference: '+ref+'</p>')
-  }
-  return false; // Prevent the default handler from running.
-};
-   
-   
-}
-    
-    function insertHtmlAtCursor(html) {
-    var range, node;
-    if (window.getSelection && window.getSelection().getRangeAt) {
-        range = window.getSelection().getRangeAt(0);
-        node = range.createContextualFragment(html);
-        range.insertNode(node);
-    } else if (document.selection && document.selection.createRange) {
-        document.selection.createRange().pasteHTML(html);
-    }
-}
-  
-function getSelectionHtml() {
-    var html = "";
-    if (typeof window.getSelection != "undefined") {
-        var sel = window.getSelection();
-        if (sel.rangeCount) {
-            var container = document.createElement("div");
-            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                container.appendChild(sel.getRangeAt(i).cloneContents());
-            }
-            html = container.innerHTML;
+        <script src="CusScripts/crossthrough.js" type="text/javascript"></script>
+        <script>
+        function textAreaAdjust(o) {
+            o.style.fontFamily = "Times New Roman";
+            o.style.fontSize= "12pt";
+            o.style.height = "1px";
+            o.style.height = (25+o.scrollHeight)+"px";
+            //o.style.border="none";
         }
-    } else if (typeof document.selection != "undefined") {
-        if (document.selection.type == "Text") {
-            html = document.selection.createRange().htmlText;
-        }
-    }
-    var el=document.getElementById("edValue");
-    if(html.length==0 && el.innerText.length==getCaretCharacterOffset(el)){
-        html=getCaretCharacterOffsetWithin(el)
-        replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-    }
-    
-    else if(html.length==0){
-        
-        html=getCaretCharacterOffsetWithin(el)
-        replaceSelectionWithHtml('<del>'+html+'</del>')
-        
-    }
-    else{
-        replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-    }
-      //  alert(document.getElementById("edValue").innerText)
-}
-
-
-function getSelectionHtmlDel() {
-    var html = "";
-    
-    if (typeof window.getSelection != "undefined") {
-        var sel = window.getSelection();
-        if (sel.rangeCount) {
-            var container = document.createElement("div");
-            for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                container.appendChild(sel.getRangeAt(i).cloneContents());
-            }
-            html = container.innerHTML;
-        }
-    } else if (typeof document.selection != "undefined") {
-        if (document.selection.type == "Text") {
-            html = document.selection.createRange().htmlText;
-        }
-    }
-    
-    var el=document.getElementById("edValue");
-    
-    if(html.length==0){
-        
-        var x=getCaretCharacterOffset(el)
-        html=el.innerText.charAt(x)
-       // alert(html)
-        replaceSelectionWithHtml('<del>'+html+'</del>')
-        
-    }
-    else{
-        replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-    }
-       // alert(document.getElementById("edValue").innerHTML)
-}
-
-function replaceSelectionWithHtml(html) {
-    var range, html;
-    if (window.getSelection && window.getSelection().getRangeAt) {
-        range = window.getSelection().getRangeAt(0);
-        range.deleteContents();
-        var div = document.createElement("div");
-        div.innerHTML = html;
-        var frag = document.createDocumentFragment(), child;
-        while ( (child = div.firstChild) ) {
-            frag.appendChild(child);
-        }
-        range.insertNode(frag);
-    } else if (document.selection && document.selection.createRange) {
-        range = document.selection.createRange();
-        html = (node.nodeType == 3) ? node.data : node.outerHTML;
-        range.pasteHTML(html);
-    }
-}
-
-
-function getCaretCharacterOffset(element) {
-    var caretOffset = 0;
-    var doc = element.ownerDocument || element.document;
-    var win = doc.defaultView || doc.parentWindow;
-    var sel;
-    if (typeof win.getSelection != "undefined") {
-        var range = win.getSelection().getRangeAt(0);
-        var preCaretRange = range.cloneRange();
-        preCaretRange.selectNodeContents(element);
-        preCaretRange.setEnd(range.endContainer, range.endOffset);
-        caretOffset = preCaretRange.toString().length;//
-    } else if ( (sel = doc.selection) && sel.type != "Control") {
-        var textRange = sel.createRange();
-        var preCaretTextRange = doc.body.createTextRange();
-        preCaretTextRange.moveToElementText(element);
-        preCaretTextRange.setEndPoint("EndToEnd", textRange);
-        caretOffset = preCaretTextRange.text.length;//
-    }
-    return caretOffset;
-}
-
-
-function getCaretCharacterOffsetWithin(element) {
-    var caretOffset = 0;
-    var doc = element.ownerDocument || element.document;
-    var win = doc.defaultView || doc.parentWindow;
-    var sel;
-    if (typeof win.getSelection != "undefined") {
-        var range = win.getSelection().getRangeAt(0);
-        var preCaretRange = range.cloneRange();
-        preCaretRange.selectNodeContents(element);
-        preCaretRange.setEnd(range.endContainer, range.endOffset);
-        caretOffset = preCaretRange.toString();//
-    } else if ( (sel = doc.selection) && sel.type != "Control") {
-        var textRange = sel.createRange();
-        var preCaretTextRange = doc.body.createTextRange();
-        preCaretTextRange.moveToElementText(element);
-        preCaretTextRange.setEndPoint("EndToEnd", textRange);
-        caretOffset = preCaretTextRange.text;//
-    }
-    return caretOffset.charAt(caretOffset.length-1);
-}
-
-
-
-function showCaretPos() {
-    var KeyID = event.keyCode;
-   switch(KeyID)
-   {
-      case 8:
-      //alert("backspace");
-      getSelectionHtml();
-      return false;
-      break; 
-      case 46: 
-      getSelectionHtmlDel();    
-      return false;
-      break;
-      default:
-      break;
-   }
-    var el = document.getElementById("edValue");
-    var caretPosEl = document.getElementById("caretPos");
-    caretPosEl.innerHTML = "Caret position: " + getCaretCharacterOffsetWithin(el);
-}
-
-</script>
+        </script>
     </head>
     <body>
         <header>
@@ -386,12 +202,12 @@ function showCaretPos() {
                                 for (i = 0; i < dsi.size(); i++) {
                                     Deliverablestatus dso = dsi.get(i);
                                     out.print("<tr><td>" + (i + 1) + ".</td>");
-                                    out.print("<td><input type='text' name='dsd" + (i + 1) + "' class='required' value='" + dso.getDeliverables() + "'></td>");
-                                    out.print("<td><input type='text' name='dsp" + (i + 1) + "' class='required' value='" + dso.getPlanToAccomplish() + "'></td>");
-                                    out.print("<td><input type='text' name='dsa" + (i + 1) + "' class='required' value='" + dso.getActualAccomplished() + "'></td>");
-                                    out.print("<td><input type='text' name='dss" + (i + 1) + "' class='required' value='" + dso.getSize() + "'></td>");
-                                    out.print("<td><input type='text' name='dse" + (i + 1) + "' class='required' value='" + dso.getEffort() + "'></td></tr>");
-                                }
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='dsd"+i+"' class='test'>"+dso.getDeliverables()+"</textarea></center></td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' class='test' name='dsp"+i+"'>"+dso.getPlanToAccomplish()+"</textarea></center></td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name=dsa"+i+"' class='test'>"+dso.getActualAccomplished()+"</textarea></center></td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' class='test' name='dss"+i+"'>"+dso.getSize()+"</textarea></center></td>");
+                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' class='test' name='dse"+i+"'>"+dso.getEffort()+"</textarea></center></td>");
+                                   }
                                 out.print("</table><input type='hidden' id='idscount' name='idscount' value='" + i + "'>");
                             %>                             
 
@@ -413,8 +229,8 @@ function showCaretPos() {
                                         for (i = 0; i < lni.size(); i++) {
                                             Lessons lno = lni.get(i);
                                             out.print("<tr><td>" + (i + 1) + ".</td>");
-                                            out.print("<td><input type='text' name='lnc" + (i + 1) + "' class='required' value='" + lno.getContext() + "'></td>");
-                                            out.print("<td><input type='text' name='lnl" + (i + 1) + "' class='required' value='" + lno.getLessons() + "'></td></tr>");
+                                            out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='lnc"+i+"' class='required' value='"+lno.getContext()+"'></textarea></center></td>");
+                                            out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='lnl"+i+"' class='required' value='"+lno.getLessons()+"'></textarea></center></td></tr>");                                    
                                         }
                                         out.print("</table><input type='hidden' id='ilncount' name='ilncount' value='" + i + "'>");
                                     %>
@@ -437,8 +253,8 @@ function showCaretPos() {
                                         for (i = 0; i < pli.size(); i++) {
                                             Plan plo = pli.get(i);
                                             out.print("<tr><td>" + (i + 1) + ".</td>");
-                                            out.print("<td><input type='text' name='pld" + (i + 1) + "' class='required' value='" + plo.getDeliverable() + "'></td>");
-                                            out.print("<td><input type='text' name='plw" + (i + 1) + "' class='required' value='" + plo.getIntendToAccomplish() + "'></td></tr>");
+                                            out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='pld"+i+"' class='test' value='"+plo.getDeliverable()+"'></textarea></center></td>");
+                                            out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='plw"+i+"' class='test' value='"+plo.getIntendToAccomplish()+"'></textarea></center></td></tr>");
                                         }
                                         out.print("</table><input type='hidden' id='iplancount' name='iplancount' value='" + i + "'>");
                                     %>

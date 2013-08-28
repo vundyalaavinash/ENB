@@ -59,6 +59,7 @@ public class DeliverablesHelper {
             // code for inserting or updating the deliverables
             session.saveOrUpdate(ds);
             trans.commit();                                                             // database is updated
+            session.flush();
             return true;
         } // catches if any exception in updating the enb in the database or loading the connection for session
         catch (Exception ex) {
@@ -90,7 +91,7 @@ public class DeliverablesHelper {
             // Query instance is obtained
             Query q = session.createQuery("delete from Deliverablestatus where ENBID=" + eid + "");
             int result = q.executeUpdate();                                             // changes updated in database
-            System.out.println(eid + ":" + result);
+            session.flush();
             return true;
         } // catches if any exception in deleting the enb in database or loading the connection for session
         catch (Exception e) {

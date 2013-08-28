@@ -38,6 +38,7 @@ public class UserLogHelper {
             Transaction trans=session.beginTransaction();
             session.save(log);
             trans.commit();
+            session.flush();
             return true;
         }
         catch(Exception ex){
