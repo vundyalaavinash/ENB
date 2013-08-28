@@ -235,9 +235,7 @@ public class RegistrationHelper {
         Transaction tx = session.beginTransaction();             // load the connection for the given session
         Query q = session.createQuery("from Userauth where mentoring="+uid);   //Query instance is obtained
         names = (ArrayList<Userauth>) q.list();
-        if(names.size()!=0)
-            return names;
-        return null;
+        return names;
         
     }
     public Userauth getDetails(int uid)

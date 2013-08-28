@@ -264,7 +264,7 @@ public class ConstructString {
             return str;
         }
         
-        return "You are not assigned with any students";
+        return "No Students Registered under you!";
         
         
     }
