@@ -203,7 +203,7 @@ footer{
 
 
 
-#login fieldset input[type="email"], #login fieldset input[type="password"] {
+#login fieldset input[type="email"], #login fieldset input[type="password"], #login fieldset input[type="text"] {
 	background-color: #eee;
 	border:0px;
 	padding: 8px 10px;

@@ -32,15 +32,15 @@
         <script src="CusScripts/manage.js" type="text/javascript"></script>
         <script src="CusScripts/manageenb.js" type="text/javascript"></script>
         <script src="CusScripts/crossthrough.js" type="text/javascript"></script>
-        <script>
-        function textAreaAdjust(o) {
-            o.style.fontFamily = "Times New Roman";
-            o.style.fontSize= "12pt";
-            o.style.height = "1px";
-            o.style.height = (25+o.scrollHeight)+"px";
-            //o.style.border="none";
-        }
-        </script>
+        <!--<script>
+            function textAreaAdjust(o) {
+                o.style.fontFamily = "Times New Roman";
+                o.style.fontSize= "12pt";
+                o.style.height = "1px";
+                o.style.height = (25+o.scrollHeight)+"px";
+                //o.style.border="none";
+            }
+        </script>-->
     </head>
     <body>
         <header>
@@ -186,14 +186,14 @@
                     <div id="tab2">
                         <br>
                         <br>
-                        <table width="100%" border="0" cellspacing="10" id="dstable">
+                        <table width="100%" border="0" cellspacing="5" id="dstable">
                             <tr>
                                 <td width="5%">SNO</td>
                                 <td width="16%"><center>Deliverable</center></td>
-                            <td width="27%"><center>What did you plan to accomplish?</center></td>
-                            <td width="27%"><center>What did you actually accomplish?</center></td>
-                            <td width="10%"><center>Size</center></td>
-                            <td width="10%"><center>Effort</center></td>
+                                <td width="27%"><center>What did you plan to accomplish?</center></td>
+                                <td width="27%"><center>What did you actually accomplish?</center></td>
+                                <td width="10%"><center>Size</center></td>
+                                <td width="10%"><center>Effort</center></td>
                             </tr>
                             <%
                                 //Deliverable Status
@@ -202,11 +202,11 @@
                                 for (i = 0; i < dsi.size(); i++) {
                                     Deliverablestatus dso = dsi.get(i);
                                     out.print("<tr><td>" + (i + 1) + ".</td>");
-                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='dsd"+i+"' class='test'>"+dso.getDeliverables()+"</textarea></center></td>");
-                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' class='test' name='dsp"+i+"'>"+dso.getPlanToAccomplish()+"</textarea></center></td>");
-                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name=dsa"+i+"' class='test'>"+dso.getActualAccomplished()+"</textarea></center></td>");
-                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' class='test' name='dss"+i+"'>"+dso.getSize()+"</textarea></center></td>");
-                                    out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' class='test' name='dse"+i+"'>"+dso.getEffort()+"</textarea></center></td>");
+                                    out.print("<td><center><textarea   name='dsd"+i+"' class='test'>"+dso.getDeliverables()+"</textarea></center></td>");
+                                    out.print("<td><center><textarea   class='test' name='dsp"+i+"'>"+dso.getPlanToAccomplish()+"</textarea></center></td>");
+                                    out.print("<td><center><textarea   name=dsa"+i+"' class='test'>"+dso.getActualAccomplished()+"</textarea></center></td>");
+                                    out.print("<td><center><textarea   class='test' name='dss"+i+"'>"+dso.getSize()+"</textarea></center></td>");
+                                    out.print("<td><center><textarea   class='test' name='dse"+i+"'>"+dso.getEffort()+"</textarea></center></td>");
                                    }
                                 out.print("</table><input type='hidden' id='idscount' name='idscount' value='" + i + "'>");
                             %>                             
@@ -229,8 +229,8 @@
                                         for (i = 0; i < lni.size(); i++) {
                                             Lessons lno = lni.get(i);
                                             out.print("<tr><td>" + (i + 1) + ".</td>");
-                                            out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='lnc"+i+"' class='required' value='"+lno.getContext()+"'></textarea></center></td>");
-                                            out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='lnl"+i+"' class='required' value='"+lno.getLessons()+"'></textarea></center></td></tr>");                                    
+                                            out.print("<td><center><textarea   name='lnc"+i+"' class='required' value='"+lno.getContext()+"'></textarea></center></td>");
+                                            out.print("<td><center><textarea   name='lnl"+i+"' class='required' value='"+lno.getLessons()+"'></textarea></center></td></tr>");                                    
                                         }
                                         out.print("</table><input type='hidden' id='ilncount' name='ilncount' value='" + i + "'>");
                                     %>
@@ -253,8 +253,8 @@
                                         for (i = 0; i < pli.size(); i++) {
                                             Plan plo = pli.get(i);
                                             out.print("<tr><td>" + (i + 1) + ".</td>");
-                                            out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='pld"+i+"' class='test' value='"+plo.getDeliverable()+"'></textarea></center></td>");
-                                            out.print("<td><center><textarea onkeyup='textAreaAdjust(this)' name='plw"+i+"' class='test' value='"+plo.getIntendToAccomplish()+"'></textarea></center></td></tr>");
+                                            out.print("<td><center><textarea   name='pld"+i+"' class='test' value='"+plo.getDeliverable()+"'></textarea></center></td>");
+                                            out.print("<td><center><textarea   name='plw"+i+"' class='test' value='"+plo.getIntendToAccomplish()+"'></textarea></center></td></tr>");
                                         }
                                         out.print("</table><input type='hidden' id='iplancount' name='iplancount' value='" + i + "'>");
                                     %>

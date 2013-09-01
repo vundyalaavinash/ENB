@@ -117,7 +117,7 @@ public class EnbdescHelper {
             // load the connection for the given session
             org.hibernate.Transaction tx = session.beginTransaction();
             // query for retrieving  the required enb details using pid
-            Query q = session.createQuery("from Enbdesc where UID='" + uid + "'");     //Query instance is obtained
+            Query q = session.createQuery("from Enbdesc where UID="+ uid +"");     //Query instance is obtained
             userinfo = (ArrayList<Enbdesc>) q.list();                               //list of instances are stored in arraylist
             return userinfo;
         } // catches if any exception in retrieving the enb from the database or loading the connection for session
@@ -171,7 +171,7 @@ public class EnbdescHelper {
      * @return the Enbdesc instance otherwise null
      */
 
-    public Enbdesc getEnbdescUID(int uid) {
+    public ArrayList<Enbdesc> getEnbdescUID(int uid) {
         session = HibernateUtil.getSessionFactory().openSession();
         // creates the Arraylist of Enbdesc reference type
         ArrayList<Enbdesc> userinfo = new ArrayList<Enbdesc>();
@@ -183,7 +183,7 @@ public class EnbdescHelper {
             userinfo = (ArrayList<Enbdesc>) q.list();       //list of instances are stored in arraylist
             // checks the size of arraylist whether the enb details are available for the given pid or not.
             if (userinfo.size() > 0) {
-                return userinfo.get(0);         // if true then returns the enbdesc reference
+                return userinfo;         // if true then returns the enbdesc reference
             } else {
                 return null;                    // otherwise return null
             }

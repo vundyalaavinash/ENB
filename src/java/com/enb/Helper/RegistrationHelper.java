@@ -180,6 +180,24 @@ public class RegistrationHelper {
     }
 
     public Userauth getUserauth(String email) {
+        this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();               // arraylist which stores instances of Userauth class
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();          // load the connection for the given session
+            Query q = session.createQuery("from Userauth where emailId='" + email + "'");  //Query instance is obtained
+            userinfo = (ArrayList<Userauth>) q.list();      //list of instances are stored in arraylist
+            // checks the size of arraylist whether the user details are available for the given email and password or not.
+            if (userinfo.size() == 1) {
+                return userinfo.get(0);
+            }
+        }// catches if any exception in retrieving the user details from the database or loading the connection for session 
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally{
+            session.close();
+        }
         return null;
     }
 
@@ -326,4 +344,23 @@ public class RegistrationHelper {
         }
         return null;
     }
+    
+    public boolean VerifyCode(Userauth uauth)
+    {
+        try {
+            this.session = HibernateUtil.getSessionFactory().openSession();  // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            Transaction trans = session.beginTransaction();           // load the connection for the given session
+            session.update(uauth);          //code for updating the details in database
+            trans.commit();         // database is updated
+            return true;
+        }// catches if any exception in updating the user details into the database or loading the connection for session
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        finally{
+            session.close();
+        }
+    }
+    
 }

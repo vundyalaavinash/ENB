@@ -4,11 +4,11 @@
  */
 package com.enb.servlets;
 
-import com.enb.Helper.EnbdescHelper;
-import com.enb.Helper.UserLogHelper;
+import com.enb.Helper.*;
 import com.enb.POJO.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Set;
@@ -42,10 +42,15 @@ public class View extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
             int eid = Integer.parseInt(request.getParameter("eid"));
-
+            int uid = Integer.parseInt(session.getAttribute("uid").toString());
             EnbdescHelper eh = new EnbdescHelper();
             Enbdesc ed = eh.getEnbdescID(eid);
-
+            RegistrationHelper rh = new RegistrationHelper();
+            NotesHelper nh = new NotesHelper();
+            DeliverablesHelper dh = new DeliverablesHelper();
+            LessonsHelper lh = new LessonsHelper();
+            PlanHelper plh = new PlanHelper();
+            
             Calendar from = Calendar.getInstance();
             from.setTime(ed.getFromdate());
 
@@ -74,12 +79,17 @@ public class View extends HttpServlet {
             out.print("&nbsp;&nbsp;&nbsp;"+to.get(Calendar.DATE)+"-"+to.get(Calendar.MONTH)+"-"+to.get(Calendar.YEAR));
             out.print("</span></td></tr></table><br><hr><br>");
             
+            String enbname = ed.getEnbname();
+            EnbdescHelper eh1 = new EnbdescHelper();
+            Enbdesc enb = eh1.getEnbid(enbname, uid);
+            
             //Notes
-            Iterator<Notes> n=notes.iterator();
             out.print("<h2>Notes</h2><table><tr><td><div style='font-size:15px; width:100%;'>");
-            if(n.hasNext()){
-                String note = new String(n.next().getNotes());
-                out.print(note);
+            ArrayList<Notes> itr = nh.getNote(ed.getId());
+            if (!itr.isEmpty()) {
+                Notes note = (Notes) itr.get(0);
+                String s = new String(note.getNotes());
+                out.print(s);
             }
             else{
                 out.println("No Notes in the ENB ....");
@@ -87,34 +97,30 @@ public class View extends HttpServlet {
             out.print("</div></td></tr></table><br><hr><br>");
 
             //Deliverable Status
-            Iterator<Deliverablestatus> dsi=ds.iterator();
             out.print("<h2>Deliverable Status</h2><table width='100%' border='0' cellspacing='10'><tr><td width='5%'>SNO</td><td width='16%'>Deliverable</td><td width='27%'>What did you plan to accomplish?</td><td width='27%'>What did you actually accomplish?</td><td width='10%'>Size</td><td width='10%'>Effort</td></tr>");
             int i=0;
-            while(dsi.hasNext()){
-                i++;
-                Deliverablestatus dso=dsi.next();
-                out.print("<tr><td>"+i+"</td><td>"+dso.getDeliverables()+"</td><td>"+dso.getPlanToAccomplish()+"</td><td>"+dso.getActualAccomplished()+"</td><td>"+dso.getSize()+"</td><td>"+dso.getEffort()+"</td></tr>");
+            ArrayList<Deliverablestatus> dsi = dh.getDeliverablestatus(ed.getId());            
+            for (i = 0; i < dsi.size(); i++) {
+                Deliverablestatus dso=dsi.get(i);
+                out.print("<tr><td>"+(i+1)+"</td><td>"+dso.getDeliverables()+"</td><td>"+dso.getPlanToAccomplish()+"</td><td>"+dso.getActualAccomplished()+"</td><td>"+dso.getSize()+"</td><td>"+dso.getEffort()+"</td></tr>");
             }
             out.print("<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></table><br><hr><br>");
             //Lessons Learned  
-            Iterator<Lessons> lni=ln.iterator();
+            
             out.print("<h2>Lessons Learned Reflection</h2><table width='100%' border='0' cellspacing='10'><tr><td width='10%'>S.NO.</td><td width='25%'>Context</td><td width='65%'>Lesson</td></tr>");
-            i=0;
-            while(lni.hasNext()){
-                i++;
-                Lessons lno=lni.next();
-                out.print("<tr><td>"+i+"</td><td>"+lno.getContext()+"</td><td>"+lno.getLessons()+"</td></tr>");
+            ArrayList<Lessons> lni = lh.getLessons(ed.getId());
+            for (i = 0; i < lni.size(); i++) {
+                Lessons lno = lni.get(i);
+                out.print("<tr><td>"+(i+1)+"</td><td>"+lno.getContext()+"</td><td>"+lno.getLessons()+"</td></tr>");
             }
             out.print("<tr><td></td><td></td><td></td></tr></table><br><hr><br>");
             
             //plans
-            Iterator<Plan> pli=pl.iterator();
             out.print("<h2>Plan for the Next Week</h2><table width='100%' border='0' cellspacing='10'><tr><td width='10%'>S.NO</td><td width='25%'>Deliverable</td><td width='65%'>What do you intend to accomplish and why</td></tr>");
-            i=0;
-            while(pli.hasNext()){
-                i++;
-                Plan plo=pli.next();
-                out.print("<tr><td width='10%'>"+i+"</td><td width='25%'>"+plo.getDeliverable()+"</td><td width='65%'>"+plo.getIntendToAccomplish()+"</td></tr>");
+            ArrayList<Plan> pli = plh.getPlan(ed.getId());
+            for (i = 0; i < pli.size(); i++) {
+                Plan plo = pli.get(i);
+                out.print("<tr><td width='10%'>"+(i+1)+"</td><td width='25%'>"+plo.getDeliverable()+"</td><td width='65%'>"+plo.getIntendToAccomplish()+"</td></tr>");
             }
             out.print("<tr><td></td><td></td><td></td></tr></table>");
             UserLogHelper uh=new UserLogHelper();

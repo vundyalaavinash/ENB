@@ -1,34 +1,31 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+    
 function edValueKeyPress(){
     
     var myElement = document.getElementById('edValue');
-    myElement.onpaste = function(e) {
-        var pastedText = undefined;
-        if (window.clipboardData && window.clipboardData.getData) { // IE
-            pastedText = window.clipboardData.getData('Text');
-        } else if (e.clipboardData && e.clipboardData.getData) {
-            pastedText = e.clipboardData.getData('text/plain');
-        }
-        //alert(pastedText); // Process and handle text...
-        ref='';
-        while(ref==null||ref==''){
-            ref =prompt("Please enter a Reference","");
-        }
-        //alert(ref.length)
-        if(ref!=null||ref!=''){
+myElement.onpaste = function(e) {
+  var pastedText = undefined;
+  if (window.clipboardData && window.clipboardData.getData) { // IE
+    pastedText = window.clipboardData.getData('Text');
+  } else if (e.clipboardData && e.clipboardData.getData) {
+    pastedText = e.clipboardData.getData('text/plain');
+  }
+  //alert(pastedText); // Process and handle text...
+  ref='';
+  while(ref==null||ref==''){
+   ref =prompt("Please enter a Reference","");
+}
+  //alert(ref.length)
+  if(ref!=null||ref!=''){
       
-            insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br> Reference: '+ref+'</p>')
-        }
-        return false; // Prevent the default handler from running.
-    };
+    insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br> Reference: '+ref+'</p>')
+  }
+  return false; // Prevent the default handler from running.
+};
    
    
 }
     
-function insertHtmlAtCursor(html) {
+    function insertHtmlAtCursor(html) {
     var range, node;
     if (window.getSelection && window.getSelection().getRangeAt) {
         range = window.getSelection().getRangeAt(0);
@@ -70,7 +67,7 @@ function getSelectionHtml() {
     else{
         replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
     }
-//  alert(document.getElementById("edValue").innerText)
+      //  alert(document.getElementById("edValue").innerText)
 }
 
 
@@ -98,14 +95,14 @@ function getSelectionHtmlDel() {
         
         var x=getCaretCharacterOffset(el)
         html=el.innerText.charAt(x)
-        // alert(html)
+       // alert(html)
         replaceSelectionWithHtml('<del>'+html+'</del>')
         
     }
     else{
         replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
     }
-// alert(document.getElementById("edValue").innerHTML)
+       // alert(document.getElementById("edValue").innerHTML)
 }
 
 function replaceSelectionWithHtml(html) {
@@ -175,20 +172,20 @@ function getCaretCharacterOffsetWithin(element) {
 
 function showCaretPos() {
     var KeyID = event.keyCode;
-    switch(KeyID)
-    {
-        case 8:
-            //alert("backspace");
-            getSelectionHtml();
-            return false;
-            break; 
-        case 46:
-            getSelectionHtmlDel();    
-            return false;
-            break;
-        default:
-            break;
-    }
+   switch(KeyID)
+   {
+      case 8:
+      //alert("backspace");
+      getSelectionHtml();
+      return false;
+      break; 
+      case 46: 
+      getSelectionHtmlDel();    
+      return false;
+      break;
+      default:
+      break;
+   }
     var el = document.getElementById("edValue");
     var caretPosEl = document.getElementById("caretPos");
     caretPosEl.innerHTML = "Caret position: " + getCaretCharacterOffsetWithin(el);

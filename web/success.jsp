@@ -26,24 +26,35 @@
                 </div>		
                 <div id="headright">
                     <div id="login">						
-                        <h2>Forgot Password.</h2>
+                        <h2>Message!</h2>
                         <form id="loginForm" method="post" action="ForgotPassword">
                             <fieldset>
                                 <% if (request.getAttribute("error") != null) {
                                         out.println("<p class='alert' style='color:white;'>" + request.getAttribute("error") + "</p>");
                                     }%>
-                                <p><label for="email">E-mail address</label></p>
-                                <p><input type="email" id="email" class="email required" placeholder="Enter Email ID" name="email"></p>
-                                <p><input type="submit" value="Send Password" class="button"></p>
-                                <p>
-                                <div class="floatl divf"><a href="signup.jsp" class="floatr">Sign Up</a></div>
-                                <div class="floatr divf"><a href="index.jsp">Sign IN</a></div>
-                                </p>
+                                <%
+                                    // if the id parameter is null then there is no purpose for this page
+                                    if (request.getParameter("id") == null) {
+                                        response.sendRedirect("index.jsp");
+                                    } else {
+                                        // if the id is 'axty1'(no significance randomly choosen) then the password is send to email id msg should be displayed
+                                        if (request.getParameter("id").toString().equals("axty1")) {
+                                            out.print("<p>Your Password has been sent to your eMail ID!</p>"
+                                                    + "<p>"
+                                                    + "<div class='floatl divf'><a href='signup.jsp' class='floatr'>Sign Up</a>"
+                                                    + "</div><div class='floatr divf'><a href='index.jsp'>Sign IN</a></div></p>");
+                                        } else if (request.getParameter("id").toString().equals("")) {
+                                            out.print("<p>A Verification code has been Sent to Your mail ID!</p>");
+                                        }
+                                    }
+                                %>
+
                             </fieldset>
                         </form>
                     </div>
                 </div>		
             </div>
+
         </header>				
         <footer>
             <hr>

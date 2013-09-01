@@ -5,24 +5,30 @@
 package com.enb.servlets;
 
 import com.enb.Helper.RegistrationHelper;
-import com.enb.Helper.UserLogHelper;
 import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author B.Revanth
+ * @author Avinash
  */
-@WebServlet(name = "AdminReg", urlPatterns = {"/AdminReg"})
-public class AdminReg extends HttpServlet {
+@WebServlet(name = "resend", urlPatterns = {"/resend"})
+public class resend extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -40,38 +46,45 @@ public class AdminReg extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-            String email=request.getParameter("email");
-            RegistrationHelper rh=new RegistrationHelper();
-            if(rh.ValidateUser(email)!=null){
-                RequestDispatcher rd=request.getRequestDispatcher("signup.jsp");
-                request.setAttribute("error", "<span class='alert'>Email ID already Exists</span>");
+            String email = request.getParameter("email");
+            RegistrationHelper rh = new RegistrationHelper();
+            String pass = rh.getPassword(email);
+            Userauth ua=rh.getUserauth(email);
+            final String username = "enbtool@gmail.com";
+            final String password = "enbarm007";
+
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+
+
+            Session session = Session.getDefaultInstance(props,
+                    new javax.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(username, password);
+                        }
+                    });
+            try {
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(username));
+                message.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(email));
+                message.setSubject("Reg: Vefication code");
+                message.setText("Dear User,"
+                        + "\n\nThe activation code is \n"
+                        + "" + ua.getVerificationCode() + "\n"
+                        + "\n\n\n\nHappy Using ENB Tool!");
+                Transport.send(message);
+                response.sendRedirect("success.jsp?id=axty1");
+            } catch (MessagingException e) {
+                RequestDispatcher rd = request.getRequestDispatcher("resend.jsp");
+                request.setAttribute("error", "<span class='alert'>" + e.getMessage() + "</span>");
                 rd.forward(request, response);
             }
-            else{
-                /* TODO output your page here. You may use following sample code. */
-                Userauth ua = new Userauth();
-
-                ua.setEmailId(request.getParameter("email"));
-                ua.setName(request.getParameter("fname"));
-                ua.setPassword(request.getParameter("pass"));
-                ua.setUserrole("mentor");
-                rh.insertUserauth(ua);
-                HttpSession session=request.getSession();
-                Userauth ua1=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
-                session.setAttribute("email", request.getParameter("email"));
-                session.setAttribute("uid", ua1.getId());
-                session.setAttribute("name", request.getParameter("fname"));
-                UserLogHelper uh=new UserLogHelper();
-                uh.insertlog(session.getAttribute("uid").toString(),"Registered");
-                response.sendRedirect("adminhome.jsp");
-            }
-        }
-        catch(Exception ex){
-            RequestDispatcher rd=request.getRequestDispatcher("admin_reg.jsp");
-            request.setAttribute("error", "<span class='alert'>"+ex.getMessage()+"</span>");
-            rd.forward(request, response);
-        }
-        finally {            
+        } finally {            
             out.close();
         }
     }

@@ -92,6 +92,8 @@ public class DownloadPDF extends HttpServlet {
             String path="C:\\Users\\Avinash\\Documents\\NetBeansProjects\\ENB\\web\\pdfs\\";
             uh.insertlog(session.getAttribute("uid").toString(),"Download PDF-"+enbname);
             Userauth ua=rh.getDetails(Integer.parseInt(session.getAttribute("uid").toString()));
+            new File(path +ua.getEmailId()).delete();
+            new File(path +ua.getEmailId()).mkdir();
             file = new FileOutputStream(new File(path +ua.getEmailId()+"\\"+enbname + ".pdf"));
             StringBuilder sb = new StringBuilder();
             //client.convertHtml(html, file);

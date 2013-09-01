@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ENB
-    Created on : Aug 8, 2013, 4:11:59 PM
-    Author     : B.Revanth
+ Document : ENB
+ Created on : Aug 8, 2013, 4:11:59 PM
+ Author  : B.Revanth
 --%>
 
 <%@page import="com.enb.POJO.Notes"%>
@@ -15,226 +15,28 @@
 <html>
     <head>
         <title>ENB Tool</title>
-        <link rel="stylesheet"  href="Styles/Main.css">			
+        <link rel="stylesheet" href="Styles/Main.css">			
         <link href="Styles/alertify.bootstrap.css" rel="stylesheet" type="text/css" />
         <link href="Styles/alertify.core.css" rel="stylesheet" type="text/css" />
-        <link href="Styles/alertify.default.css" rel="stylesheet" type="text/css" />   
+        <link href="Styles/alertify.default.css" rel="stylesheet" type="text/css" /> 
         <script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
         <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
         <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
         <script src="Scripts/jquery-ui.js" type="text/javascript"></script>
         <script src="Scripts/alertify.min.js" type="text/javascript"></script>
-        <script src="Scripts/jquery.autosize.min.js" type="text/javascript"></script>
-        
+        <script src="Scripts/jquery.autosize.min.js" type="text/javascript"></script>  
         <script src="CusScripts/writeenb.js" type="text/javascript"></script>
-        
-        <script>
-        function textAreaAdjust(o) {
-            o.style.fontFamily = "Times New Roman";
-            o.style.fontSize= "12pt";
-            o.style.height = "1px";
-            o.style.height = (25+o.scrollHeight)+"px";
-            //o.style.border="none";
-        }
-        </script>
-        <script type="text/javascript">
-     
-            function edValueKeyPress(){
-    
-                var myElement = document.getElementById('edValue');
-                myElement.onpaste = function(e) {
-                    var pastedText = undefined;
-                    if (window.clipboardData && window.clipboardData.getData) { // IE
-                        pastedText = window.clipboardData.getData('Text');
-                    } else if (e.clipboardData && e.clipboardData.getData) {
-                        pastedText = e.clipboardData.getData('text/plain');
-                    }
-                    //alert(pastedText); // Process and handle text...
-                    ref='';
-                    while(ref==null||ref==''){
-                        ref =prompt("Please enter a Reference","");
-                    }
-                    //alert(ref.length)
-                    if(ref!=null||ref!=''){
-      
-                        insertHtmlAtCursor('<p style=\"color:red; background:yellow; font:italic bold 12px/30px Georgia,serif;\">'+pastedText+'<br> Reference: '+ref+'</p>')
-                    }
-                    return false; // Prevent the default handler from running.
-                };
-   
-   
+        <script src="CusScripts/crossthrough.js" type="text/javascript"></script>
+
+        <!--<script>
+            function textAreaAdjust(o) {
+                o.style.fontFamily = "Times New Roman";
+                o.style.fontSize= "12pt";
+                o.style.height = "1px";
+                o.style.height = (20+o.scrollHeight)+"px";
+                //o.style.border="none";
             }
-    
-            function insertHtmlAtCursor(html) {
-                var range, node;
-                if (window.getSelection && window.getSelection().getRangeAt) {
-                    range = window.getSelection().getRangeAt(0);
-                    node = range.createContextualFragment(html);
-                    range.insertNode(node);
-                } else if (document.selection && document.selection.createRange) {
-                    document.selection.createRange().pasteHTML(html);
-                }
-            }
-  
-            function getSelectionHtml() {
-                var html = "";
-                if (typeof window.getSelection != "undefined") {
-                    var sel = window.getSelection();
-                    if (sel.rangeCount) {
-                        var container = document.createElement("div");
-                        for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                            container.appendChild(sel.getRangeAt(i).cloneContents());
-                        }
-                        html = container.innerHTML;
-                    }
-                } else if (typeof document.selection != "undefined") {
-                    if (document.selection.type == "Text") {
-                        html = document.selection.createRange().htmlText;
-                    }
-                }
-                var el=document.getElementById("edValue");
-                if(html.length==0 && el.innerText.length==getCaretCharacterOffset(el)){
-                    html=getCaretCharacterOffsetWithin(el)
-                    replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-                }
-    
-                else if(html.length==0){
-        
-                    html=getCaretCharacterOffsetWithin(el)
-                    replaceSelectionWithHtml('<del>'+html+'</del>')
-        
-                }
-                else{
-                    replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-                }
-                //  alert(document.getElementById("edValue").innerText)
-            }
-
-
-            function getSelectionHtmlDel() {
-                var html = "";
-    
-                if (typeof window.getSelection != "undefined") {
-                    var sel = window.getSelection();
-                    if (sel.rangeCount) {
-                        var container = document.createElement("div");
-                        for (var i = 0, len = sel.rangeCount; i < len; ++i) {
-                            container.appendChild(sel.getRangeAt(i).cloneContents());
-                        }
-                        html = container.innerHTML;
-                    }
-                } else if (typeof document.selection != "undefined") {
-                    if (document.selection.type == "Text") {
-                        html = document.selection.createRange().htmlText;
-                    }
-                }
-    
-                var el=document.getElementById("edValue");
-    
-                if(html.length==0){
-        
-                    var x=getCaretCharacterOffset(el)
-                    html=el.innerText.charAt(x)
-                    // alert(html)
-                    replaceSelectionWithHtml('<del>'+html+'</del>')
-        
-                }
-                else{
-                    replaceSelectionWithHtml('<del>'+html+'</del>&nbsp;')
-                }
-                // alert(document.getElementById("edValue").innerHTML)
-            }
-
-            function replaceSelectionWithHtml(html) {
-                var range, html;
-                if (window.getSelection && window.getSelection().getRangeAt) {
-                    range = window.getSelection().getRangeAt(0);
-                    range.deleteContents();
-                    var div = document.createElement("div");
-                    div.innerHTML = html;
-                    var frag = document.createDocumentFragment(), child;
-                    while ( (child = div.firstChild) ) {
-                        frag.appendChild(child);
-                    }
-                    range.insertNode(frag);
-                } else if (document.selection && document.selection.createRange) {
-                    range = document.selection.createRange();
-                    html = (node.nodeType == 3) ? node.data : node.outerHTML;
-                    range.pasteHTML(html);
-                }
-            }
-
-
-            function getCaretCharacterOffset(element) {
-                var caretOffset = 0;
-                var doc = element.ownerDocument || element.document;
-                var win = doc.defaultView || doc.parentWindow;
-                var sel;
-                if (typeof win.getSelection != "undefined") {
-                    var range = win.getSelection().getRangeAt(0);
-                    var preCaretRange = range.cloneRange();
-                    preCaretRange.selectNodeContents(element);
-                    preCaretRange.setEnd(range.endContainer, range.endOffset);
-                    caretOffset = preCaretRange.toString().length;//
-                } else if ( (sel = doc.selection) && sel.type != "Control") {
-                    var textRange = sel.createRange();
-                    var preCaretTextRange = doc.body.createTextRange();
-                    preCaretTextRange.moveToElementText(element);
-                    preCaretTextRange.setEndPoint("EndToEnd", textRange);
-                    caretOffset = preCaretTextRange.text.length;//
-                }
-                return caretOffset;
-            }
-
-
-            function getCaretCharacterOffsetWithin(element) {
-                var caretOffset = 0;
-                var doc = element.ownerDocument || element.document;
-                var win = doc.defaultView || doc.parentWindow;
-                var sel;
-                if (typeof win.getSelection != "undefined") {
-                    var range = win.getSelection().getRangeAt(0);
-                    var preCaretRange = range.cloneRange();
-                    preCaretRange.selectNodeContents(element);
-                    preCaretRange.setEnd(range.endContainer, range.endOffset);
-                    caretOffset = preCaretRange.toString();//
-                } else if ( (sel = doc.selection) && sel.type != "Control") {
-                    var textRange = sel.createRange();
-                    var preCaretTextRange = doc.body.createTextRange();
-                    preCaretTextRange.moveToElementText(element);
-                    preCaretTextRange.setEndPoint("EndToEnd", textRange);
-                    caretOffset = preCaretTextRange.text;//
-                }
-                return caretOffset.charAt(caretOffset.length-1);
-            }
-
-
-
-            function showCaretPos() {
-                var KeyID = event.keyCode;
-                switch(KeyID)
-                {
-                    case 8:
-                        //alert("backspace");
-                        getSelectionHtml();
-                        return false;
-                        break; 
-                    case 46: 
-                        getSelectionHtmlDel();    
-                        return false;
-                        break;
-                    default:
-                        break;
-                }
-                var el = document.getElementById("edValue");
-                var caretPosEl = document.getElementById("caretPos");
-                caretPosEl.innerHTML = "Caret position: " + getCaretCharacterOffsetWithin(el);
-            }
-
-
-
-
-        </script>
+        </script>-->
     </head>
     <body>
         <header>
@@ -263,7 +65,7 @@
             <a href="account.jsp">Account</a>
         </nav>
         <div id="mydiv" class="hide">
-            <div  class="ajax-loader">
+            <div class="ajax-loader">
                 <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loading</h3>
                 <img src="Styles/images/loader.gif" />
             </div>
@@ -271,7 +73,7 @@
         <div id="main">					
             <div id="tabs">
                 <form method="post" action="enb" id="enbform">
-                    <ul>  
+                    <ul> 
                         <li><a href="#tab1" id="atab1" class="present">Notes</a></li> 
                         <li><a href="#tab2" id="atab2">Deliverable Status</a></li> 
                         <li><a href="#tab3" id="atab3">Lessons Learned Reflection</a></li>
@@ -288,28 +90,28 @@
                         <div style="width:100%; min-height: 300px; border: 2px #999999 double;" id="edValue" contenteditable="true" onKeyPress="edValueKeyPress()" onKeyUp="edValueKeyPress()" onKeyDown='showCaretPos()'> </div>
                         <br>
                         <input type='button' class='button' onclick="getSelectionHtml();" value="Strike OFF"> 
-                        <input type='hidden' value="" name='notes1' id="notes1">                        
+                        <input type='hidden' value="" name='notes1' id="notes1">      
                     </div> 
                     <div id="tab2">
                         <br>
                         <br>
-                        <table width="100%" border="0" cellspacing="5" id="dstable">
+                        <table width="100%" border="0" cellspacing="20" id="dstable">
                             <tr>
-                                <td width="3%">SNO</td>
-                                <td width="10%"><center>Deliverable</center></td>
-                            <td width="20%"><center>What did you plan to accomplish?</center></td>
-                            <td width="20%"><center>What did you actually accomplish?</center></td>
-                            <td width="6%"><center>Size</center></td>
-                            <td width="6%"><center>Effort</center></td>
+                                <td width="5%">SNO</td>
+                                <td width="15%"><center>Deliverable</center></td>
+                                <td width="27%"><center>What did you plan to accomplish?</center></td>
+                                <td width="27%"><center>What did you actually accomplish?</center></td>
+                                <td width="10%"><center>Size</center></td>
+                                <td width="10%"><center>Effort</center></td>
                             </tr>
                             <tr>
                                 <td>1.</td>
-                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="dsd" style="overflow:hidden" ></textarea></center></td>
-                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="dsp" style="overflow:hidden" ></textarea></center></td>
-                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="dsa" style="overflow:hidden" ></textarea></center></td>
-                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="dss" style="overflow:hidden" ></textarea></center></td>
-                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="dse" style="overflow:hidden" ></textarea></center></td>
-                            </tr>					  
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" name="dsd1" ></textarea></center></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" name="dsp1" ></textarea></center></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" name="dsa1" ></textarea></center></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" name="dss1" ></textarea></center></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" name="dse1" ></textarea></center></td>
+                            </tr>					 
                         </table>
                         <br/>
                         <input type="button" class="button" value="Add Row" id="dsr">
@@ -325,8 +127,8 @@
                             </tr>
                             <tr>
                                 <td>1.</td>
-                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="lnc" style="overflow:hidden" ></textarea></center></td>
-                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="lnl" style="overflow:hidden" ></textarea></center></td>
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" name="lnc1" ></textarea></center></td>
+                            <td><center><textarea onkeyup="textAreaAdjust(this)" name="lnl1" ></textarea></center></td>
                             </tr>
                         </table>
                         <br/>
@@ -343,9 +145,9 @@
                             </tr>
                             <tr>
                                 <td>1.</td>
-                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="pld" style="overflow:hidden" ></textarea></center></td>
-                                <td><center><textarea onkeyup="textAreaAdjust(this)" class="test" name="plw" style="overflow:hidden" ></textarea></center></td>
-                            </tr>					  
+                                <td><center><textarea onkeyup="textAreaAdjust(this)" name="pld1" ></textarea></center></td>
+                            <td><center><textarea onkeyup="textAreaAdjust(this)" name="plw1" ></textarea></center></td>
+                            </tr>					 
                         </table>
                         <br/>
                         <input type="button" class="button" value="Add Row" id="planr">

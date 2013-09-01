@@ -198,7 +198,7 @@ public class ConstructString {
             for(int i=0;i<alp.size();i++){
                 enbs=enbs+"<option value='"+alp.get(i).getId() +"'>"+alp.get(i).getEnbname() +"</option>";
             }
-            return "<option value='Default'>No ENBs</option>";
+            return enbs;
         }
         else{
             return "<option value='Default'>No ENBs</option>";
@@ -206,11 +206,15 @@ public class ConstructString {
     }
         public String getENBList3(int uid){        
         EnbdescHelper edh=new EnbdescHelper();          
-        Enbdesc alp=edh.getEnbdescUID(uid);
+        ArrayList<Enbdesc> alp=edh.getEnbdescUID(uid);
         System.out.println("Got back");
         String enbs="";
-        if(alp!=null)
-                enbs=enbs+"<option value='"+alp.getId() +"'>"+alp.getEnbname() +"</option>";
+        if(!alp.isEmpty()){
+            for(int i=0;i<alp.size();i++){
+                enbs=enbs+"<option value='"+alp.get(i).getId() +"'>"+alp.get(i).getEnbname() +"</option>";                
+            }
+            return enbs;
+        }
          return "<option value='Default'>No ENBs</option>";
         
     }

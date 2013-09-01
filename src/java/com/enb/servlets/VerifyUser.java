@@ -5,13 +5,11 @@
 package com.enb.servlets;
 
 import com.enb.Helper.RegistrationHelper;
-import com.enb.Helper.UserLogHelper;
 import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +17,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author B.Revanth
+ * @author Avinash
  */
-@WebServlet(name = "AdminReg", urlPatterns = {"/AdminReg"})
-public class AdminReg extends HttpServlet {
+public class VerifyUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -40,34 +37,31 @@ public class AdminReg extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
+            //retrieving email from the prarameters 
+            
             String email=request.getParameter("email");
+            //retrieving code entered by the user form the parameters
+            String code=request.getParameter("code");
             RegistrationHelper rh=new RegistrationHelper();
-            if(rh.ValidateUser(email)!=null){
-                RequestDispatcher rd=request.getRequestDispatcher("signup.jsp");
-                request.setAttribute("error", "<span class='alert'>Email ID already Exists</span>");
+            Userauth ua=rh.getUserauth(email);
+            HttpSession session=request.getSession();
+            if(ua.getVerificationCode().equals(code)){
+                ua.setVerificationCode("Yes");
+                rh.VerifyCode(ua);
+                session.setAttribute("email", ua.getEmailId());
+                session.setAttribute("uid", ua.getId());
+                session.setAttribute("name", ua.getName());
+                response.sendRedirect("Homepage.jsp");
+            }   
+            else{
+                RequestDispatcher rd=request.getRequestDispatcher("verify.jsp");
+                request.setAttribute("error", "<span class='alert'>Invalid Verification Code</span>");
                 rd.forward(request, response);
             }
-            else{
-                /* TODO output your page here. You may use following sample code. */
-                Userauth ua = new Userauth();
-
-                ua.setEmailId(request.getParameter("email"));
-                ua.setName(request.getParameter("fname"));
-                ua.setPassword(request.getParameter("pass"));
-                ua.setUserrole("mentor");
-                rh.insertUserauth(ua);
-                HttpSession session=request.getSession();
-                Userauth ua1=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
-                session.setAttribute("email", request.getParameter("email"));
-                session.setAttribute("uid", ua1.getId());
-                session.setAttribute("name", request.getParameter("fname"));
-                UserLogHelper uh=new UserLogHelper();
-                uh.insertlog(session.getAttribute("uid").toString(),"Registered");
-                response.sendRedirect("adminhome.jsp");
-            }
-        }
+        } 
         catch(Exception ex){
-            RequestDispatcher rd=request.getRequestDispatcher("admin_reg.jsp");
+            ex.printStackTrace();
+            RequestDispatcher rd=request.getRequestDispatcher("verify.jsp");
             request.setAttribute("error", "<span class='alert'>"+ex.getMessage()+"</span>");
             rd.forward(request, response);
         }

@@ -213,7 +213,9 @@ a{
 #tab2 input[type="text"]{
 	width:90%;
 }
-
+#tab2{
+	width:100%;
+}
 #tab3 input[type="text"]{
 	width:90%;
 }
@@ -365,9 +367,12 @@ textarea{
 	font-size: 16px;
 	padding:7px 10px;
 	color:#777;
-	border-color:#777;
-
+	border-color:#777;        
+        border: 0;
+        box-shadow: 0 0 5px #666;
+        overflow:hidden;
 }
+
 .grey{
     color:999;
 }

@@ -3,15 +3,15 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Aug 27, 2013 12:09:45 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="com.enb.POJO.Enbdesc" table="enbdesc" catalog="enb">
+    <class name="com.enb.POJO.Enbdesc" table="enbdesc" catalog="enb" lazy="false">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="identity" />
         </id>
-        <many-to-one name="userauth" class="com.enb.POJO.Userauth" fetch="select">
+        <many-to-one name="userauth" class="com.enb.POJO.Userauth" fetch="join">
             <column name="UID" />
         </many-to-one>
-        <many-to-one name="project" class="com.enb.POJO.Project" fetch="select">
+        <many-to-one name="project" class="com.enb.POJO.Project" fetch="join">
             <column name="Pid" />
         </many-to-one>
         <property name="fromdate" type="date">

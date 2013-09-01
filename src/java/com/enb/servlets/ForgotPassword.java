@@ -15,6 +15,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,45 +42,45 @@ public class ForgotPassword extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            String email=request.getParameter("email");
-            out.println(email);
-            RegistrationHelper rh=new RegistrationHelper();
-               // String pass=rh.getPassword(email);
-                final String username = "rajasekharizcool91@gmail.com";
-		final String password = "man@mandarin";
- 
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
- 
-		Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		  });
- 
-		try {
- 
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("lynnrobertcarter@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("vundyala.avinash@gmail.com"));
-			message.setSubject("Forgot->Password");
-			message.setText("Dear User,\n\n"+"\t\tUserName: "+email+"\n"
-				+ "\n\t\t Your PassWord is: pass");
- 
-			Transport.send(message);
- 
-			System.out.println("Done");
- 
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}
-            
-        } finally {            
+            String email = request.getParameter("email");
+            RegistrationHelper rh = new RegistrationHelper();
+            String pass = rh.getPassword(email);
+            final String username = "enbtool@gmail.com";
+            final String password = "enbarm007";
+
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+
+
+            Session session = Session.getDefaultInstance(props,
+                    new javax.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(username, password);
+                        }
+                    });
+            try {
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(username));
+                message.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(email));
+                message.setSubject("Reg: Forgot Password ");
+                message.setText("Dear User,"
+                        + "\n\nThis is an Automates Password Retrieval Mail\n"
+                        + "Username : " + email + "\n"
+                        + "Password : " + pass + "\n"
+                        + "\n\n\n\nHappy Using ENB Tool!");
+                Transport.send(message);
+                response.sendRedirect("success.jsp?id=axty1");
+            } catch (MessagingException e) {
+                RequestDispatcher rd = request.getRequestDispatcher("forgot.jsp");
+                request.setAttribute("error", "<span class='alert'>" + e.getMessage() + "</span>");
+                rd.forward(request, response);
+            }
+        } finally {
             out.close();
         }
     }

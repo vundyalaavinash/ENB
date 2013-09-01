@@ -7,6 +7,7 @@ package com.enb.Helper;
 import com.enb.POJO.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.jsoup.Jsoup;
@@ -52,7 +53,7 @@ public class SearchHelper {
         ArrayList<Notes> userinfo = new ArrayList<Notes>();         // arraylist which stores instances of Notes class
         try {
             org.hibernate.Transaction tx = session.beginTransaction();       // load the connection for the given session
-            Query q = session.createQuery("from Notes");           //Query instance is obtained
+            Query q = session.createQuery("from Notes ");           //Query instance is obtained
             userinfo = (ArrayList<Notes>) q.list();         //list of instances are stored in arraylist
             return userinfo;
         }// catches if any exception in retrieving the notes from the database or loading the connection for session 
@@ -79,6 +80,7 @@ public class SearchHelper {
         // code for finding the notes in which the given string is present in the notes
         for (int i = 0; i < all.size(); i++) {
             Notes n = all.get(i);             // assigns the instance of notes from the arraylist
+            Hibernate.initialize(n);
             String note = new String(n.getNotes());     // assigns the enb notes text       
             if (n.getEnbdesc().getUserauth().getId() == uid) {      // checks for the enb notes is belongs to the current user id
                 for (int j = 0; j < keys.length; j++) {

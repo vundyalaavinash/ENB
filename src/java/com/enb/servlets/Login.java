@@ -41,6 +41,9 @@ public class Login extends HttpServlet {
             RegistrationHelper rh=new RegistrationHelper();
             Userauth ua=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
             if(ua!=null){
+                if(!ua.getVerificationCode().equals("Yes")){
+                    response.sendRedirect("verify.jsp");
+                }
                 HttpSession session=request.getSession();
                 session.setAttribute("email", request.getParameter("email"));
                 session.setAttribute("name", ua.getName());
@@ -48,6 +51,11 @@ public class Login extends HttpServlet {
                 System.out.print("\n\nlogin"+ua.getId()+"\n\n");
                 UserLogHelper uh=new UserLogHelper();
                 uh.insertlog(session.getAttribute("uid").toString(),"Login");
+                if(!ua.getVerificationCode().equals("Yes")){
+                    request.setAttribute("error", "Account not verified!");
+                    RequestDispatcher rd=request.getRequestDispatcher("verify.jsp");
+                    rd.forward(request, response);
+                }
                 if(ua.getUserrole().equals("mentor"))
                     response.sendRedirect("adminhome.jsp");
                 else

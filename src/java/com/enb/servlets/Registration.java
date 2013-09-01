@@ -4,9 +4,8 @@
  */
 package com.enb.servlets;
 
-import com.enb.Helper.ProjectHelper;
-import com.enb.Helper.RegistrationHelper;
-import com.enb.Helper.UserLogHelper;
+import com.enb.Helper.*;
+import com.enb.MiscClasses.RandomString;
 import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -56,17 +55,27 @@ public class Registration extends HttpServlet {
                 ua.setPassword(request.getParameter("pass"));
                 ua.setUserrole("student");
                 ua.setMentoring(Integer.parseInt(request.getParameter("mentor")));
+                RandomString rs=new RandomString(6);
+                ua.setVerificationCode(rs.nextString());
                 rh.insertUserauth(ua);
+                SendMailTLS send=new SendMailTLS();
+                send.sendMail(ua.getEmailId(),ua.getVerificationCode());
                 HttpSession session=request.getSession();
                 Userauth ua1=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
                 session.setAttribute("email", request.getParameter("email"));
                 session.setAttribute("uid", ua1.getId());
                 session.setAttribute("name", request.getParameter("fname"));
                 UserLogHelper uh=new UserLogHelper();
-                uh.insertlog(session.getAttribute("uid").toString(),"Registered");
-                response.sendRedirect("Homepage.jsp");
+                uh.insertlog(session.getAttribute("uid").toString(),"Registered");                
+                response.sendRedirect("verify.jsp");
             }
-        } finally {            
+        }
+        catch(Exception ex){
+                RequestDispatcher rd=request.getRequestDispatcher("signup.jsp");
+                request.setAttribute("error", "<span class='alert'>"+ex.getMessage()+"</span>");
+                rd.forward(request, response);
+        }
+        finally {            
             out.close();
         }
     }

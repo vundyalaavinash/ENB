@@ -37,19 +37,22 @@ $(document).ready(function(){
 	
 	$("#lnar").click(function(){
 		lncount+=1;
-		$("#lntable").append("<tr><td>"+lncount+".</td><td><center><textarea onkeyup='textAreaAdjust(this)' name='lnc"+lncount+"' ></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='lnl"+lncount+"' ></textarea></center></td></tr>");
+		$("#lntable").append("<tr><td>"+lncount+".</td><td><center><textarea   name='lnc"+lncount+"' ></textarea></center></td><td><center><textarea   name='lnl"+lncount+"' ></textarea></center></td></tr>");
+                $('textarea').autosize();
 	});
 	
 	$("#planr").click(function(){
 		plancount+=1;
-		$("#plantable").append("<tr><td>"+plancount+".</td><td><center><textarea onkeyup='textAreaAdjust(this)' name='pld"+plancount+"' ></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='plw"+plancount+"' ></textarea></center></td></tr>");
+		$("#plantable").append("<tr><td>"+plancount+".</td><td><center><textarea   name='pld"+plancount+"' ></textarea></center></td><td><center><textarea   name='plw"+plancount+"' ></textarea></center></td></tr>");
+                $('textarea').autosize();
 	});
 	
 	$("#dsr").click(function(){
 		dscount+=1;
-		$("#dstable").append("<tr><td>"+dscount+".</td><td><center><textarea onkeyup='textAreaAdjust(this)' name='dsd"+dscount+"'></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='dsp"+dscount+"'></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='dsa"+dscount+"'></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='dss"+dscount+"'></textarea></center></td><td><center><textarea onkeyup='textAreaAdjust(this)' name='dse"+dscount+"'></textarea></center></td></tr>");
+		$("#dstable").append("<tr><td>"+dscount+".</td><td><center><textarea   name='dsd"+dscount+"'></textarea></center></td><td><center><textarea   name='dsp"+dscount+"'></textarea></center></td><td><center><textarea   name='dsa"+dscount+"'></textarea></center></td><td><center><textarea   name='dss"+dscount+"'></textarea></center></td><td><center><textarea   name='dse"+dscount+"'></textarea></center></td></tr>");
+                $('textarea').autosize();
 	});	        
-        
+        $('textarea').autosize();
         $("#savebtn").click(function(){
             $('#mydiv').show();
             var notes=$("#edValue").html();
