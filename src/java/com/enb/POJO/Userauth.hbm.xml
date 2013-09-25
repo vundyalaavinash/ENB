@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 27, 2013 12:09:45 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Sep 24, 2013 10:52:21 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="com.enb.POJO.Userauth" table="userauth" catalog="enb" lazy="false">
+    <class name="com.enb.POJO.Userauth" lazy="false" table="userauth" catalog="enb">
         <id name="id" type="java.lang.Integer">
             <column name="Id" />
             <generator class="identity" />
@@ -26,11 +26,29 @@
         <property name="mentoring" type="java.lang.Integer">
             <column name="mentoring" />
         </property>
+        <set name="groupsesForMid" inverse="true">
+            <key>
+                <column name="MID" />
+            </key>
+            <one-to-many class="com.enb.POJO.Groups" />
+        </set>
+        <set name="groupsesForSid" inverse="true">
+            <key>
+                <column name="SID" />
+            </key>
+            <one-to-many class="com.enb.POJO.Groups" />
+        </set>
         <set name="enbdescs" inverse="true">
             <key>
                 <column name="UID" />
             </key>
             <one-to-many class="com.enb.POJO.Enbdesc" />
+        </set>
+        <set name="imagesstorages" inverse="true">
+            <key>
+                <column name="UID" />
+            </key>
+            <one-to-many class="com.enb.POJO.Imagesstorage" />
         </set>
         <set name="projects" inverse="true">
             <key>

@@ -282,33 +282,7 @@ select{
 	margin-top:15%;
 
 }
-.alert {
-float: left;
-margin: 0 0 0 20px;
-padding: 3px 10px;
-position: relative;
-color: #FFF;
-border-radius: 3px 4px 4px 3px;
-background-color: #CE5454;
-max-width: 170px;
-white-space: pre;
-z-index: 1;
 
-vertical-align: baseline;
-}
-
-.alert::after {
-content: '';
-display: block;
-height: 0;
-width: 0;
-border-color: transparent #CE5454 transparent transparent;
-border-style: solid;
-border-width: 11px 7px;
-position: absolute;
-left: -13px;
-top: 1px;
-}
 
 .alert {
     float: left;

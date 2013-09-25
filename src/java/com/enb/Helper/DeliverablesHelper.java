@@ -52,7 +52,7 @@ public class DeliverablesHelper {
      * @return true if deliverables is saved or update else false if it fails or
      * any exception occurs
      */
-    public boolean insertDeliverablestatus(Deliverablestatus ds) {
+    public String insertDeliverablestatus(Deliverablestatus ds) throws Exception {
         this.session = HibernateUtil.getSessionFactory().openSession();      // Create the SessionFactory from standard (hibernate.cfg.xml) config filethis.session = HibernateUtil.getSessionFactory().openSession();      // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         try {
             
@@ -60,11 +60,10 @@ public class DeliverablesHelper {
             // code for inserting or updating the deliverables
             session.saveOrUpdate(ds);
             trans.commit();                                                             // database is updated
-            return true;
+            return "true";
         } // catches if any exception in updating the enb in the database or loading the connection for session
         catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
+            return ex.getMessage();
         }
         finally{
             session.close();
@@ -78,6 +77,7 @@ public class DeliverablesHelper {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from Deliverablestatus where ENBID="+eid);
             userinfo = (ArrayList<Deliverablestatus>) q.list();
+            tx.commit();
             return userinfo;            
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,6 +97,7 @@ public class DeliverablesHelper {
             // Query instance is obtained
             Query q = session.createQuery("delete from Deliverablestatus where ENBID=" + eid + "");
             int result = q.executeUpdate();                                             // changes updated in database
+            tx.commit();
             return true;
         } // catches if any exception in deleting the enb in database or loading the connection for session
         catch (Exception e) {

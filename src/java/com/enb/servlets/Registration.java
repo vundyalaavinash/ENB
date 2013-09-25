@@ -67,7 +67,7 @@ public class Registration extends HttpServlet {
                 session.setAttribute("name", request.getParameter("fname"));
                 UserLogHelper uh=new UserLogHelper();
                 uh.insertlog(session.getAttribute("uid").toString(),"Registered");                
-                response.sendRedirect("verify.jsp");
+                response.sendRedirect("verify.jsp?email="+ua.getEmailId());
             }
         }
         catch(Exception ex){

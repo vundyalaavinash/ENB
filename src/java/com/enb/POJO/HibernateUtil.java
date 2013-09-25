@@ -30,6 +30,6 @@ public class HibernateUtil {
     }
     
     public static SessionFactory getSessionFactory() {
-        return sessionFactory;
+        return (new AnnotationConfiguration().configure().buildSessionFactory());
     }
 }

@@ -83,32 +83,40 @@ $(document).ready(function(){
             url: "enb",
             data: $("#enbform").serialize(),
             success: function(msg) {                  
-                $('#mydiv').hide();
-                alertify.success("ENB saved Succesfully!");
-                $(".status").html(datetime);
-                $("#edValue").append("<p>"+datesetted+"</p>");
+                $('#mydiv').hide();                  
+                  if(msg=="done"){
+                    alertify.success("ENB saved Succesfully!");
+                    $(".status").html(datetime);                  
+                    $("#edValue").append("<br>"+datesetted);
+                  }
+                  else{
+                      alertify.error(msg);
+                  }  
             },
             async: false
         }); 
         return false;
     });
         
-    $(document).keydown(function(e) {
-        var doPrevent;
-        if (e.keyCode == 8 || e.keyCode == 46) {
-            var d = e.srcElement || e.target;
-            if (d.tagName.toUpperCase() == 'INPUT' || d.tagName.toUpperCase() == 'TEXTAREA') {
-                doPrevent = d.readOnly || d.disabled;
+   $('#edValue').keydown(function(e) {
+            if( e.keyCode == 46){
+                return false;
+            }
+            var doPrevent;
+            if ( e.keyCode == 46) {
+                var d = e.srcElement || e.target;
+                if (d.tagName.toUpperCase() == 'INPUT' || d.tagName.toUpperCase() == 'TEXTAREA' || d.tagName.toUpperCase() == 'DIV') {
+                    doPrevent = d.readOnly || d.disabled;
+                }
+                else
+                    doPrevent = true;
             }
             else
-                doPrevent = true;
-        }
-        else
-            doPrevent = false;
+                doPrevent = false;
 
-        if (doPrevent)
-            e.preventDefault();
-    });
+            if (doPrevent)
+                e.preventDefault();
+        });
         
     $( "#dialog" ).dialog({
         autoOpen: false,
@@ -131,5 +139,79 @@ $(document).ready(function(){
         $( "#dialog" ).dialog( "close" );
 
     });
+    function saveEverything(){
+        $('#mydiv').show();
+        var notes=$("#edValue").html();
+        $("#notes1").val(notes);            
+        var currentdate = new Date(); 
+        var datesetted = currentdate.getDate() + "/"
+        +(currentdate.getMonth()+1)  + "/" 
+        + currentdate.getFullYear() + " @ "  
+        + currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();
+        var datetime = "Last Saved: " + currentdate.getDate() + "/"
+        + (currentdate.getMonth()+1)  + "/" 
+        + currentdate.getFullYear() + " @ "  
+        + currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();
+           
+        $.ajax({
+            type: "POST",
+            url: "enb",
+            data: $("#enbform").serialize(),
+            success: function(msg) {                  
+                $('#mydiv').hide();                  
+                  if(msg=="done"){
+                    alertify.success("ENB saved Succesfully!");
+                    $(".status").html(datetime);                  
+                    $("#edValue").append("<br>"+datesetted);
+                  }
+                  else{
+                      alertify.error(msg);
+                  }  
+            },
+            async: false
+        }); 
+    }
+    
+    $.idleTimer(300000);
+    $(document).bind("idle.idleTimer", function(){
+        $('#mydiv').show();
+        var notes=$("#edValue").html();
+        $("#notes1").val(notes);            
+        var currentdate = new Date(); 
+        var datesetted = currentdate.getDate() + "/"
+        +(currentdate.getMonth()+1)  + "/" 
+        + currentdate.getFullYear() + " @ "  
+        + currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();
+        var datetime = "Last Saved: " + currentdate.getDate() + "/"
+        + (currentdate.getMonth()+1)  + "/" 
+        + currentdate.getFullYear() + " @ "  
+        + currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();
+           
+        $.ajax({
+            type: "POST",
+            url: "enb",
+            data: $("#enbform").serialize(),
+            success: function(msg) {                  
+                $('#mydiv').hide();                  
+                  if(msg=="done"){
+                    alertify.success("ENB saved Succesfully!");
+                    $(".status").html(datetime);                  
+                    $("#edValue").append("<br>"+datesetted);
+                  }
+                  else{
+                      alertify.error(msg);
+                  }  
+            },
+            async: false
+        }); 
+    }); 
 
 });

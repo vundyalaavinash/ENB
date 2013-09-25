@@ -40,7 +40,7 @@
                              %>                            
                         </h3>
 			<a href="adminhome.jsp">Home</a>
-                        <a href="viewall.jsp">View Student ENBs</a>
+                        <a href="Students.jsp">Student</a>
 			<a href="adminaccount.jsp">Account</a>
 		</nav>
 		
@@ -49,8 +49,6 @@
                             <% 
                                 ConstructString cs=new ConstructString();
                                 System.out.print(""+session.getAttribute("uid"));
-                                System.out.println(""+cs);
-                                //out.print(""+session.getAttribute("uid"));
                                 out.print(cs.getStudents(Integer.parseInt(session.getAttribute("uid").toString())));
                             %>
 			</div>

@@ -53,6 +53,7 @@ public class RegistrationHelper {
             Query q = session.createQuery("from Userauth where emailId='" + email + "'");  //Query instance is obtained
             userinfo = (ArrayList<Userauth>) q.list();      //list of instances are stored in arraylist
             // checks the size of arraylist whether the user details are available for the given email or not.
+            tx.commit();
             if (userinfo.size() == 1) {
                 return userinfo.get(0);             // if true then returns the userauth reference
             } else {
@@ -67,15 +68,23 @@ public class RegistrationHelper {
             session.close();
         }
     }
-
-    /**
-     * class which does nothing
-     *
-     * @param uauth
-     * @return
-     */
-    public boolean CheckEmail(Userauth uauth) {
-        return false;
+    
+    public ArrayList<Integer> Batches() {
+        this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file        
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();      // load the connection for the given session
+            ArrayList<Integer> al=new ArrayList<Integer>();
+            al= (ArrayList<Integer>) session.createQuery("select distinct(mentoring) from Userauth where userrole='mentor' and mentoring is not null").list();  //Query instance is obtained                       
+            tx.commit();
+            return al;
+        }// catches if any exception in retrieving the user details from the database or loading the connection for session 
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally{
+            session.close();
+        }
     }
 
     /**
@@ -135,9 +144,41 @@ public class RegistrationHelper {
             Transaction trans = session.beginTransaction();           // load the connection for the given session
             session.update(uauth);              //code for updating the details in database
             trans.commit();             // database is updated
-            session.flush();
             return true;
         }// catches if any exception in updating the user details into the database or loading the connection for session
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        finally{
+            session.close();
+        }
+    }
+    
+    public boolean updateAllBatches(int old, int newb) {
+        try {
+            this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            Transaction trans = session.beginTransaction();           // load the connection for the given session
+            Query q=session.createQuery("update Userauth set mentoring="+newb+" where mentoring="+old);
+            trans.commit();             // database is updated
+            return true;
+        }// catches if any exception in updating the user details into the database or loading the connection for session
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        finally{
+            session.close();
+        }
+    }
+    public boolean updateAllBatches(int newb) {
+        try {
+            this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+            Transaction trans = session.beginTransaction();           // load the connection for the given session
+            Query q=session.createQuery("update Userauth set mentoring="+newb+" where mentoring is null");
+            trans.commit();             // database is updated
+            return true;
+        }
         catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -180,16 +221,16 @@ public class RegistrationHelper {
     }
 
     public Userauth getUserauth(String email) {
+        
         this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
         ArrayList<Userauth> userinfo = new ArrayList<Userauth>();               // arraylist which stores instances of Userauth class
         try {
             org.hibernate.Transaction tx = session.beginTransaction();          // load the connection for the given session
             Query q = session.createQuery("from Userauth where emailId='" + email + "'");  //Query instance is obtained
             userinfo = (ArrayList<Userauth>) q.list();      //list of instances are stored in arraylist
-            // checks the size of arraylist whether the user details are available for the given email and password or not.
-            if (userinfo.size() == 1) {
-                return userinfo.get(0);
-            }
+            // checks the size of arraylist whether the user details are available for the given email and password or not.         
+            tx.commit();
+            return userinfo.get(0);
         }// catches if any exception in retrieving the user details from the database or loading the connection for session 
         catch (Exception e) {
             e.printStackTrace();
@@ -198,7 +239,51 @@ public class RegistrationHelper {
         finally{
             session.close();
         }
-        return null;
+        //return null;
+    }
+    
+    public ArrayList<Userauth> getUserauthAll() {
+        
+        this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();               // arraylist which stores instances of Userauth class
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();          // load the connection for the given session
+            Query q = session.createQuery("from Userauth");  //Query instance is obtained
+            userinfo = (ArrayList<Userauth>) q.list();      //list of instances are stored in arraylist
+            // checks the size of arraylist whether the user details are available for the given email and password or not.         
+            tx.commit();
+            return userinfo;
+        }// catches if any exception in retrieving the user details from the database or loading the connection for session 
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally{
+            session.close();
+        }
+        //return null;
+    }
+    
+    public ArrayList<Userauth> getStudentsAll() {
+        
+        this.session = HibernateUtil.getSessionFactory().openSession();   // Create the SessionFactory from standard (hibernate.cfg.xml) config file
+        ArrayList<Userauth> userinfo = new ArrayList<Userauth>();               // arraylist which stores instances of Userauth class
+        try {
+            org.hibernate.Transaction tx = session.beginTransaction();          // load the connection for the given session
+            Query q = session.createQuery("from Userauth where Userrole='student'");  //Query instance is obtained
+            userinfo = (ArrayList<Userauth>) q.list();      //list of instances are stored in arraylist
+            // checks the size of arraylist whether the user details are available for the given email and password or not.         
+            tx.commit();
+            return userinfo;
+        }// catches if any exception in retrieving the user details from the database or loading the connection for session 
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally{
+            session.close();
+        }
+        //return null;
     }
 
     /**
@@ -216,7 +301,8 @@ public class RegistrationHelper {
             Query q = session.createQuery("from Userauth where emailId='" + email + "' and password='" + Password + "'");  //Query instance is obtained
             userinfo = (ArrayList<Userauth>) q.list();      //list of instances are stored in arraylist
             // checks the size of arraylist whether the user details are available for the given email and password or not.
-            if (userinfo.size() == 1) {
+           tx.commit();
+           if (userinfo.size() == 1) {
                 return userinfo.get(0);
             }
         }// catches if any exception in retrieving the user details from the database or loading the connection for session 
@@ -244,6 +330,7 @@ public class RegistrationHelper {
             Query q = session.createQuery("from Userauth where emailId='" + email + "'");   //Query instance is obtained
             userinfo = (ArrayList<Userauth>) q.list();       //list of instances are stored in arraylist
             // checks the size of arraylist whether the user details are available for the given email or not.
+            tx.commit();
             if (userinfo.size() != 0) {
                 return userinfo.get(0);
             }
@@ -272,6 +359,7 @@ public class RegistrationHelper {
             Query q = session.createQuery("from Userauth where emailId='" + email + "'");  //Query instance is obtained
             userinfo = (ArrayList<Userauth>) q.list();      //list of instances are stored in arraylist
             // checks the size of arraylist whether the user details are available for the given email or not.
+            tx.commit();
             if (userinfo.size() == 1) {
                 return userinfo.get(0).getPassword();
             }
@@ -291,8 +379,9 @@ public class RegistrationHelper {
         try {
             ArrayList<Userauth> mentorinfo = new ArrayList<Userauth>();
             Transaction tx = session.beginTransaction();             // load the connection for the given session
-            Query q = session.createQuery("from Userauth where userrole='mentor'");   //Query instance is obtained
+            Query q = session.createQuery("from Userauth where userrole!='student' or userrole is null");   //Query instance is obtained
             mentorinfo = (ArrayList<Userauth>) q.list();
+            tx.commit();
             if(mentorinfo.size()!=0)
                 return mentorinfo;
         }// catches if any exception in retrieving the user details from the database or loading the connection for session 
@@ -311,8 +400,9 @@ public class RegistrationHelper {
         try {
             ArrayList<Userauth> names = new ArrayList<Userauth>();
             Transaction tx = session.beginTransaction();             // load the connection for the given session
-            Query q = session.createQuery("from Userauth where mentoring="+uid);   //Query instance is obtained
+            Query q = session.createQuery("from Userauth where userrole='student' and mentoring="+uid);// where mentoring="+uid);   //Query instance is obtained
             names = (ArrayList<Userauth>) q.list();
+            tx.commit();
             return names;
         }
         catch (Exception e) {
@@ -321,8 +411,7 @@ public class RegistrationHelper {
         }
         finally{
             session.close();
-        }
-        
+        }        
     }
     public Userauth getDetails(int uid)
     {
@@ -332,6 +421,7 @@ public class RegistrationHelper {
             Transaction tx = session.beginTransaction();             // load the connection for the given session
             Query q = session.createQuery("from Userauth where id="+uid);   //Query instance is obtained
             names = (ArrayList<Userauth>) q.list();
+            tx.commit();
             if(names.size()!=0)
                 return names.get(0);
         }

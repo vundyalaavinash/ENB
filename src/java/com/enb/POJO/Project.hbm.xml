@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 27, 2013 12:09:45 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Sep 24, 2013 10:52:21 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="com.enb.POJO.Project" table="project" catalog="enb"  lazy="false">
+    <class name="com.enb.POJO.Project" lazy="false" table="project" catalog="enb">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />

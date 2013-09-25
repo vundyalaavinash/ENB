@@ -44,6 +44,26 @@
         <servlet-name>VerifyUser</servlet-name>
         <servlet-class>com.enb.servlets.VerifyUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangeBatch</servlet-name>
+        <servlet-class>com.enb.servlets.ChangeBatch</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangeBatchAdmin</servlet-name>
+        <servlet-class>com.enb.servlets.ChangeBatchAdmin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>changes</servlet-name>
+        <servlet-class>com.enb.servlets.changes</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Groups</servlet-name>
+        <servlet-class>com.enb.servlets.Groups</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateDB</servlet-name>
+        <servlet-class>com.enb.servlets.CreateDB</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Registration</servlet-name>
         <url-pattern>/Registration</url-pattern>
@@ -87,6 +107,26 @@
     <servlet-mapping>
         <servlet-name>VerifyUser</servlet-name>
         <url-pattern>/VerifyUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeBatch</servlet-name>
+        <url-pattern>/ChangeBatch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeBatchAdmin</servlet-name>
+        <url-pattern>/ChangeBatchAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>changes</servlet-name>
+        <url-pattern>/changes</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Groups</servlet-name>
+        <url-pattern>/Groups</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateDB</servlet-name>
+        <url-pattern>/CreateDB</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

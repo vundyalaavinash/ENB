@@ -8,6 +8,7 @@ $(document).ready(function(){
 		    date: "<span class='alert'>Please enter a valid date.</span>",
 		    dateISO: "<span class='alert'>Please enter a valid date (ISO).</span>",
 		    equalTo: "<span class='alert'>Please enter the same value again.</span>",
+                    integer: "<span class='alert'>Please enter a number.</span>",
 		    accept: "Please enter a value with a valid extension.</span>",
 		    maxlength: $.validator.format("<span class='alert'>Please enter no more than {0} characters.</span>"),
 		    minlength: $.validator.format("<span class='alert'>Please enter at least {0} characters.</span>")

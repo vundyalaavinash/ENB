@@ -5,6 +5,8 @@
 package com.enb.servlets;
 
 import com.enb.Helper.RegistrationHelper;
+import com.enb.MiscClasses.RandomString;
+import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
@@ -44,16 +46,28 @@ public class ForgotPassword extends HttpServlet {
         try {
             String email = request.getParameter("email");
             RegistrationHelper rh = new RegistrationHelper();
-            String pass = rh.getPassword(email);
+            Userauth ua=rh.getUserauth(email);
+            
+            if(ua.getPassword()==null){
+                RandomString rs=new RandomString(6);
+                ua.setPassword(rs.nextString());
+                rh.changePassword(ua);
+            }
+            String pass = ua.getPassword();
             final String username = "enbtool@gmail.com";
             final String password = "enbarm007";
 
             Properties props = new Properties();
-            props.put("mail.smtp.auth", "true");
+            /*props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
             props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
             props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
+            props.put("mail.smtp.port", "587");*/
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.socketFactory.port", "465");
+            props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.port", "465");
 
 
             Session session = Session.getDefaultInstance(props,
@@ -80,7 +94,10 @@ public class ForgotPassword extends HttpServlet {
                 request.setAttribute("error", "<span class='alert'>" + e.getMessage() + "</span>");
                 rd.forward(request, response);
             }
-        } finally {
+        }catch(Exception ex){
+            out.println(""+ex.getMessage());
+        }
+        finally {
             out.close();
         }
     }

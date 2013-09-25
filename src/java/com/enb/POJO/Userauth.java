@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 27, 2013 12:09:44 PM by Hibernate Tools 3.2.1.GA
+// Generated Sep 24, 2013 10:52:21 AM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.HashSet;
@@ -18,20 +18,26 @@ public class Userauth  implements java.io.Serializable {
      private String verificationCode;
      private String userrole;
      private Integer mentoring;
+     private Set groupsesForMid = new HashSet(0);
+     private Set groupsesForSid = new HashSet(0);
      private Set enbdescs = new HashSet(0);
+     private Set imagesstorages = new HashSet(0);
      private Set projects = new HashSet(0);
 
     public Userauth() {
     }
 
-    public Userauth(String emailId, String password, String name, String verificationCode, String userrole, Integer mentoring, Set enbdescs, Set projects) {
+    public Userauth(String emailId, String password, String name, String verificationCode, String userrole, Integer mentoring, Set groupsesForMid, Set groupsesForSid, Set enbdescs, Set imagesstorages, Set projects) {
        this.emailId = emailId;
        this.password = password;
        this.name = name;
        this.verificationCode = verificationCode;
        this.userrole = userrole;
        this.mentoring = mentoring;
+       this.groupsesForMid = groupsesForMid;
+       this.groupsesForSid = groupsesForSid;
        this.enbdescs = enbdescs;
+       this.imagesstorages = imagesstorages;
        this.projects = projects;
     }
    
@@ -84,12 +90,33 @@ public class Userauth  implements java.io.Serializable {
     public void setMentoring(Integer mentoring) {
         this.mentoring = mentoring;
     }
+    public Set getGroupsesForMid() {
+        return this.groupsesForMid;
+    }
+    
+    public void setGroupsesForMid(Set groupsesForMid) {
+        this.groupsesForMid = groupsesForMid;
+    }
+    public Set getGroupsesForSid() {
+        return this.groupsesForSid;
+    }
+    
+    public void setGroupsesForSid(Set groupsesForSid) {
+        this.groupsesForSid = groupsesForSid;
+    }
     public Set getEnbdescs() {
         return this.enbdescs;
     }
     
     public void setEnbdescs(Set enbdescs) {
         this.enbdescs = enbdescs;
+    }
+    public Set getImagesstorages() {
+        return this.imagesstorages;
+    }
+    
+    public void setImagesstorages(Set imagesstorages) {
+        this.imagesstorages = imagesstorages;
     }
     public Set getProjects() {
         return this.projects;
@@ -98,6 +125,10 @@ public class Userauth  implements java.io.Serializable {
     public void setProjects(Set projects) {
         this.projects = projects;
     }
+
+
+
+
 }
 
 

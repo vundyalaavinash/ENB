@@ -89,7 +89,7 @@ public class DownloadPDF extends HttpServlet {
            
             UserLogHelper uh=new UserLogHelper();
             RegistrationHelper rh=new RegistrationHelper();
-            String path="C:\\Users\\Avinash\\Documents\\NetBeansProjects\\ENB\\web\\pdfs\\";
+            String path="C:\\apache-tomcat-7.0.42\\webapps\\ENB\\pdfs\\";
             uh.insertlog(session.getAttribute("uid").toString(),"Download PDF-"+enbname);
             Userauth ua=rh.getDetails(Integer.parseInt(session.getAttribute("uid").toString()));
             new File(path +ua.getEmailId()).delete();

@@ -26,17 +26,7 @@ public class PlanHelper {
     // Create the SessionFactory from standard (hibernate.cfg.xml) config file
 
     Session session = null;
-    /**
-     * class which does nothing
-     *
-     * @param pid
-     * @param to
-     * @param from
-     * @return
-     */
-    public ArrayList<PlanHelper> getPlan(int pid, Date to, Date from) {
-        return null;
-    }
+
 
     /**
      * inserts the enb plan in the database
@@ -44,32 +34,22 @@ public class PlanHelper {
      * @param plan The plan reference to access the plan
      * @return true if save or update is successful else false
      */
-    public boolean insertPlan(Plan plan) {
+    public String insertPlan(Plan plan) throws Exception {
         try {
             this.session = HibernateUtil.getSessionFactory().openSession();       // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             Transaction trans = session.beginTransaction();               // load the connection for the given session
             session.saveOrUpdate(plan);                // code for inserting or updating the plan
             trans.commit();                           // database is updated
-            return true;
+            return "true";
         }// catches if any exception in updating the enb plan in the database or loading the connection for session
         catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
+           return ex.getMessage();
         }
         finally{
             session.close();
         }
     }
 
-    /**
-     * class which does nothing
-     *
-     * @param plan
-     * @return
-     */
-    public boolean updatePlan(Plan plan) {
-        return false;
-    }
 
     /**
      * deletes the enb plan from the lesson table
@@ -83,6 +63,7 @@ public class PlanHelper {
             Transaction tx = session.beginTransaction();                // load the connection for the given session
             Query q = session.createQuery("delete from Plan where ENBID=" + eid + "");  // query for deleting the required plan details using eid
             int result = q.executeUpdate();
+            tx.commit();
             return true;
         }// catches if any exception in deleting the enb plan in the database or loading the connection for session 
         catch (Exception e) {
@@ -101,6 +82,7 @@ public class PlanHelper {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from Plan where ENBID="+eid);
             userinfo = (ArrayList<Plan>) q.list();
+            tx.commit();
             return userinfo;            
         } catch (Exception e) {
             e.printStackTrace();

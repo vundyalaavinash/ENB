@@ -59,28 +59,6 @@ public class EnbdescHelper {
     }
 
     /**
-     * class which does nothing
-     *
-     * @param enbdes The Enbdesc reference to access the Enbdesc
-     * @return
-     */
-    public boolean updateEnbdesc(Enbdesc enbdes) {
-        return false;
-    }
-
-    /**
-     * class which does nothing
-     *
-     * @param enbdesc The Enbdesc reference to access the Enbdesc
-     * @return
-     */
-    public boolean removeEnbdesc(Enbdesc enbdesc) {
-        return false;
-
-    }   
-        
-
-    /**
      * retrieves the enb details from enbdesc table
      *
      * @param pid The project id
@@ -96,6 +74,7 @@ public class EnbdescHelper {
             // query for retrieving  the required enb details using pid
             Query q = session.createQuery("from Enbdesc where PID='" + pid + "'");     //Query instance is obtained
             userinfo = (ArrayList<Enbdesc>) q.list();                               //list of instances are stored in arraylist
+            tx.commit();
             return userinfo;
         } // catches if any exception in retrieving the enb from the database or loading the connection for session
         catch (Exception e) {
@@ -119,6 +98,7 @@ public class EnbdescHelper {
             // query for retrieving  the required enb details using pid
             Query q = session.createQuery("from Enbdesc where UID="+ uid +"");     //Query instance is obtained
             userinfo = (ArrayList<Enbdesc>) q.list();                               //list of instances are stored in arraylist
+            tx.commit();
             return userinfo;
         } // catches if any exception in retrieving the enb from the database or loading the connection for session
         catch (Exception e) {
@@ -147,6 +127,7 @@ public class EnbdescHelper {
             Query q = session.createQuery("from Enbdesc where PID='" + pid + "' and Todate>=curdate()");   //Query instance is obtained
             userinfo = (ArrayList<Enbdesc>) q.list();       //list of instances are stored in arraylist
             // checks the size of arraylist whether the enb details are available for the given pid or not.
+            tx.commit();
             if (userinfo.size() > 0) {
                 return userinfo.get(0);         // if true then returns the enbdesc reference
             } else {
@@ -181,12 +162,9 @@ public class EnbdescHelper {
             // query for retrieving  the required enb details using pid
             Query q = session.createQuery("from Enbdesc where UID='" + uid + "' and Todate>=curdate()");   //Query instance is obtained
             userinfo = (ArrayList<Enbdesc>) q.list();       //list of instances are stored in arraylist
-            // checks the size of arraylist whether the enb details are available for the given pid or not.
-            if (userinfo.size() > 0) {
-                return userinfo;         // if true then returns the enbdesc reference
-            } else {
-                return null;                    // otherwise return null
-            }
+            // checks the size of arraylist whether the enb details are available for the given pid or not.      
+            tx.commit();
+            return userinfo;         // if true then returns the enbdesc reference
         } // catches if any exception in retrieving the enb from the database or loading the connection for session
         catch (Exception e) {
             System.out.println("error " + e.getMessage());
@@ -211,6 +189,7 @@ public class EnbdescHelper {
             Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from Enbdesc where ID='" + eid + "'");          //Query instance is obtained
             enbinfo = (ArrayList<Enbdesc>) q.list();        //list of instances are stored in arraylist
+            tx.commit();
             if (enbinfo.size() == 1) {                          // checks the size of arraylist is 1 or not
                 return enbinfo.get(0);                      // if 1 then returns the 1st instance of enbdesc from the arraylist
             }
@@ -223,16 +202,6 @@ public class EnbdescHelper {
             session.close();
         }
         return null;
-    }
-
-    /**
-     * class does nothing
-     *
-     * @param pname
-     * @return
-     */
-    public boolean checkproject(String pname) {
-        return false;
     }
 
     /**
@@ -250,6 +219,7 @@ public class EnbdescHelper {
             Transaction tx = session.beginTransaction();
             Query q = session.createQuery("from Enbdesc where enbname='" + enbname + "' and uid='" + uid + "'");       //Query instance is obtained
             enbinfo = (ArrayList<Enbdesc>) q.list();            //list of instances are stored in arraylist
+            tx.commit();
             if (enbinfo.size() == 1) {                              // checks the size of arraylist is 1 or not
                 return enbinfo.get(0);                          // if 1 then returns the 1st instance of enbdesc from the arraylist
             }

@@ -25,18 +25,8 @@
         <script src="Scripts/jquery-ui.js" type="text/javascript"></script>
         <script src="Scripts/alertify.min.js" type="text/javascript"></script>
         <script src="Scripts/jquery.autosize.min.js" type="text/javascript"></script>  
-        <script src="CusScripts/writeenb.js" type="text/javascript"></script>
-        <script src="CusScripts/crossthrough.js" type="text/javascript"></script>
-
-        <!--<script>
-            function textAreaAdjust(o) {
-                o.style.fontFamily = "Times New Roman";
-                o.style.fontSize= "12pt";
-                o.style.height = "1px";
-                o.style.height = (20+o.scrollHeight)+"px";
-                //o.style.border="none";
-            }
-        </script>-->
+        <script src="Scripts/idle-timer.min.js" type="text/javascript"></script>
+        <script src="CusScripts/writeenb.js" type="text/javascript"></script>        
     </head>
     <body>
         <header>

@@ -53,8 +53,8 @@
                                 }
                              %>                            
                         </h3>
-			<a href="adminhome.jsp">View Students</a>
-                        <a href="viewall.jsp">View All ENB</a>
+			<a href="adminhome.jsp">Home</a>
+                        <a href="Students.jsp">Student</a>
 			<a href="adminaccount.jsp">Account</a>
 		</nav>
 		<div id="main">
@@ -68,6 +68,7 @@
                                     <option value="Default">Select ENB</option>
                                     <%
                                         ConstructString cs = new ConstructString();
+                                        System.out.println(""+cs.getENBList3(Integer.parseInt(request.getParameter("uid").toString())));
                                         out.print(cs.getENBList3(Integer.parseInt(request.getParameter("uid").toString())));
                                     %>
                                 </select>

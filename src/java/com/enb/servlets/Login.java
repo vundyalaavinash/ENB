@@ -5,7 +5,9 @@
 package com.enb.servlets;
 
 import com.enb.Helper.RegistrationHelper;
+import com.enb.Helper.SendMailTLS;
 import com.enb.Helper.UserLogHelper;
+import com.enb.MiscClasses.RandomString;
 import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -38,35 +40,56 @@ public class Login extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-            RegistrationHelper rh=new RegistrationHelper();
-            Userauth ua=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
-            if(ua!=null){
-                if(!ua.getVerificationCode().equals("Yes")){
-                    response.sendRedirect("verify.jsp");
+            RegistrationHelper rh = new RegistrationHelper();
+            Userauth ua = rh.getUserauth(request.getParameter("email").toString());
+            if (ua != null) {
+                System.out.println("ua: "+request.getParameter("pass").toString());
+                if (ua.getPassword().equals(request.getParameter("pass").toString())) {
+                    if (ua.getVerificationCode() == null) {
+                        RandomString rs = new RandomString(6);
+                        ua.setVerificationCode(rs.nextString());
+                        rh.VerifyCode(ua);
+                        SendMailTLS send = new SendMailTLS();
+                        send.sendMail(ua.getEmailId(), ua.getVerificationCode());
+                    }
+                    if (!ua.getVerificationCode().equals("Yes")) {
+                        response.sendRedirect("verify.jsp?email=" + ua.getEmailId());
+                    } else {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("email", request.getParameter("email"));
+                        session.setAttribute("name", ua.getName());
+                        session.setAttribute("uid", ua.getId());
+                        UserLogHelper uh = new UserLogHelper();
+                        uh.insertlog(session.getAttribute("uid").toString(), "Login");
+                        if(ua.getUserrole()!=null){
+                            if (ua.getUserrole().equals("student")) {
+                                response.sendRedirect("Homepage.jsp");
+                            } else {
+                                session.setAttribute("batch", ua.getMentoring());
+                                response.sendRedirect("adminhome.jsp");
+                            }
+                        }
+                        else{
+                            session.setAttribute("batch", ua.getMentoring());
+                            response.sendRedirect("adminhome.jsp");
+                        }
+                    }
                 }
-                HttpSession session=request.getSession();
-                session.setAttribute("email", request.getParameter("email"));
-                session.setAttribute("name", ua.getName());
-                session.setAttribute("uid", ua.getId());
-                System.out.print("\n\nlogin"+ua.getId()+"\n\n");
-                UserLogHelper uh=new UserLogHelper();
-                uh.insertlog(session.getAttribute("uid").toString(),"Login");
-                if(!ua.getVerificationCode().equals("Yes")){
-                    request.setAttribute("error", "Account not verified!");
-                    RequestDispatcher rd=request.getRequestDispatcher("verify.jsp");
+                else{
+                    request.setAttribute("error", "Invalid Email-ID or password");
+                    RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
                     rd.forward(request, response);
                 }
-                if(ua.getUserrole().equals("mentor"))
-                    response.sendRedirect("adminhome.jsp");
-                else
-                    response.sendRedirect("Homepage.jsp");
-            }
-            else{
-                request.setAttribute("error", "Invalid Email-ID or Password");
-                RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+            } else {
+                request.setAttribute("error", "Invalid Email-ID");
+                RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
                 rd.forward(request, response);
             }
-        } finally {            
+        } catch (Exception ex) {
+            request.setAttribute("error", ex.getMessage());
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+            rd.forward(request, response);
+        } finally {
             out.close();
         }
     }

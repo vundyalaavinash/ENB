@@ -4,21 +4,23 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-   <!--<property name="hibernate.connection.url">jdbc:mysql://mysql-env-4246532.j.layershift.co.uk/enb</property>-->
-   <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/enb</property>
-    <property name="hibernate.connection.username">root</property>    
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/enb</property>
+    <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">root</property>
-    <!--<property name="hibernate.connection.password">Hmo38cDVtU</property>-->
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.ast.ASTQueryTranslatorFactory</property>
+    <property name="hibernate.connection.release_mode">auto</property>
+    <property name="hibernate.connection.autocommit">true</property>
+    <mapping resource="com/enb/POJO/Userlog.hbm.xml"/>
+    <mapping resource="com/enb/POJO/Imagesstorage.hbm.xml"/>
+    <mapping resource="com/enb/POJO/Groups.hbm.xml"/>
+    <mapping resource="com/enb/POJO/Deliverablestatus.hbm.xml"/>
+    <mapping resource="com/enb/POJO/Notes.hbm.xml"/>
     <mapping resource="com/enb/POJO/Project.hbm.xml"/>
     <mapping resource="com/enb/POJO/Enbdesc.hbm.xml"/>
-    <mapping resource="com/enb/POJO/Userlog.hbm.xml"/>
     <mapping resource="com/enb/POJO/Plan.hbm.xml"/>
-    <mapping resource="com/enb/POJO/Deliverablestatus.hbm.xml"/>
     <mapping resource="com/enb/POJO/Lessons.hbm.xml"/>
-    <mapping resource="com/enb/POJO/Notes.hbm.xml"/>
     <mapping resource="com/enb/POJO/Userauth.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

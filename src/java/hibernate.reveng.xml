@@ -2,12 +2,14 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="enb"/>
-  <table-filter match-name="lessons"/>
-  <table-filter match-name="notes"/>
-  <table-filter match-name="deliverablestatus"/>
-  <table-filter match-name="userlog"/>
-  <table-filter match-name="userauth"/>
-  <table-filter match-name="plan"/>
-  <table-filter match-name="enbdesc"/>
   <table-filter match-name="project"/>
+  <table-filter match-name="lessons"/>
+  <table-filter match-name="userauth"/>
+  <table-filter match-name="notes"/>
+  <table-filter match-name="enbdesc"/>
+  <table-filter match-name="deliverablestatus"/>
+  <table-filter match-name="plan"/>
+  <table-filter match-name="groups"/>
+  <table-filter match-name="imagesstorage"/>
+  <table-filter match-name="userlog"/>
 </hibernate-reverse-engineering>

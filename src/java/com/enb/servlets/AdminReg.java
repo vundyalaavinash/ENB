@@ -5,7 +5,9 @@
 package com.enb.servlets;
 
 import com.enb.Helper.RegistrationHelper;
+import com.enb.Helper.SendMailTLS;
 import com.enb.Helper.UserLogHelper;
+import com.enb.MiscClasses.RandomString;
 import com.enb.POJO.Userauth;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -55,7 +57,12 @@ public class AdminReg extends HttpServlet {
                 ua.setName(request.getParameter("fname"));
                 ua.setPassword(request.getParameter("pass"));
                 ua.setUserrole("mentor");
+                ua.setMentoring(Integer.parseInt(request.getParameter("batch").toString()));
+                RandomString rs=new RandomString(6);
+                ua.setVerificationCode(rs.nextString());
                 rh.insertUserauth(ua);
+                SendMailTLS send=new SendMailTLS();
+                send.sendMail(ua.getEmailId(),ua.getVerificationCode());
                 HttpSession session=request.getSession();
                 Userauth ua1=rh.getUserauth(request.getParameter("email"), request.getParameter("pass"));
                 session.setAttribute("email", request.getParameter("email"));
@@ -63,7 +70,7 @@ public class AdminReg extends HttpServlet {
                 session.setAttribute("name", request.getParameter("fname"));
                 UserLogHelper uh=new UserLogHelper();
                 uh.insertlog(session.getAttribute("uid").toString(),"Registered");
-                response.sendRedirect("adminhome.jsp");
+                response.sendRedirect("verify.jsp?email="+ua.getEmailId());
             }
         }
         catch(Exception ex){

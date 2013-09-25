@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 24, 2013 10:52:21 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.enb.POJO.Imagesstorage" lazy="false" table="imagesstorage" catalog="enb">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="enbdesc" class="com.enb.POJO.Enbdesc" fetch="select">
+            <column name="ENBID" />
+        </many-to-one>
+        <many-to-one name="userauth" class="com.enb.POJO.Userauth" fetch="select">
+            <column name="UID" />
+        </many-to-one>
+        <property name="imageBlob" type="binary">
+            <column name="ImageBlob" />
+        </property>
+        <property name="imageUrl" type="string">
+            <column name="ImageURL" length="245" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -63,14 +63,19 @@
                     <table width="100%" border="0">
                         <tr>
                             <td width="80%">
-                                ENB Name :<br>
-                                <select name="selectenb" id="enbtitle">
-                                    <option value="Default">Select ENB</option>
+                                                              
                                     <%
                                         ConstructString cs = new ConstructString();
-                                        out.print(cs.getENBList(Integer.parseInt(request.getParameter("pid").toString())));
-                                    %>
-                                </select>
+                                        String result = cs.getENBList(Integer.parseInt(request.getParameter("pid").toString()));
+                                        if (result.equals("No ENBs")) {
+                                            out.print("<h3>No ENBs</h3>");
+                                        }
+                                        else{
+                                            out.print("ENB Name :<br><select name='selectenb' id='enbtitle'><option value='Default'>Select ENB</option>");
+                                            out.print(result);
+                                            out.print("</select>");
+                                        }
+                                    %>                                
                                 <input type='hidden' value="" name="htmlcontent" id="htmlcontent">
                             </td >
                             <td width="20%">

@@ -51,7 +51,13 @@ public class VerifyUser extends HttpServlet {
                 session.setAttribute("email", ua.getEmailId());
                 session.setAttribute("uid", ua.getId());
                 session.setAttribute("name", ua.getName());
-                response.sendRedirect("Homepage.jsp");
+                session.setAttribute("batch", ua.getMentoring());
+                if(ua.getUserrole().equals("mentor")){
+                    response.sendRedirect("adminhome.jsp");
+                }
+                else{
+                    response.sendRedirect("Homepage.jsp");
+                }
             }   
             else{
                 RequestDispatcher rd=request.getRequestDispatcher("verify.jsp");

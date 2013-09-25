@@ -23,7 +23,7 @@
         <script src="Scripts/jquery.validate.min.js" type="text/javascript"></script>
         <script src="Scripts/alertify.min.js" type="text/javascript"></script>
 
-        <script src="CusScripts/account.js" type="text/javascript"></script>
+        <script src="CusScripts/account_admin.js" type="text/javascript"></script>
 
     </head>
     <body>
@@ -47,7 +47,7 @@
 
             </h3>
             <a href="adminhome.jsp">Home</a>
-            <a href="viewall.jsp">View Student ENBs</a>
+            <a href="Students.jsp">Student</a>
             <a href="adminaccount.jsp">Account</a>
         </nav>
         <div id="main">
@@ -92,8 +92,17 @@
                             <input type="submit" value="Change Password" class="button" id="changebtn" >
                         </td>
                     </tr>
+                    
                 </table>
             </form>
+             <form action='changebatch' method='post' id='batchform'>
+                <table>
+                    <tr><td>Group Number:</td></tr>
+                    <tr><td><input type='text' name='batch' class='integer required'></td></tr>
+                    <tr><td></td></tr>
+                    <tr><td><input type='submit' value='Update Batch' class='button' id='batchupdate'></td></tr>
+                </table>        
+             </form>
         </div>
     </body>
 </html>

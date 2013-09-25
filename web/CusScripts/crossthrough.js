@@ -1,4 +1,3 @@
-    
 function edValueKeyPress(){
     
     var myElement = document.getElementById('edValue');

@@ -49,6 +49,10 @@
 
                                 <p><label for="password2">Re-Type Password</label></p>
                                 <p><input type="password" id="password2" name="repass" class="required passmatch"  placeholder="re-Enter Password"></p>
+                                
+                                <p><label for="password2">Batch Number:</label></p>
+                                <p><input type="text" id="batch" name="batch" class="required integer"  placeholder="Enter Batch Number"></p>
+                                
                                 <div class="floatl divf"><input type="submit" value="Sign UP" class="button" id="submit"></div>
                                 <div class="floatr divf"><a href="index.jsp" style="padding:5px;">Log IN</a></div>
                                 </p>
@@ -62,11 +66,11 @@
         <footer>
             <hr>
             <div id="footerleft">
-                &copy; <a href="#">ARM Technologies </a> 2013
+                &copy; <a href="#">ARM Team </a> 2013
             </div>
             <div id="footerright">
-                <a href="about.jsp">About</a>
-                <a href="terms.jsp">Terms</a>
+                <!--<a href="about.jsp">About</a>
+                <a href="terms.jsp">Terms</a>-->
             </div>			
         </footer>
     </body>

@@ -48,7 +48,7 @@
         <footer>
             <hr>
             <div id="footerleft">
-                &copy; <a href="#">ARM Technologies </a> 2013
+                &copy; <a href="#">ARM Team </a> 2013
             </div>
             <div id="footerright">
                 <a href="about.jsp">About</a>

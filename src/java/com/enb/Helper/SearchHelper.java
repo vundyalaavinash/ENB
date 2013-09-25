@@ -55,6 +55,7 @@ public class SearchHelper {
             org.hibernate.Transaction tx = session.beginTransaction();       // load the connection for the given session
             Query q = session.createQuery("from Notes ");           //Query instance is obtained
             userinfo = (ArrayList<Notes>) q.list();         //list of instances are stored in arraylist
+            tx.commit();
             return userinfo;
         }// catches if any exception in retrieving the notes from the database or loading the connection for session 
         catch (Exception e) {

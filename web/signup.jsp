@@ -53,18 +53,22 @@
                                 <p><label for="password2">Re-Type Password</label></p>
                                 <p><input type="password" id="password2" name="repass" class="required passmatch"  placeholder="re-Enter Password"></p>
                                 <p><label for="mentor">Select Mentor</label></p>
-                                <p><select style="width: 290px" name="mentor" class="notPlayDefault">
-                                        <option value="Default">---Select Mentor---</option>
-                                        <%
-                                            RegistrationHelper rh = new RegistrationHelper();
-                                            ArrayList<Userauth> mentorinfo = rh.getMentors();
-                                            if (mentorinfo != null) {
-                                                for (int i = 0; i < mentorinfo.size(); i++) {
-                                                    out.println("<option value='" + mentorinfo.get(i).getId() + "'>" + mentorinfo.get(i).getName() + "</option>");
-                                                }
+                                <p>
+                                    <%
+                                        RegistrationHelper rh = new RegistrationHelper();
+                                        ArrayList<Integer> mentorinfo = rh.Batches();
+                                        if (!mentorinfo.isEmpty()) {
+                                            out.println("<select style=''width: 290px' name='mentor' class='notPlayDefault'><option value='Default'>Select Batch</option>");
+                                            for (int i = 0; i < mentorinfo.size(); i++) {
+                                                out.println("<option value='" + mentorinfo.get(i) + "'>" + mentorinfo.get(i) + "</option>");
                                             }
-                                        %>
-                                    </select></p>
+                                            out.println("</select>");
+                                        } else {
+                                            out.println("No Batches Available!");
+                                        }
+                                    %>
+                                </p>
+                                <p>
                                 <div class="floatl divf"><input type="submit" value="Sign UP" class="button" id="submit"></div>
                                 <div class="floatr divf"><a href="index.jsp" style="padding:5px;">Log IN</a></div>
                                 </p>
@@ -78,7 +82,7 @@
         <footer>
             <hr>
             <div id="footerleft">
-                &copy; <a href="#">ARM Technologies </a> 2013
+                &copy; <a href="#">ARM Team </a> 2013
             </div>
             <div id="footerright">
                 <a href="about.jsp">About</a>

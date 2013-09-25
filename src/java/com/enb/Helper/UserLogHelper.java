@@ -58,6 +58,7 @@ public class UserLogHelper {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from Userlog where uid='"+uid+"' and LogDT>='"+a1+"' and LogDt<='"+a2+"'");
             userinfo = (ArrayList<Userlog>) q.list();
+            tx.commit();
             return userinfo;
         } catch (Exception e) {
             e.printStackTrace();

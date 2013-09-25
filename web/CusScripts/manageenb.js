@@ -1,8 +1,6 @@
-
-
 $(document).ready(function(){
 	var lncount=parseInt($("#ilncount").val());
-	var plancount=parseInt($("#iplancount").val());;
+	var plancount=parseInt($("#iplancount").val());
 	var dscount=parseInt($("#idscount").val());
 	
         function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); };
@@ -55,7 +53,7 @@ $(document).ready(function(){
         $('textarea').autosize();
         $("#savebtn").click(function(){
             $('#mydiv').show();
-            var notes=$("#edValue").html();
+            var notes=$("#edValue").html(); 
             $("#notes1").val(notes);            
             var currentdate = new Date(); 
             var datesetted = currentdate.getDate() + "/"
@@ -76,23 +74,30 @@ $(document).ready(function(){
                 url: "enb",
                 data: $("#enbform").serialize(),
                 success: function(msg) {                  
-                  $('#mydiv').hide();
-                  alertify.success("ENB saved Succesfully!");
-                  $(".status").html(datetime);
-                  $("#edValue").append("<p>"+datesetted+"</p>");
+                  $('#mydiv').hide();     
+                  if(msg==="done"){
+                    alertify.success("ENB saved Succesfully!");
+                    $(".status").html(datetime);                  
+                    $("#edValue").append("<br>"+datesetted);
+                  }
+                  else{
+                      alertify.error(msg);
+                  }                  
                 },
                 async: false
             }); 
             return false;
         });
         
-        /*$('textarea').autosize();
         
-        /*$(document).keydown(function(e) {
+        $('#edValue').keydown(function(e) {
+            if( e.keyCode == 46){
+                return false;
+            }
             var doPrevent;
             if ( e.keyCode == 46) {
                 var d = e.srcElement || e.target;
-                if (d.tagName.toUpperCase() == 'INPUT' || d.tagName.toUpperCase() == 'TEXTAREA') {
+                if (d.tagName.toUpperCase() == 'INPUT' || d.tagName.toUpperCase() == 'TEXTAREA' || d.tagName.toUpperCase() == 'DIV') {
                     doPrevent = d.readOnly || d.disabled;
                 }
                 else
@@ -103,5 +108,42 @@ $(document).ready(function(){
 
             if (doPrevent)
                 e.preventDefault();
-        });*/
+        });
+    $.idleTimer(300000);
+    $(document).bind("idle.idleTimer", function(){
+        $('#mydiv').show();
+        var notes=$("#edValue").html();
+        $("#notes1").val(notes);            
+        var currentdate = new Date(); 
+        var datesetted = currentdate.getDate() + "/"
+        +(currentdate.getMonth()+1)  + "/" 
+        + currentdate.getFullYear() + " @ "  
+        + currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();
+        var datetime = "Last Saved: " + currentdate.getDate() + "/"
+        + (currentdate.getMonth()+1)  + "/" 
+        + currentdate.getFullYear() + " @ "  
+        + currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();
+           
+        $.ajax({
+            type: "POST",
+            url: "enb",
+            data: $("#enbform").serialize(),
+            success: function(msg) {                  
+                $('#mydiv').hide();                  
+                  if(msg=="done"){
+                    alertify.success("ENB saved Succesfully!");
+                    $(".status").html(datetime);                  
+                    $("#edValue").append("<br>"+datesetted);
+                  }
+                  else{
+                      alertify.error(msg);
+                  }  
+            },
+            async: false
+        }); 
+    });   
 });

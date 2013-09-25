@@ -20,7 +20,7 @@ $(document).ready(function(){
     $.validator.addMethod('notPlayDefault',function(value,event){
         if(value!="Default") return true;
         else return false;
-    },"<span class='alert'>Select Maximum no of Players</span>");
+    },"<span class='alert'>Select a Mentor</span>");
     
     $("#changebtn").click(function(){
         if($('#npass').val()==""){
@@ -76,5 +76,27 @@ $(document).ready(function(){
             });
             return false;
     });
+    
+    $('#batchupdate').click(function(){
+         $("#batchform").validate();
+        $('#mydiv').show();
+            $.ajax({
+                type: "POST",
+                url: "ChangeBatch",
+                data: $("#batchform").serialize(),
+                success: function(msg) {                  
+                    $('#mydiv').hide();
+                    if(msg=="done"){
+                        alertify.success("Batch updated Succesfully!");
+                    }
+                    else{
+                        alertify.error(msg);
+                    }
+                },
+                async: false
+            });
+            return false;
+    });
+    
     
 });

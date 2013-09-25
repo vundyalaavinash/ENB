@@ -21,7 +21,7 @@
         <link href="Styles/alertify.default.css" rel="stylesheet" type="text/css" />
 
         <script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
-        <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
+        <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>	
         <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
         <script src="Scripts/jquery.validate.min.js" type="text/javascript"></script>
         <script src="Scripts/alertify.min.js" type="text/javascript"></script>
@@ -107,38 +107,66 @@
                 <table width="50%">
                     <tr>
                         <td>
-                            Old Mentor :
+                            Old Batch :
                             <br>
                             <%
                                 RegistrationHelper rh = new RegistrationHelper();
                                 Userauth ua = rh.ValidateUser((String) session.getAttribute("email"));
-                                Userauth ua1 = rh.getDetails(ua.getMentoring());
                             %>
-                            <input type="text" value="<%out.println(ua1.getName());%>" name="oldmentor">
+                            <input type="text" value="<%out.println(ua.getMentoring());%>" name="oldmentor">
                         </td>
                     </tr>
+                    <!--<tr>
+                        <td>
+                            Select Mentor:
+                            <br>
+                            <p>
+                    <%
+                        /*ArrayList<Userauth> mentorinfo = rh.getMentors();
+                         if (mentorinfo.isEmpty()) {
+                         out.println("No Mentors registered! Contact your mentor");
+                         } else {
+                         out.print("<select style='width: 290px' name='mentor' class=''notPlayDefault'><option value='Default'>Select Mentor</option>");
+                         for (int i = 0; i < mentorinfo.size(); i++) {
+                         out.println("<option value='" + mentorinfo.get(i).getUserrole() + "'>" + mentorinfo.get(i).getName() + "</option>");
+                         }
+                         out.print("</select>");
+                         }*/
+                    %>
+                    </p></td></tr>
+        <tr>
+            <td><br><br>
+                <input type="submit" value="Change Mentor" class="button" id="changemenbtn" >
+            </td>
+        </tr>-->
+                </table>    
+            </form>
+            <form action='changebatch' method='post' id='batchform'>
+                <table>
                     <tr>
                         <td>
                             Select Mentor:
                             <br>
-                            <p><select style="width: 290px" name="mentor" class="notPlayDefault">
-                                    <option value="Default">---Select Mentor---</option>
-                                    <%
-
-                                        ArrayList<Userauth> mentorinfo = rh.getMentors();
-
+                            <p>
+                                <%
+                                    ArrayList<Integer> mentorinfo = rh.Batches();
+                                    if (mentorinfo.isEmpty()) {
+                                        out.println("No Mentors registered! Contact your mentor");
+                                    } else {
+                                        out.print("<select style='width: 290px' name='mentor' class=''notPlayDefault'><option value='Default'>Select Batch</option>");
                                         for (int i = 0; i < mentorinfo.size(); i++) {
-                                            out.println("<option value='" + mentorinfo.get(i).getId() + "'>" + mentorinfo.get(i).getName() + "</option>");
+                                            out.println("<option value='" + mentorinfo.get(i) + "'>" + mentorinfo.get(i) + "</option>");
                                         }
-                                    %>
-                                </select></p></td></tr>
+                                        out.print("</select>");
+                                    }
+                                %>
+                            </p></td></tr>
                     <tr>
                         <td><br><br>
-                            <input type="submit" value="Change Mentor" class="button" id="changemenbtn" >
+                            <input type="submit" value="Change Mentor" class="button" id="batchupdate" >
                         </td>
                     </tr>
-                </table>    
-
+                </table>
             </form>
         </div>
     </body>

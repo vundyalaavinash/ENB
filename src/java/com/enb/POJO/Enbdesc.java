@@ -1,5 +1,5 @@
 package com.enb.POJO;
-// Generated Aug 27, 2013 12:09:44 PM by Hibernate Tools 3.2.1.GA
+// Generated Sep 24, 2013 10:52:21 AM by Hibernate Tools 3.2.1.GA
 
 
 import java.util.Date;
@@ -22,11 +22,12 @@ public class Enbdesc  implements java.io.Serializable {
      private Set plans = new HashSet(0);
      private Set deliverablestatuses = new HashSet(0);
      private Set lessonses = new HashSet(0);
+     private Set imagesstorages = new HashSet(0);
 
     public Enbdesc() {
     }
 
-    public Enbdesc(Userauth userauth, Project project, Date fromdate, Date todate, String enbname, Set noteses, Set plans, Set deliverablestatuses, Set lessonses) {
+    public Enbdesc(Userauth userauth, Project project, Date fromdate, Date todate, String enbname, Set noteses, Set plans, Set deliverablestatuses, Set lessonses, Set imagesstorages) {
        this.userauth = userauth;
        this.project = project;
        this.fromdate = fromdate;
@@ -36,6 +37,7 @@ public class Enbdesc  implements java.io.Serializable {
        this.plans = plans;
        this.deliverablestatuses = deliverablestatuses;
        this.lessonses = lessonses;
+       this.imagesstorages = imagesstorages;
     }
    
     public Integer getId() {
@@ -107,6 +109,13 @@ public class Enbdesc  implements java.io.Serializable {
     
     public void setLessonses(Set lessonses) {
         this.lessonses = lessonses;
+    }
+    public Set getImagesstorages() {
+        return this.imagesstorages;
+    }
+    
+    public void setImagesstorages(Set imagesstorages) {
+        this.imagesstorages = imagesstorages;
     }
 
 

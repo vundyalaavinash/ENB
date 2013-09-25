@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 24, 2013 10:52:21 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="com.enb.POJO.Groups" lazy="false" table="groups" catalog="enb">
+        <id name="id" type="java.lang.Integer">
+            <column name="Id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="userauthByMid" class="com.enb.POJO.Userauth" fetch="select">
+            <column name="MID" />
+        </many-to-one>
+        <many-to-one name="userauthBySid" class="com.enb.POJO.Userauth" fetch="select">
+            <column name="SID" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

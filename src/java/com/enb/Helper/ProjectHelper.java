@@ -41,6 +41,7 @@ public class ProjectHelper {
             org.hibernate.Transaction tx = session.beginTransaction();      // load the connection for the given session
             Query q = session.createQuery("from Project where UID='" + uid + "' and Todate>=curdate()");   //Query instance is obtained
             userinfo = (ArrayList<Project>) q.list();                       //list of instances are stored in arraylist
+            tx.commit();
             return userinfo;                // returns list of instances
         }// catches if any exception in retrieving the projects in the database or loading the connection for session
         catch (Exception e) {
@@ -67,6 +68,7 @@ public class ProjectHelper {
             org.hibernate.Transaction tx = session.beginTransaction();      // load the connection for the given session
             Query q = session.createQuery("from Project where UID='" + uid + "' and ProjectName='" + ProjectName + "'");   //Query instance is obtained
             userinfo = (ArrayList<Project>) q.list();           //list of instances are stored in arraylist
+            tx.commit();
             if (userinfo.size() != 0) {
                 return userinfo.get(0);
             }
@@ -94,6 +96,7 @@ public class ProjectHelper {
             org.hibernate.Transaction tx = session.beginTransaction(); 
             Query q = session.createQuery ("from Project where UID='"+uid+"' ORDER BY Id DESC");
             userinfo = (ArrayList<Project>) q.list();
+            tx.commit();
             if(userinfo.size()!=0){
                 return (userinfo.get(0));            
             } else {
@@ -122,6 +125,7 @@ public class ProjectHelper {
             org.hibernate.Transaction tx = session.beginTransaction();      // load the connection for the given session
             Query q = session.createQuery("from Project where ID='" + pid + "'");   //Query instance is obtained
             userinfo = (ArrayList<Project>) q.list();       //list of instances are stored in arraylist
+            tx.commit();
             if (userinfo.size() != 0) {
                 return (userinfo.get(0));
             } else {
@@ -157,25 +161,5 @@ public class ProjectHelper {
         finally{
             session.close();
         }
-    }
-
-    /**
-     * class which does nothing
-     *
-     * @param plan
-     * @return
-     */
-    public boolean updateProject(ProjectHelper plan) {
-        return false;
-    }
-
-    /**
-     * class which does nothing
-     *
-     * @param plan
-     * @return
-     */
-    public boolean removeProject(ProjectHelper plan) {
-        return false;
     }
 }

@@ -13,6 +13,7 @@
         <link rel="stylesheet"  href="Styles/default.css">		
         <link rel="stylesheet"  href="Styles/default.date.css">		
         <link rel="stylesheet"  href="Styles/square/blue.css">	
+        
         <link href="Styles/alertify.bootstrap.css" rel="stylesheet" type="text/css" />
         <link href="Styles/alertify.core.css" rel="stylesheet" type="text/css" />
         <link href="Styles/alertify.default.css" rel="stylesheet" type="text/css" /> 
@@ -105,7 +106,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Preferred ENB Duration :</td>
+                                    <td>Generate ENB Page :</td>
                                     <td>
                                         <table>
                                             <tr>

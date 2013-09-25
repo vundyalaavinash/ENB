@@ -33,7 +33,7 @@ public class LessonsHelper {
      * @param lessons The Lessons reference to access the Lessons
      * @return true if save or update is successful else false
      */
-    public boolean insertLessons(Lessons lessons) {
+    public String insertLessons(Lessons lessons) throws Exception {
         try {
             // Create the SessionFactory from standard (hibernate.cfg.xml) config file
             this.session = HibernateUtil.getSessionFactory().openSession();
@@ -42,11 +42,10 @@ public class LessonsHelper {
             // code for inserting or updating the lessons
             session.saveOrUpdate(lessons);
             trans.commit();                 // database is updated
-            return true;
+            return "true";
         } // catches if any exception in updating the enb lessons in the database or loading the connection for session
         catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
+            return ex.getMessage();
         }
         finally{
             session.close();
@@ -68,6 +67,7 @@ public class LessonsHelper {
             Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("delete from Lessons where ENBID="+eid+"");
             int result = q.executeUpdate();           
+            tx.commit();
             return true;                  //returns true if deletes successfully
         } // catches if any exception in deleting the enb lessons in the database or loading the connection for session
         catch (Exception e) {
@@ -85,6 +85,7 @@ public class LessonsHelper {
             org.hibernate.Transaction tx = session.beginTransaction();
             Query q = session.createQuery ("from Lessons where ENBID="+eid);
             userinfo = (ArrayList<Lessons>) q.list();
+            tx.commit();
             return userinfo;            
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,27 +94,5 @@ public class LessonsHelper {
         finally{
             session.close();
         }
-    } 
-    
-    /**
-     * class which does nothing
-     *
-     * @param lessons
-     * @return
-     */
-    public boolean updateLessons(Lessons lessons) {
-        return false;
-    }
-
-    /**
-     * class which does nothing
-     *
-     * @param id
-     * @param to
-     * @param From
-     * @return
-     */
-    public ArrayList<Lessons> getLessons(String id, Date to, Date From) {
-        return null;
-    }
+    }     
 }

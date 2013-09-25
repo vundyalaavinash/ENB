@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Aug 27, 2013 12:09:45 PM by Hibernate Tools 3.2.1.GA -->
+<!-- Generated Sep 24, 2013 10:52:21 AM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="com.enb.POJO.Plan" table="plan" catalog="enb" lazy="false">
+    <class name="com.enb.POJO.Plan" lazy="false" table="plan" catalog="enb">
         <composite-id name="id" class="com.enb.POJO.PlanId">
             <key-property name="enbid" type="int">
                 <column name="ENBID" />
@@ -12,7 +12,7 @@
                 <column name="sno" />
             </key-property>
         </composite-id>
-        <many-to-one name="enbdesc" class="com.enb.POJO.Enbdesc" update="false" insert="false" fetch="join">
+        <many-to-one name="enbdesc" class="com.enb.POJO.Enbdesc" update="false" insert="false" fetch="select">
             <column name="ENBID" not-null="true" />
         </many-to-one>
         <property name="deliverable" type="string">

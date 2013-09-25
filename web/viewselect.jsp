@@ -29,30 +29,33 @@
 			</nav>
 		</header>
 		<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-			<h3>
-                            <%
-                                if(session.getAttribute("name")==null){
-                                    response.sendRedirect("index.jsp");
-                                }
-                                else{
-                                    out.println(session.getAttribute("name"));
-                                }
-                             %>                            
-                        </h3>
-			<a href="Homepage.jsp">Home</a>
-			<a href="create.jsp">Create ENB</a>
-                        <a href="search.jsp">Search</a>
-			<a href="manageselect.jsp">Manage ENB</a>
-			<a href="viewselect.jsp">View ENB</a>
-			<a href="logs.jsp">Logs</a>
-			<a href="account.jsp">Account</a>
+                    <h3>
+                        <%
+                            if(session.getAttribute("name")==null){
+                                response.sendRedirect("index.jsp");
+                            }
+                            else{
+                                out.println(session.getAttribute("name"));
+                            }
+                         %>                            
+                    </h3>
+                    <a href="Homepage.jsp">Home</a>
+                    <a href="create.jsp">Create ENB</a>
+                    <a href="search.jsp">Search</a>
+                    <a href="manageselect.jsp">Manage ENB</a>
+                    <a href="viewselect.jsp">View ENB</a>
+                    <a href="logs.jsp">Logs</a>
+                    <a href="account.jsp">Account</a>
 		</nav>
 		<div id="main">
 			<div class="gridster">
                             <% 
-                                ConstructString cs=new ConstructString();
-                                String text=cs.getProjectsView(session.getAttribute("uid").toString());
-                                out.print(""+text); 
+                                if(session.getAttribute("uid")!=null){
+                                    ConstructString cs=new ConstructString();
+                                    String text=cs.getProjectsView(session.getAttribute("uid").toString());
+                                    out.print(""+text); 
+                                }
+                                
                             %>
 			</div>
 		</div>

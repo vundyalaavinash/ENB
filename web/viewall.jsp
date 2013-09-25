@@ -4,6 +4,7 @@
     Author     : B.Revanth
 --%>
 
+<%@page import="com.enb.POJO.Groups"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.enb.POJO.Userauth"%>
 <%@page import="com.enb.Helper.RegistrationHelper"%>
@@ -21,52 +22,50 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Dashboard</title>
-		<link rel="stylesheet"  href="Styles/Main.css">		
-		<link rel="stylesheet"  href="Styles/jquery.gridster.css">		
-		
-		<script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
-		<script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
-		<script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
-		
-		<script src="CusScripts/dashboard.js" type="text/javascript"></script>
-                <script src="CusScripts/manage.js" type="text/javascript"></script>
-                <script src="CusScripts/view.js" type="text/javascript"></script>
-		
-	</head>
-	<body>
-		<header>
-			<span>Engineering Notebook</span>
-			<h1>View ENB</h1>
-			<nav>
-				<a href="Logout.jsp">Logout</a>
-			</nav>
-		</header>
-		<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-			<h3>
-                            <%
-                                if(session.getAttribute("name")==null){
-                                    response.sendRedirect("index.jsp");
-                                }
-                                else{
-                                    out.println(session.getAttribute("name"));
-                                }
-                             %>                            
-                        </h3>
-			<a href="adminhome.jsp">Home</a>
-                        <a href="viewall.jsp">View Student ENBs</a>
-			<a href="adminaccount.jsp">Account</a>
-		</nav>
-		<div id="main">
+    <head>
+        <title>Dashboard</title>
+        <link rel="stylesheet"  href="Styles/Main.css">		
+        <link rel="stylesheet"  href="Styles/jquery.gridster.css">		
+
+        <script src="Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+        <script src="Scripts/jquery.shuffleLetters.js" type="text/javascript"></script>=		
+        <script src="Scripts/jquery.gridster.js" type="text/javascript"></script>
+
+        <script src="CusScripts/dashboard.js" type="text/javascript"></script>
+        <script src="CusScripts/manage.js" type="text/javascript"></script>
+        <script src="CusScripts/view.js" type="text/javascript"></script>
+
+    </head>
+    <body>
+        <header>
+            <span>Engineering Notebook</span>
+            <h1>View ENB</h1>
+            <nav>
+                <a href="Logout.jsp">Logout</a>
+            </nav>
+        </header>
+        <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+            <h3>
+                <%
+                    if (session.getAttribute("name") == null) {
+                        response.sendRedirect("index.jsp");
+                    } else {
+                        out.println(session.getAttribute("name"));
+                    }
+                %>                            
+            </h3>
+            <a href="adminhome.jsp">Home</a>
+            <a href="Students.jsp">Student</a>
+            <a href="adminaccount.jsp">Account</a>
+        </nav>
+        <div id="main">
             <div id="content">
                 <form action='DownloadPDF' method="post" target="_blank">
                     <table width="100%" border="0">
                         <tr>
                             <%
-                            ConstructString cs=new ConstructString();
-                            ArrayList<Userauth> names=cs.getStudentDetails(Integer.parseInt(session.getAttribute("uid").toString()));
-                            
+                                ArrayList<Groups> as=new ArrayList<Groups>();
+
                             %>
                             <td width="20%">
                                 <input type="submit" class="button floatr hide" id="delbtn" value="Download ENB"/>
@@ -85,5 +84,5 @@
             </div>
         </div>
 
-	</body>
+    </body>
 </html>
